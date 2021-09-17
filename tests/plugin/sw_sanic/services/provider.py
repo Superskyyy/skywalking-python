@@ -27,7 +27,7 @@ if __name__ == '__main__':
     app = Sanic(__name__)
 
     @app.route("/users", methods=["GET"])
-    async def application(req):
+    def application(req):
         # await asyncio.sleep(0.5)
         return response.json({"song": "Despacito", "artist": "Luis Fonsi"})
 
