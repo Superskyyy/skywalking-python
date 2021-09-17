@@ -108,7 +108,10 @@ cli_python_version = os.environ.get('SW_PYTHON_VERSION')
 cli_python_prefix = os.environ.get('SW_PYTHON_PREFIX')
 
 version_match = cli_python_version == platform.python_version()
-prefix_match = cli_python_prefix == os.path.realpath(os.path.normpath(sys.prefix))
+
+# windows can have capitalized path
+prefix_match = cli_python_prefix == os.path.realpath(os.path.normpath(sys.prefix)).lower()
+
 if not (version_match and prefix_match):
 
     _sw_loader_logger.error(
