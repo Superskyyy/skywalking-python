@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import asyncio
 
 # from skywalking import agent, config
 
@@ -29,7 +28,7 @@ if __name__ == '__main__':
 
     @app.route("/users", methods=["GET"])
     async def application(req):
-        await asyncio.sleep(0.5)
+        # await asyncio.sleep(0.5)
         return response.json({"song": "Despacito", "artist": "Luis Fonsi"})
 
     PORT = 9091
