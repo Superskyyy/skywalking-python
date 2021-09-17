@@ -16,12 +16,12 @@
 #
 import asyncio
 
-from skywalking import agent, config
+# from skywalking import agent, config
 
 if __name__ == '__main__':
-    config.service_name = 'provider'
-    config.logging_level = 'DEBUG'
-    agent.start()
+    # config.service_name = 'provider'
+    # config.logging_level = 'DEBUG'
+    # agent.start()
 
     from sanic import Sanic, response
 
