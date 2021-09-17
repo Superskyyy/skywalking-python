@@ -133,7 +133,14 @@ if not (version_match and prefix_match):
 else:
     from skywalking import agent
 
+    from skywalking import config
+    config.init(logging_level='DEBUG')
     # Currently supports configs read from os.environ
+
+    # This is for python 3.6 - 3.7(maybe, maybe not) argv is not set for embedded interpreter thus will cause failure in
+    # those libs that imports argv from sys, we need to set it manually if it's not there already
+    if not hasattr(sys, 'argv'):
+        sys.argv = ['']
 
     # noinspection PyBroadException
     try:
