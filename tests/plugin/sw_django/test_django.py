@@ -30,10 +30,9 @@ def prepare():
 
 class TestPlugin(TestPluginBase):
     @pytest.mark.parametrize('version', [
-        'django==2.0',
         'django==2.2',
-        'django==3.0',
         'django==3.1',
+        'django==3.2',
     ])
     def test_plugin(self, docker_compose, version):
         self.validate()

@@ -30,7 +30,9 @@ def prepare():
 
 class TestPlugin(TestPluginBase):
     @pytest.mark.parametrize('version', [
-        'elasticsearch==7.9.0',
+        'elasticsearch==7.12.0',
+        'elasticsearch==7.13.0',
+        'elasticsearch==7.14.0',
     ])
     def test_plugin(self, docker_compose, version):
         self.validate()
