@@ -21,12 +21,12 @@ services:
   collector:
     extends:
       service: collector
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
 
   provider:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9091:9091
     volumes:
@@ -46,7 +46,7 @@ services:
   consumer:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9090:9090
     volumes:
