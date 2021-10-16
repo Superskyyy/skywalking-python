@@ -51,7 +51,7 @@ sanic==20.9.1
 six==1.15.0
 sniffio==1.2.0
 sqlparse==0.3.1
-testcontainers==3.0.3
+testcontainers==3.4.2
 toml==0.10.1
 tornado==6.0.4
 hug==2.4.1
