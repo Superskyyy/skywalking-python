@@ -26,6 +26,7 @@ from packaging import version
 import skywalking
 from skywalking import config
 from skywalking.loggings import logger
+from skywalking.utils.comparator import operators
 from skywalking.utils.exception import VersionRuleException
 
 
@@ -58,16 +59,6 @@ def install():
         except Exception:
             logger.warning('failed to install plugin %s', modname)
             traceback.print_exc() if logger.isEnabledFor(logging.DEBUG) else None
-
-
-_operators = {
-    '<': lambda cv, ev: cv < ev,
-    '<=': lambda cv, ev: cv < ev or cv == ev,
-    '==': lambda cv, ev: cv == ev,
-    '>=': lambda cv, ev: cv > ev or cv == ev,
-    '>': lambda cv, ev: cv > ev,
-    '!=': lambda cv, ev: cv != ev
-}
 
 
 def pkg_version_check(plugin):
@@ -112,7 +103,7 @@ def check(rule_unit, current_version):
     expect_pkg_version = rule_unit[idx:]
 
     expect_version = version.parse(expect_pkg_version)
-    f = _operators.get(symbol) or None
+    f = operators.get(symbol) or None
     if not f:
         raise VersionRuleException("version rule {} error. only allow >,>=,==,<=,<,!= symbols".format(rule_unit))
 

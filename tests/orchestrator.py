@@ -24,14 +24,7 @@ import pytest
 
 from skywalking.utils.exception import VersionRuleException
 
-_operators = {
-    '<': lambda cv, ev: cv < ev,
-    '<=': lambda cv, ev: cv < ev or cv == ev,
-    '==': lambda cv, ev: cv == ev,
-    '>=': lambda cv, ev: cv > ev or cv == ev,
-    '>': lambda cv, ev: cv > ev,
-    '!=': lambda cv, ev: cv != ev
-}
+from skywalking.utils.comparator import operators
 
 
 def compare_version(rule_unit):
@@ -39,7 +32,7 @@ def compare_version(rule_unit):
     symbol = rule_unit[0:idx]
     expect_python_version = tuple(map(int, rule_unit[idx:].split('.')))
     test_python_version = sys.version_info[:2]  # type: tuple
-    f = _operators.get(symbol) or None
+    f = operators.get(symbol) or None
     if not f:
         raise VersionRuleException("version rule {} error. only allow >,>=,==,<=,<,!= symbols".format(rule_unit))
 
@@ -65,4 +58,4 @@ def get_test_vector(lib_name: str, test_matrix: dict):
 
 
 if __name__ == '__main__':
-    pytest.main(['-v', '../tests/plugin/sw_django'])
+    pytest.main(['-v', '../tests/plugin/sw_falcon'])

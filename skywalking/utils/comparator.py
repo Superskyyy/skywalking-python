@@ -15,26 +15,11 @@
 # limitations under the License.
 #
 
-from typing import Callable
-
-import pytest
-import requests
-
-from tests.orchestrator import get_test_vector
-from tests.plugin.base import TestPluginBase
-
-test_matrix = {
-    ">=3.6": ["2.4.1", "2.5", "2.6"],  # support begins 2.4.1
+operators = {
+    '<': lambda cv, ev: cv < ev,
+    '<=': lambda cv, ev: cv < ev or cv == ev,
+    '==': lambda cv, ev: cv == ev,
+    '>=': lambda cv, ev: cv > ev or cv == ev,
+    '>': lambda cv, ev: cv > ev,
+    '!=': lambda cv, ev: cv != ev
 }
-
-
-@pytest.fixture
-def prepare():
-    # type: () -> Callable
-    return lambda *_: requests.get('http://0.0.0.0:9090/users')
-
-
-class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', get_test_vector(lib_name='hug', test_matrix=test_matrix))
-    def test_plugin(self, docker_compose, version):
-        self.validate()
