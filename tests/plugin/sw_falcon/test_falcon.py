@@ -14,12 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 from typing import Callable
 
 import pytest
 import requests
 
+from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
+
+test_matrix = {
+    ">=3.6": ["3.01"],
+}
 
 
 @pytest.fixture
@@ -29,10 +35,11 @@ def prepare():
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', [
-        'elasticsearch==7.12.0',
-        'elasticsearch==7.13.0',
-        'elasticsearch==7.14.0',
-    ])
+    # @pytest.mark.parametrize('version', [
+    #     'hug==2.4.1',
+    #     'hug==2.5.0',
+    #     'hug==2.6.0',
+    # ])
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='falcon', test_matrix=test_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()
