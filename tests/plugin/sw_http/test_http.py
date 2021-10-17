@@ -18,19 +18,15 @@ from typing import Callable
 
 import pytest
 import requests
-
 from tests.plugin.base import TestPluginBase
 
 
 @pytest.fixture
 def prepare():
     # type: () -> Callable
-    return lambda *_: requests.get('http://0.0.0.0:9090/users')
+    return lambda *_: requests.post('http://0.0.0.0:9090')
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', [
-        'kafka-python==2.0.1',
-    ])
     def test_plugin(self, docker_compose, version):
         self.validate()

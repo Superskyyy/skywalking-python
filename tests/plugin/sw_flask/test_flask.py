@@ -18,19 +18,24 @@ from typing import Callable
 
 import pytest
 import requests
-
 from tests.plugin.base import TestPluginBase
+
+test_matrix = {
+    ">=3.6": ["1.1", "2.0"],  # 1.1 to be removed in near future
+}
 
 
 @pytest.fixture
 def prepare():
     # type: () -> Callable
-    return lambda *_: requests.post('http://0.0.0.0:9090')
+    return lambda *_: requests.get('http://0.0.0.0:9090/users?test=test1&test=test2&test2=test2')
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', [
-        'werkzeug==1.0.1',
-    ])
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='flask', test_matrix=test_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()
+
+        response = requests.get('http://0.0.0.0:9090/users')
+        assert response.status_code == 200
+        assert response.json()['correlation'] == 'correlation'

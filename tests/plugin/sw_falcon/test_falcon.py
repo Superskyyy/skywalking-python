@@ -19,11 +19,11 @@ from typing import Callable
 
 import pytest
 import requests
-
 from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
 
 test_matrix = {
+    ">=3.10": ["2.5","2.6"],  # api deprecated for 3.10
     ">=3.6": ["2.4.1", "2.5", "2.6"],  # support begins 2.4.1
 }
 
