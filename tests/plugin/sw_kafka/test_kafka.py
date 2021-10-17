@@ -18,6 +18,8 @@ from typing import Callable
 
 import pytest
 import requests
+
+from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
 
 test_matrix = {
