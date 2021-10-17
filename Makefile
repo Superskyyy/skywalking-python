@@ -31,13 +31,11 @@ gen:
 
 lint: clean
 	flake8 --version || python3 -m pip install flake8
-	flake8 . --count --select=E9,F63,F7,F82 --show-source
-	flake8 . --count --max-complexity=15 --max-line-length=120
+	flake8 . --count --show-source
 
 dev-check:
 	flake8 --version || python3 -m pip install flake8
-	flake8 . --count --select=E9,F63,F7,F82 --show-source --exclude venv*,*egg_info,protocol
-	flake8 . --count --max-complexity=15 --max-line-length=120 --exclude venv*,*egg_info,protocol
+	flake8 . --count --show-source
 	python3 tools/check-license-header.py skywalking tests tools
 
 license: clean
