@@ -14,24 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from typing import Callable
 
-import time
+import pytest
+import requests
 
-from skywalking import agent, config
+from tests.orchestrator import get_test_vector
+from tests.plugin.base import TestPluginBase
 
-if __name__ == '__main__':
-    config.service_name = 'provider'
-    config.logging_level = 'DEBUG'
-    agent.start()
+test_matrix = {
+    "<3.8": ["3.2"],
+    ">=3.8": ["4.0a1"]
+}
 
-    from sanic import Sanic, response
+@pytest.fixture
+def prepare():
+    # type: () -> Callable
+    return lambda *_: requests.get('http://0.0.0.0:9090/users?test=test1&test=test2&test2=test2')
 
-    app = Sanic(__name__)
 
-    @app.route("/users", methods=["GET"])
-    async def application(req):
-        time.sleep(0.5)
-        return response.json({"song": "Despacito", "artist": "Luis Fonsi"})
-
-    PORT = 9091
-    app.run(host='0.0.0.0', port=PORT, debug=True)
+class TestPlugin(TestPluginBase):
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='django', test_matrix=test_matrix))
+    def test_plugin(self, docker_compose, version):
+        self.validate()

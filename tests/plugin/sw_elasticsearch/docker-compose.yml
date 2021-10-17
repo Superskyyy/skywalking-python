@@ -21,7 +21,7 @@ services:
   collector:
     extends:
       service: collector
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
 
   elasticsearch:
     image: elasticsearch:6.8.11
@@ -45,7 +45,7 @@ services:
   consumer:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9090:9090
     volumes:

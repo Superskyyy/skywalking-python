@@ -19,20 +19,21 @@ from typing import Callable
 import pytest
 import requests
 
+from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
 
+test_matrix = {
+    ">=3.6": ["3.7.4"]
+}
 
-@pytest.fixture
+
+@pytest.fixture  # pyre-ignore
 def prepare():
     # type: () -> Callable
-    return lambda *_: requests.get('http://0.0.0.0:9090/users?test=test1&test=test2&test2=test2')
+    return lambda *_: requests.get('http://0.0.0.0:9090/skywalking')
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', [
-        'django==2.2',
-        'django==3.1',
-        'django==3.2',
-    ])
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='aiohttp', test_matrix=test_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()

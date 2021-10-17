@@ -15,7 +15,7 @@ Library | Versions | Plugin Name
 | [pymongo](https://pymongo.readthedocs.io/en/stable/) | 3.11.0 | `sw_pymongo` |
 | [elasticsearch](https://github.com/elastic/elasticsearch-py) | 7.9.0 | `sw_elasticsearch` |
 | [urllib3](https://urllib3.readthedocs.io/en/latest/) | >= 1.25.9 <= 1.25.10 | `sw_urllib3` |
-| [sanic](https://sanic.readthedocs.io/en/latest/) | >= 20.3.0 <= 20.9.1 | `sw_sanic` |
+| [sanic](https://sanic.readthedocs.io/en/latest/) | >= 20.3.0 < 21.0.0 | `sw_sanic` |
 | [aiohttp](https://sanic.readthedocs.io/en/latest/) | >= 3.7.3 | `sw_aiohttp` |
 | [pyramid](https://trypyramid.com) | >= 1.9 | `sw_pyramid` |
 | [psycopg2](https://www.psycopg.org/) | >= 2.8.6 | `sw_psycopg2` |

@@ -16,18 +16,17 @@
 #
 import inspect
 import logging
-from skywalking.loggings import logger
 import pkgutil
 import re
 import traceback
 
 import pkg_resources
-
 from packaging import version
 
-from skywalking import config
-
 import skywalking
+from skywalking import config
+from skywalking.loggings import logger
+from skywalking.utils.exception import VersionRuleException
 
 
 def install():
@@ -69,11 +68,6 @@ _operators = {
     '>': lambda cv, ev: cv > ev,
     '!=': lambda cv, ev: cv != ev
 }
-
-
-class VersionRuleException(Exception):
-    def __init__(self, message):
-        self.message = message
 
 
 def pkg_version_check(plugin):

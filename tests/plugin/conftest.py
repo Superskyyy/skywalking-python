@@ -70,3 +70,4 @@ def docker_compose(request, prepare, version):
     yield compose
 
     compose.stop()
+
