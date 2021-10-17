@@ -25,12 +25,12 @@ import pytest
 from skywalking.utils.exception import VersionRuleException
 
 _operators = {
-    '<': lambda cv, ev: cv[0] < ev[0] and cv[1] < ev[1],
-    '<=': lambda cv, ev: cv[0] < ev[0] or cv[1] == ev[0],
-    '==': lambda cv, ev: cv[0] == ev[0],
-    '>=': lambda cv, ev: cv[0] > ev[0] or cv[1] == ev[0],
-    '>': lambda cv, ev: cv[0] > ev[0],
-    '!=': lambda cv, ev: cv[0] != ev[0]
+    '<': lambda cv, ev: cv < ev,
+    '<=': lambda cv, ev: cv < ev or cv == ev,
+    '==': lambda cv, ev: cv == ev,
+    '>=': lambda cv, ev: cv > ev or cv == ev,
+    '>': lambda cv, ev: cv > ev,
+    '!=': lambda cv, ev: cv != ev
 }
 
 
