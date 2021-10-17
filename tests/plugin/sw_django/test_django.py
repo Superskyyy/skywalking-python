@@ -24,8 +24,9 @@ from tests.plugin.base import TestPluginBase
 
 test_matrix = {
     "<3.8": ["3.2"],
-    ">=3.8": ["4.0a1"]
+    # ">=3.8": ["4.0a1"]  # expected Dec 2021
 }
+
 
 @pytest.fixture
 def prepare():
