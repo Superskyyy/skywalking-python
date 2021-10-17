@@ -21,7 +21,7 @@ services:
   collector:
     extends:
       service: collector
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
 
   zookeeper-server:
     image: zookeeper:3.4
@@ -60,7 +60,7 @@ services:
   producer:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9090:9090
     volumes:
@@ -85,7 +85,7 @@ services:
   consumer:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9091:9091
     volumes:
