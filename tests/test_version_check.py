@@ -18,9 +18,9 @@
 import unittest
 
 from packaging import version
-
 from skywalking.plugins import check
 from skywalking.utils.comparator import operators
+
 
 class TestVersionCheck(unittest.TestCase):
     def test_operators(self):
