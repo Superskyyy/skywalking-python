@@ -19,7 +19,7 @@ from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagDbSqlParameters
 
-link = "https://www.psycopg.org/"
+link_vector = ["https://www.psycopg.org/"]
 support_matrix = {
     "psycopg2-binary": {
         ">=3.10": [],

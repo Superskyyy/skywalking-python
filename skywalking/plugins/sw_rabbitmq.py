@@ -20,7 +20,7 @@ from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagMqBroker, TagMqTopic, TagMqQueue
 
-link = "https://pika.readthedocs.io"
+link_vector = ["https://pika.readthedocs.io"]
 support_matrix = {
     "pika": {
         ">=3.6": ["1.2"]

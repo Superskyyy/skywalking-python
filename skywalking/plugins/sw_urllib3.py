@@ -20,7 +20,7 @@ from skywalking.trace.context import get_context, NoopContext
 from skywalking.trace.span import NoopSpan
 from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
 
-link = "https://urllib3.readthedocs.io/en/latest/"
+link_vector = ["https://urllib3.readthedocs.io/en/latest/"]
 support_matrix = {
     "urllib3": {
         ">=3.6": ["1.26", "1.25"]

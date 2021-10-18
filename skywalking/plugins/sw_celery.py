@@ -20,10 +20,10 @@ from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagMqBroker, TagCeleryParameters
 
-link = "https://docs.aiohttp.org/en/stable/"
+link_vector = ["https://docs.aiohttp.org/en/stable/"]
 # TODO: Celery is missing plugin test
 support_matrix = {
-    "celery ": {
+    "celery": {
         ">=3.6": ["4.2.1"]
     }
 }

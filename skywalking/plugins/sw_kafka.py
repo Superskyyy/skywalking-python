@@ -21,7 +21,7 @@ from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagMqBroker, TagMqTopic
 
-link = "https://kafka-python.readthedocs.io"
+link_vector = ["https://kafka-python.readthedocs.io"]
 
 support_matrix = {
     "kafka-python": {

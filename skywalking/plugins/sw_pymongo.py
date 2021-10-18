@@ -19,10 +19,10 @@ from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement
 
-link = "https://pymongo.readthedocs.io"
+link_vector = ["https://pymongo.readthedocs.io"]
 support_matrix = {
     "pymongo": {
-        ">=3.6": ["3.11", "3.12"]
+        ">=3.6": ["3.11"]  # TODO: "3.12" incompatible with all python versions, need investigation
     }
 }
 

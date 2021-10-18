@@ -22,7 +22,7 @@ from skywalking.trace.context import get_context, NoopContext
 from skywalking.trace.span import NoopSpan
 from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
 
-link = "https://docs.python.org/3/library/urllib.request.html)"
+link_vector = ["https://docs.python.org/3/library/urllib.request.html"]
 support_matrix = {
     "urllib_request": {
         ">=3.6": ["*"]

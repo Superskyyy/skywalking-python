@@ -21,7 +21,7 @@ from skywalking.trace.context import get_context, NoopContext
 from skywalking.trace.span import NoopSpan
 from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode, TagHttpParams
 
-link = "https://flask.palletsprojects.com"
+link_vector = ["https://flask.palletsprojects.com"]
 support_matrix = {
     "flask": {
         ">=3.6": ["1.1", "2.0"]  # 1.1 to be removed in near future

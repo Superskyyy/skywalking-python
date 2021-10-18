@@ -19,7 +19,7 @@ from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagDbSqlParameters
 
-link = "https://pymysql.readthedocs.io/en/latest/"
+link_vector = ["https://pymysql.readthedocs.io/en/latest/"]
 support_matrix = {
     "pymysql": {
         ">=3.6": ["1.0"]

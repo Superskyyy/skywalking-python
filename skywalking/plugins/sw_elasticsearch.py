@@ -19,7 +19,7 @@ from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagDbType, TagDbStatement
 
-link = "https://github.com/elastic/elasticsearch-py"
+link_vector = ["https://github.com/elastic/elasticsearch-py"]
 support_matrix = {
     "elasticsearch": {
         ">=3.6": ["7.13.0", "7.14.0", "7.15.0"],

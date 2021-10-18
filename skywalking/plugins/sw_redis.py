@@ -19,7 +19,7 @@ from skywalking import Layer, Component
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement
 
-link = "https://github.com/andymccurdy/redis-py/"
+link_vector = ["https://github.com/andymccurdy/redis-py/"]
 support_matrix = {
     "redis": {
         ">=3.6": ["3.5"]  # "4.0" next, incompatible to current instrumentation

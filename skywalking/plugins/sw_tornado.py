@@ -27,7 +27,7 @@ from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
 #     "name": "tornado",
 #     "rules": [">=5.0"]
 # }
-link = "https://www.tornadoweb.org"
+link_vector = ["https://www.tornadoweb.org"]
 support_matrix = {
     "tornado": {
         ">=3.6": ["6.0", "6.1"]
