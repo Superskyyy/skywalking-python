@@ -33,7 +33,7 @@ link_vector = ["https://sanic.readthedocs.io/en/latest"]
 support_matrix = {
     "sanic": {
         ">=3.10": [],  # not supporting any version yet
-        ">=3.6": ["20.12.3"]  # 21.9 Future LTS - Not supported by SW yet
+        ">=3.6": ["20.9.1"]  # 21.9 Future LTS - Not supported by SW yet
     }  # TODO add Sanic instrumentation for 21.9 (method signature change) remove - write_callback, stream_callback
 }
 
