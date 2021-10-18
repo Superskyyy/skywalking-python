@@ -19,12 +19,9 @@ from typing import Callable
 import pytest
 import requests
 
+from skywalking.plugins.sw_http_server import support_matrix
 from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
-
-support_matrix = {
-    ">=3.6": ["1.0.1", "2.0"]
-}
 
 
 @pytest.fixture
