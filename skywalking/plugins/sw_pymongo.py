@@ -19,9 +19,11 @@ from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement
 
-version_rule = {
-    "name": "pymongo",
-    "rules": [">=3.7.0"]
+link = "https://pymongo.readthedocs.io"
+support_matrix = {
+    "pymongo": {
+        ">=3.6": ["3.12"]
+    }
 }
 
 

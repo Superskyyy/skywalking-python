@@ -19,12 +19,9 @@ from typing import Callable
 import pytest
 import requests
 
+from skywalking.plugins.sw_elasticsearch import support_matrix
 from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
-
-test_matrix = {
-    ">=3.6": ["7.13.0", "7.14.0", "7.15.0"],
-}
 
 
 @pytest.fixture
@@ -34,6 +31,6 @@ def prepare():
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', get_test_vector(lib_name='elasticsearch', test_matrix=test_matrix))
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='elasticsearch', support_matrix=support_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()

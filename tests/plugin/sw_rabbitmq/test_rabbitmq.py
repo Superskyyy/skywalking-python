@@ -19,19 +19,18 @@ from typing import Callable
 import pytest
 import requests
 
+from skywalking.plugins.sw_rabbitmq import support_matrix
+from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
 
 
 @pytest.fixture
 def prepare():
     # type: () -> Callable
-    return lambda *_: requests.get('http://0.0.0.0:9090/users?test=test1&test=test2&test2=test2')
+    return lambda *_: requests.get('http://0.0.0.0:9090/users')
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', [
-        'sanic==20.12',  # LTS 2022-12
-        # 'sanic==21.9',  # Future LTS - Not supported by SW
-    ])
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='pika', support_matrix=support_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()

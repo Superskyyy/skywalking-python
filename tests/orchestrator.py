@@ -22,9 +22,8 @@ import sys
 
 import pytest
 
-from skywalking.utils.exception import VersionRuleException
-
 from skywalking.utils.comparator import operators
+from skywalking.utils.exception import VersionRuleException
 
 
 def compare_version(rule_unit):
@@ -39,16 +38,17 @@ def compare_version(rule_unit):
     return f(test_python_version, expect_python_version)
 
 
-def get_test_vector(lib_name: str, test_matrix: dict):
+def get_test_vector(lib_name: str, support_matrix: dict):
     """
     If gets empty or ! will get skipped
     Args:
-        test_matrix: a test matrix including python version specification and lib version
+        support_matrix: a test matrix including python version specification and lib version
         lib_name: the name of the tested lib, used for requirements.txt generation
 
     Returns:
 
     """
+    test_matrix = support_matrix[lib_name]
     for py_version in test_matrix:
         if compare_version(py_version):
             # proceed if current python version is valid

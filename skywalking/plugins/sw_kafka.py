@@ -21,6 +21,14 @@ from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagMqBroker, TagMqTopic
 
+link = "https://kafka-python.readthedocs.io"
+
+support_matrix = {
+    "kafka-python": {
+        ">=3.6": ["2.0"]
+    }
+}
+
 
 def install():
     from kafka import KafkaProducer

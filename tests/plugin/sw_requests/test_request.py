@@ -19,19 +19,18 @@ from typing import Callable
 import pytest
 import requests
 
+from skywalking.plugins.sw_requests import support_matrix
+from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
 
 
 @pytest.fixture
 def prepare():
     # type: () -> Callable
-    return lambda *_: requests.get('http://0.0.0.0:9090/pyramid')
+    return lambda *_: requests.post('http://0.0.0.0:9090')
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', [
-        'pyramid==1.10',
-        'pyramid==1.9',
-    ])
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='requests', support_matrix=support_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()

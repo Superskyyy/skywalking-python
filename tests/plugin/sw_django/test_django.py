@@ -19,13 +19,9 @@ from typing import Callable
 import pytest
 import requests
 
+from skywalking.plugins.sw_django import support_matrix
 from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
-
-test_matrix = {
-    "<3.8": ["3.2"],
-    # ">=3.8": ["4.0a1"]  # expected Dec 2021
-}
 
 
 @pytest.fixture
@@ -35,6 +31,6 @@ def prepare():
 
 
 class TestPlugin(TestPluginBase):
-    @pytest.mark.parametrize('version', get_test_vector(lib_name='django', test_matrix=test_matrix))
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='django', support_matrix=support_matrix))
     def test_plugin(self, docker_compose, version):
         self.validate()

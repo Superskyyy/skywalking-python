@@ -21,15 +21,19 @@ services:
   collector:
     extends:
       service: collector
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
 
-  redis:
-    image:  redis:3.2.9-alpine
-    hostname: redis
+  mysql:
+    image:  mysql:5.7
+    hostname: mysql
     ports:
-      - 6379:6379
+      - 3306:3306
+      - 33060:33060
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
     healthcheck:
-      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/6379"]
+      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/3306"]
       interval: 5s
       timeout: 60s
       retries: 120
@@ -39,7 +43,7 @@ services:
   provider:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9091:9091
     volumes:
@@ -47,6 +51,8 @@ services:
     command: ['bash', '-c', 'pip install flask && pip install -r /app/requirements.txt && sw-python run python3 /app/services/provider.py']
     depends_on:
       collector:
+        condition: service_healthy
+      mysql:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9091"]
@@ -56,11 +62,12 @@ services:
     environment:
       SW_AGENT_NAME: provider
       SW_AGENT_LOGGING_LEVEL: DEBUG
+      SW_SQL_PARAMETERS_LENGTH: 512
 
   consumer:
     extends:
       service: agent
-      file: ../../tests/plugin/docker/docker-compose.base.yml
+      file: ../docker/docker-compose.base.yml
     ports:
       - 9090:9090
     volumes:

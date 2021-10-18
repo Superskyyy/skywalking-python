@@ -24,9 +24,16 @@ from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode, 
 
 logger = logging.getLogger(__name__)
 
-version_rule = {
-    "name": "sanic",
-    "rules": [">=20.3.0 <21.0.0"]
+# version_rule = {
+#     "name": "sanic",
+#     "rules": [">=20.3.0 <21.0.0"]
+# }
+
+link = "https://sanic.readthedocs.io/en/latest"
+support_matrix = {
+    "sanic": {
+        ">=3.6": ["20.12"]  # 21.9 Future LTS - Not supported by SW yet
+    }  # TODO add Sanic instrumentation for 21.9 (method signature change)
 }
 
 
