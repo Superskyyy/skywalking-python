@@ -56,6 +56,7 @@ def install():
         # noinspection PyBroadException
         try:
             plugin.install()
+            logger.debug('Successfully installed plugin %s', modname)
         except Exception:
             logger.warning('failed to install plugin %s', modname)
             traceback.print_exc() if logger.isEnabledFor(logging.DEBUG) else None

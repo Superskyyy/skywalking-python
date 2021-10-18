@@ -22,7 +22,7 @@ from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement
 link = "https://pymongo.readthedocs.io"
 support_matrix = {
     "pymongo": {
-        ">=3.6": ["3.12"]
+        ">=3.6": ["3.11", "3.12"]
     }
 }
 

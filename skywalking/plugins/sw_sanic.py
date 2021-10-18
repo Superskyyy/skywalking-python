@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 link = "https://sanic.readthedocs.io/en/latest"
 support_matrix = {
     "sanic": {
+        ">=3.10": [],  # not supporting any version yet
         ">=3.6": ["20.12"]  # 21.9 Future LTS - Not supported by SW yet
     }  # TODO add Sanic instrumentation for 21.9 (method signature change)
 }
@@ -67,7 +68,7 @@ def install():
     def params_tostring(params):
         return "\n".join([k + '=[' + ",".join(params.getlist(k)) + ']' for k, _ in params.items()])
 
-    async def _sw_handle_request(self, request, write_callback, stream_callback):
+    async def _sw_handle_request(self, request):
         req = request
         carrier = Carrier()
         method = req.method
@@ -87,7 +88,7 @@ def install():
             span.tag(TagHttpURL(req.url.split("?")[0]))
             if config.sanic_collect_http_params and req.args:
                 span.tag(TagHttpParams(params_tostring(req.args)[0:config.http_params_length_threshold]))
-            resp = _handle_request(self, request, write_callback, stream_callback)
+            resp = _handle_request(self, request)
             if isawaitable(resp):
                 result = await resp
 
