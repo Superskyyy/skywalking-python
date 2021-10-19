@@ -41,7 +41,7 @@ def install():
             return ProxyCursor(wrapt.ObjectProxy.__enter__(self))
 
         def execute(self, query, vars=None):
-            dsn = self.connection.info.get_parameters
+            dsn = self.connection.info.get_parameters()
             peer = dsn['host'] + ':' + "5432" #dsn['port']
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/execute", peer=peer,
@@ -63,7 +63,7 @@ def install():
                 return self._self_cur.execute(query, vars)
 
         def executemany(self, query, vars_list):
-            dsn = self.connection.info.get_parameters
+            dsn = self.connection.info.get_parameters()
             peer = dsn['host'] + ':' + "5432" #dsn['port']
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/executemany", peer=peer,
@@ -95,7 +95,7 @@ def install():
                 return self._self_cur.executemany(query, vars_list)
 
         def callproc(self, procname, parameters=None):
-            dsn = self.connection.info.get_parameters
+            dsn = self.connection.info.get_parameters()
             peer = dsn['host'] + ':' + "5432" #dsn['port']
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/callproc", peer=peer,
