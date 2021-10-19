@@ -24,7 +24,7 @@ on:
   pull_request:
 
 jobs:
-  License & Lint:
+  License and Lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source codes
@@ -39,7 +39,7 @@ jobs:
         run: make license
       - name: Lint codes
         run: make lint
-  Plugin Test:
+  Plugin and Unit Test:
     needs: Style
     runs-on: ubuntu-latest
     timeout-minutes: 60
