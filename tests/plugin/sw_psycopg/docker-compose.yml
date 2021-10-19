@@ -27,7 +27,7 @@ services:
     image: postgres:11
     hostname: postgres
     ports:
-      - 5432:5432
+      - 54321:5432
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
