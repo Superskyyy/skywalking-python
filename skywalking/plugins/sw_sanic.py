@@ -63,6 +63,12 @@ def install():
 
         return _handlers_ErrorHandler_reponse(self, req, e)
 
+    response.format_http1_response = _sw_format_http1_reponse
+    Sanic.handle_request = _gen_sw_handle_request(_handle_request)
+    handlers.ErrorHandler.response = _sw_handlers_ErrorHandler_reponse
+
+
+def _gen_sw_handle_request(_handle_request):
     from inspect import isawaitable
 
     def params_tostring(params):
@@ -93,7 +99,4 @@ def install():
                 result = await resp
 
         return result
-
-    response.format_http1_response = _sw_format_http1_reponse
-    Sanic.handle_request = _sw_handle_request
-    handlers.ErrorHandler.response = _sw_handlers_ErrorHandler_reponse
+    return _sw_handle_request
