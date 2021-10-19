@@ -17,7 +17,7 @@
 
 from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbSqlParameters
+from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagDbSqlParameters
 
 link_vector = ["https://www.psycopg.org/"]
 support_matrix = {
@@ -41,15 +41,16 @@ def install():
             return ProxyCursor(wrapt.ObjectProxy.__enter__(self))
 
         def execute(self, query, vars=None):
-            dsn = self.connection.info.get_parameters()
-            print(dsn)
-            peer = dsn['host'] + ':' + dsn['port']
+            dsn = self.connection.info.dsn#()
+            peer = dsn#dsn['host'] + ':' + dsn['port']
 
-            with get_context().new_exit_span(op=str(dsn), peer=peer,
+            with get_context().new_exit_span(op="PostgreSLQ/Psycopg/execute", peer=peer,
                                              component=Component.Psycopg) as span:
                 span.layer = Layer.Database
 
-                span.tag(TagDbType("?????"+str(dsn)))
+                span.tag(TagDbType("PostgreSQL"))
+                span.tag(TagDbInstance(dsn['dbname']))
+                span.tag(TagDbStatement(query))
 
                 if config.sql_parameters_length and vars is not None:
                     text = ','.join(str(v) for v in vars)
@@ -62,14 +63,17 @@ def install():
                 return self._self_cur.execute(query, vars)
 
         def executemany(self, query, vars_list):
-            dsn = self.connection.info.get_parameters()
-            peer = dsn['host'] + ':' + dsn['port']
+            dsn = self.connection.info.dsn#()
+            peer = dsn#dsn['host'] + ':' + dsn['port']
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/executemany", peer=peer,
                                              component=Component.Psycopg) as span:
                 span.layer = Layer.Database
 
-                span.tag(TagDbType("?????"+str(dsn)))
+                span.tag(TagDbType("PostgreSQL"))
+                span.tag(TagDbInstance(dsn['dbname']))
+                span.tag(TagDbStatement(query))
+
                 if config.sql_parameters_length:
                     max_len = config.sql_parameters_length
                     total_len = 0
@@ -91,15 +95,17 @@ def install():
                 return self._self_cur.executemany(query, vars_list)
 
         def callproc(self, procname, parameters=None):
-            dsn = self.connection.info.get_parameters()
-            peer = dsn['host'] + ':' + dsn['port']
+            dsn = self.connection.info.dsn#()
+            peer = dsn#dsn['host'] + ':' + dsn['port']
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/callproc", peer=peer,
                                              component=Component.Psycopg) as span:
                 span.layer = Layer.Database
                 args = '(' + ('' if not parameters else ','.join(parameters)) + ')'
 
-                span.tag(TagDbType("?????"+str(dsn)))
+                span.tag(TagDbType("PostgreSQL"))
+                span.tag(TagDbInstance(dsn['dbname']))
+                span.tag(TagDbStatement(procname + args))
 
                 return self._self_cur.callproc(procname, parameters)
 
