@@ -22,7 +22,6 @@ segmentItems:
       - segmentId: not null
         spans:
           - operationName: PostgreSLQ/Psycopg/execute
-            operationId: 0
             parentSpanId: 0
             spanId: 1
             spanLayer: Database
@@ -43,7 +42,6 @@ segmentItems:
             peer: postgres:5432
             skipAnalysis: false
           - operationName: /users
-            operationId: 0
             parentSpanId: -1
             spanId: 0
             spanLayer: Http
@@ -75,7 +73,6 @@ segmentItems:
       - segmentId: not null
         spans:
           - operationName: /users
-            operationId: 0
             parentSpanId: 0
             spanId: 1
             spanLayer: Http
@@ -94,7 +91,6 @@ segmentItems:
             peer: provider:9091
             skipAnalysis: false
           - operationName: /users
-            operationId: 0
             parentSpanId: -1
             spanId: 0
             spanLayer: Http
