@@ -19,7 +19,7 @@ from typing import Callable
 import pytest
 import requests
 
-from skywalking.plugins.sw_psycopg2 import support_matrix
+from skywalking.plugins.sw_psycopg import support_matrix
 from tests.orchestrator import get_test_vector
 from tests.plugin.base import TestPluginBase
 
