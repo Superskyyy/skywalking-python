@@ -20,7 +20,7 @@ A tool to generate test matrix report for SkyWalking Python Plugins
 """
 import pkgutil
 
-import skywalking
+from skywalking.plugins import __path__ as plugins_path
 
 table_head = """
 Library | Python Version: Lib Version | Plugin Name
@@ -37,7 +37,7 @@ def generate_doc_table():
 
     """
     table_entries = []
-    for importer, modname, ispkg in pkgutil.iter_modules(skywalking.plugins.__path__):
+    for importer, modname, ispkg in pkgutil.iter_modules(plugins_path):
         plugin = importer.find_module(modname).load_module(modname)
 
         plugin_support_matrix = plugin.support_matrix
