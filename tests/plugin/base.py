@@ -61,7 +61,9 @@ class TestPluginBase(ABC):
                 print('diff list: ')
 
                 sys.stdout.writelines(diff_list)
-
+                print("--------------------------")
+                sys.stdout.writelines(actual_data.splitlines(keepends=True))
+                print(response.status_code)
             assert response.status_code == 200
 
             return response
