@@ -42,9 +42,10 @@ def install():
 
         def execute(self, query, vars=None):
             dsn = self.connection.info.get_parameters()
+            print(dsn)
             peer = dsn['host'] + ':' + dsn['port']
 
-            with get_context().new_exit_span(op="PostgreSLQ/Psycopg/execute", peer=peer,
+            with get_context().new_exit_span(op=str(dsn), peer=peer,
                                              component=Component.Psycopg) as span:
                 span.layer = Layer.Database
 
