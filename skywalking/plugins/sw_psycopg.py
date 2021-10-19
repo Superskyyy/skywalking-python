@@ -17,7 +17,7 @@
 
 from skywalking import Layer, Component, config
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagDbSqlParameters
+from skywalking.trace.tags import TagDbType, TagDbSqlParameters
 
 link_vector = ["https://www.psycopg.org/"]
 support_matrix = {
@@ -50,8 +50,6 @@ def install():
                 span.layer = Layer.Database
 
                 span.tag(TagDbType("?????"+str(dsn)))
-                span.tag(TagDbInstance(dsn['dbname']))
-                span.tag(TagDbStatement(query))
 
                 if config.sql_parameters_length and vars is not None:
                     text = ','.join(str(v) for v in vars)
@@ -72,9 +70,6 @@ def install():
                 span.layer = Layer.Database
 
                 span.tag(TagDbType("?????"+str(dsn)))
-                span.tag(TagDbInstance(dsn['dbname']))
-                span.tag(TagDbStatement(query))
-
                 if config.sql_parameters_length:
                     max_len = config.sql_parameters_length
                     total_len = 0
@@ -105,8 +100,6 @@ def install():
                 args = '(' + ('' if not parameters else ','.join(parameters)) + ')'
 
                 span.tag(TagDbType("?????"+str(dsn)))
-                span.tag(TagDbInstance(dsn['dbname']))
-                span.tag(TagDbStatement(procname + args))
 
                 return self._self_cur.callproc(procname, parameters)
 

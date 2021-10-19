@@ -49,7 +49,7 @@ def install():
                                              component=Component.Psycopg) as span:
                 span.layer = Layer.Database
 
-                span.tag(TagDbType("PostgreSQL"))
+                span.tag(TagDbType("!!!!"))
                 span.tag(TagDbInstance(dsn['dbname']))
                 span.tag(TagDbStatement(query))
 
@@ -71,7 +71,7 @@ def install():
                                              component=Component.Psycopg) as span:
                 span.layer = Layer.Database
 
-                span.tag(TagDbType("PostgreSQL"))
+                span.tag(TagDbType("!!!!"))
                 span.tag(TagDbInstance(dsn['dbname']))
                 span.tag(TagDbStatement(query))
 
@@ -104,7 +104,7 @@ def install():
                 span.layer = Layer.Database
                 args = '(' + ('' if not parameters else ','.join(parameters)) + ')'
 
-                span.tag(TagDbType("PostgreSQL"))
+                span.tag(TagDbType("!!!!"))
                 span.tag(TagDbInstance(dsn['dbname']))
                 span.tag(TagDbStatement(procname + args))
 
