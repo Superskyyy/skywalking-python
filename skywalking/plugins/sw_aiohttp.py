@@ -21,10 +21,10 @@ from skywalking.trace.context import get_context, NoopContext
 from skywalking.trace.span import NoopSpan
 from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
 
-link_vector = ["https://docs.aiohttp.org/en/stable/"]
+link_vector = ["https://docs.aiohttp.org"]
 support_matrix = {
     "aiohttp": {
-        ">=3.6": ["3.7.4"]
+        ">=3.6": ["3.7"]
     }
 }
 

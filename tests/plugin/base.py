@@ -39,16 +39,15 @@ class TestPluginBase(ABC):
         if expected_file_name is None:
             expected_file_name = os.path.join(dirname(inspect.getfile(self.__class__)), 'expected.data.yml')
 
-        # time.sleep(10)  # todo try remove this
-        # todo move to localhost instead of 0.0.0.0
+        # time.sleep(10)
 
         with open(expected_file_name) as expected_data_file:
             expected_data = os.linesep.join(expected_data_file.readlines())
 
-            response = requests.post(url='http://0.0.0.0:12800/dataValidate', data=expected_data)
+            response = requests.post(url='http://localhost:12800/dataValidate', data=expected_data)
 
             if response.status_code != 200:
-                res = requests.get('http://0.0.0.0:12800/receiveData')
+                res = requests.get('http://localhost:12800/receiveData')
 
                 actual_data = yaml.dump(yaml.load(res.content, Loader=Loader))
 
@@ -61,9 +60,6 @@ class TestPluginBase(ABC):
                 print('diff list: ')
 
                 sys.stdout.writelines(diff_list)
-                print("--------------------------")
-                sys.stdout.writelines(actual_data.splitlines(keepends=True))
-                print(response.status_code)
             assert response.status_code == 200
 
             return response

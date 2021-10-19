@@ -22,8 +22,8 @@ from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagD
 link_vector = ["https://www.psycopg.org/"]
 support_matrix = {
     "psycopg2-binary": {
-        ">=3.10": [],
-        ">=3.6": ["2.9.1"]  # python 310 not supporting yet
+        ">=3.10": ["3.0"],
+        ">=3.6": ["2.9", "3.0"]
     }
 }
 
