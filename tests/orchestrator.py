@@ -20,8 +20,6 @@ A management utility to handle testing matrix for different Pythons and Library 
 """
 import sys
 
-import pytest
-
 from skywalking.utils.comparator import operators
 from skywalking.utils.exception import VersionRuleException
 
@@ -58,4 +56,6 @@ def get_test_vector(lib_name: str, support_matrix: dict):
 
 
 if __name__ == '__main__':
-    pytest.main(['-v', '../tests/plugin/sw_falcon'])
+    #pytest.main(['-v', '../tests/plugin/sw_sanic'])
+    from skywalking.plugins.sw_sanic import support_matrix
+    print(get_test_vector("sanic",support_matrix))
