@@ -24,7 +24,7 @@ on:
   pull_request:
 
 jobs:
-  Style:
+  License & Lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source codes
@@ -39,7 +39,7 @@ jobs:
         run: make license
       - name: Lint codes
         run: make lint
-  Build:
+  Plugin Test:
     needs: Style
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -62,11 +62,3 @@ jobs:
         run: make setup install
       - name: Run unit tests
         run: make test
-
-  CheckStatus:
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    needs: [Build]
-    steps:
-      - name: Nothing
-        run: echo "Just to make the GitHub merge button green"
