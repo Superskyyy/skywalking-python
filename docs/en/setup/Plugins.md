@@ -22,13 +22,13 @@ Library | Python Version: Lib Version | Plugin Name
 | [werkzeug](https://werkzeug.palletsprojects.com/) | Python >=3.6 - ['1.0.1', '2.0'];  | `sw_http_server` |
 | [kafka-python](https://kafka-python.readthedocs.io) | Python >=3.6 - ['2.0'];  | `sw_kafka` |
 | [psycopg2-binary](https://www.psycopg.org/) | Python >=3.10 - NOT SUPPORTED YET; Python >=3.6 - ['2.9.1'];  | `sw_psycopg2` |
-| [pymongo](https://pymongo.readthedocs.io) | Python >=3.6 - ['3.11', '3.12'];  | `sw_pymongo` |
+| [pymongo](https://pymongo.readthedocs.io) | Python >=3.6 - ['3.11'];  | `sw_pymongo` |
 | [pymysql](https://pymysql.readthedocs.io/en/latest/) | Python >=3.6 - ['1.0'];  | `sw_pymysql` |
 | [pyramid](https://trypyramid.com) | Python >=3.6 - ['1.10', '2.0'];  | `sw_pyramid` |
 | [pika](https://pika.readthedocs.io) | Python >=3.6 - ['1.2'];  | `sw_rabbitmq` |
 | [redis](https://github.com/andymccurdy/redis-py/) | Python >=3.6 - ['3.5'];  | `sw_redis` |
 | [requests](https://requests.readthedocs.io/en/master/) | Python >=3.6 - ['2.26', '2.25'];  | `sw_requests` |
-| [sanic](https://sanic.readthedocs.io/en/latest) | Python >=3.10 - NOT SUPPORTED YET; Python >=3.6 - ['20.12'];  | `sw_sanic` |
+| [sanic](https://sanic.readthedocs.io/en/latest) | Python >=3.10 - NOT SUPPORTED YET; Python >=3.7 - ['20.12.3']; Python >=3.6 - ['20.12.3'];  | `sw_sanic` |
 | [tornado](https://www.tornadoweb.org) | Python >=3.6 - ['6.0', '6.1'];  | `sw_tornado` |
 | [urllib3](https://urllib3.readthedocs.io/en/latest/) | Python >=3.6 - ['1.26', '1.25'];  | `sw_urllib3` |
 | [urllib_request](https://docs.python.org/3/library/urllib.request.html) | Python >=3.6 - ['*'];  | `sw_urllib_request` |

@@ -24,29 +24,28 @@ on:
   pull_request:
 
 jobs:
-#  Style:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout source codes
-#        uses: actions/checkout@v2
-#        with:
-#          submodules: true
-#      - name: Check License
-#        uses: apache/skywalking-eyes@63d89639812f1a94bd45d9329d0f936ec4769a37
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Check license header
-#        run: make license
-#      - name: Lint codes
-#        run: make lint
+  Style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source codes
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Check License
+        uses: apache/skywalking-eyes@63d89639812f1a94bd45d9329d0f936ec4769a37
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check license header
+        run: make license
+      - name: Lint codes
+        run: make lint
   Build:
-#    needs: Style
+    needs: Style
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       matrix:
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
-        #python-version: ["3.6"]
       fail-fast: false
     env:
       SW_PYTHON_VERSION: ${{ matrix.python-version }}
