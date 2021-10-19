@@ -18,7 +18,6 @@
 import inspect
 import os
 import sys
-import time
 from abc import ABC
 from difflib import Differ
 from os.path import dirname
@@ -40,7 +39,8 @@ class TestPluginBase(ABC):
         if expected_file_name is None:
             expected_file_name = os.path.join(dirname(inspect.getfile(self.__class__)), 'expected.data.yml')
 
-        time.sleep(10)
+        # time.sleep(10)  # todo try remove this
+        # todo move to localhost instead of 0.0.0.0
 
         with open(expected_file_name) as expected_data_file:
             expected_data = os.linesep.join(expected_data_file.readlines())
