@@ -35,14 +35,15 @@ support_matrix = {
         ">=3.10": [],  # not supporting any version yet
         ">=3.7": ["20.12.3"],  # 21.9 Future LTS - Not supported by SW yet
         ">=3.6": ["20.12.3"]  # 20.12 last LTS for python 3.6
-    }  # TODO add Sanic instrumentation for 21.9 (method signature change) remove - write_callback, stream_callback
+    }  # TODO: add instrumentation for 21.9 (method signature change) remove - write_callback, stream_callback
 }
 
 
 def install():
-    from sanic import Sanic, handlers, headers as h
+    from sanic import Sanic, handlers, response
+    # TODO: format_http1_response is removed from response in later versions.
 
-    _format_http1_response = h.format_http1_response
+    _format_http1_response = response.format_http1_response
     _handle_request = Sanic.handle_request
     _handlers_ErrorHandler_response = handlers.ErrorHandler.response
 
@@ -64,7 +65,7 @@ def install():
 
         return _handlers_ErrorHandler_response(self, req, e)
 
-    h.format_http1_response = _sw_format_http1_response
+    response.format_http1_response = _sw_format_http1_response
     Sanic.handle_request = _gen_sw_handle_request(_handle_request)
     handlers.ErrorHandler.response = _sw_handlers_ErrorHandler_response
 
