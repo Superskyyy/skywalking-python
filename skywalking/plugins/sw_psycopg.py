@@ -41,7 +41,7 @@ def install():
             return ProxyCursor(wrapt.ObjectProxy.__enter__(self))
 
         def execute(self, query, vars=None):
-            dsn = self.connection.get_dsn_parameters()
+            dsn = self.ConnectionInfo.get_dsn_parameters()
             peer = dsn['host'] + ':' + dsn['port']
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/execute", peer=peer,
