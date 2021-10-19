@@ -27,11 +27,12 @@ services:
     image: postgres:11
     hostname: postgres
     ports:
-      - 5433:5432
+      - "5432:5444"
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=admin
+      - POSTGRES_PORT=5444
     healthcheck:
       test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/5432"]
       interval: 5s
