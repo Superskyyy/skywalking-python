@@ -24,9 +24,18 @@ from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode, 
 
 logger = logging.getLogger(__name__)
 
-version_rule = {
-    "name": "sanic",
-    "rules": [">=20.3.0", "<21.0.0"]
+# version_rule = {
+#     "name": "sanic",
+#     "rules": [">=20.3.0 <21.0.0"]
+# }
+
+link_vector = ["https://sanic.readthedocs.io/en/latest"]
+support_matrix = {
+    "sanic": {
+        ">=3.10": [],  # not supporting any version yet
+        ">=3.7": ["20.12.3"],  # 21.9 Future LTS - Not supported by SW yet
+        ">=3.6": ["20.12.3"]  # 20.12 last LTS for python 3.6
+    }  # TODO add Sanic instrumentation for 21.9 (method signature change) remove - write_callback, stream_callback
 }
 
 
@@ -91,4 +100,5 @@ def _gen_sw_handle_request(_handle_request):
                 result = await resp
 
         return result
+
     return _sw_handle_request
