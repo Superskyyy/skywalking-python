@@ -21,16 +21,15 @@ from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagD
 
 link_vector = ["https://www.psycopg.org/"]
 support_matrix = {
-    "psycopg2-binary": {
-        ">=3.10": [],
-        ">=3.6": ["2.9"]  # transition to psycopg(3), not working for python 3.10
+    "psycopg-binary": {
+        ">=3.6": ["3.0"]  # psycopg is psycopg3
     }
 }
 
 
 def install():
     import wrapt  # psycopg2 is read-only C extension objects so they need to be proxied
-    import psycopg2
+    import psycopg
 
     class ProxyCursor(wrapt.ObjectProxy):
         def __init__(self, cur):
@@ -125,5 +124,5 @@ def install():
     def connect(*args, **kwargs):
         return ProxyConnection(_connect(*args, **kwargs))
 
-    _connect = psycopg2.connect
-    psycopg2.connect = connect
+    _connect = psycopg.connect
+    psycopg.connect = connect
