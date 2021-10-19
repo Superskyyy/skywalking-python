@@ -52,10 +52,10 @@ def get_test_vector(lib_name: str, support_matrix: dict):
             # proceed if current python version is valid
             version_row = test_matrix[py_version]
             return [f"{lib_name}=={idx}" for idx in version_row]
-    return []  # non-match
+    return []  # non-match, CI will skip the test case for this version
 
 
 if __name__ == '__main__':
-    #pytest.main(['-v', '../tests/plugin/sw_sanic'])
-    from skywalking.plugins.sw_sanic import support_matrix
-    print(get_test_vector("sanic",support_matrix))
+    import pytest
+
+    pytest.main(['-v', '../tests/plugin/'])
