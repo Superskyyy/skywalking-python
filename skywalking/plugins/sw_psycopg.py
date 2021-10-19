@@ -49,7 +49,7 @@ def install():
                 span.layer = Layer.Database
 
                 span.tag(TagDbType("PostgreSQL"))
-                span.tag(TagDbInstance(dsn['dbname']))
+                span.tag(TagDbInstance(dsn))
                 span.tag(TagDbStatement(query))
 
                 if config.sql_parameters_length and vars is not None:
@@ -71,7 +71,7 @@ def install():
                 span.layer = Layer.Database
 
                 span.tag(TagDbType("PostgreSQL"))
-                span.tag(TagDbInstance(dsn['dbname']))
+                span.tag(TagDbInstance(dsn))
                 span.tag(TagDbStatement(query))
 
                 if config.sql_parameters_length:
@@ -104,7 +104,7 @@ def install():
                 args = '(' + ('' if not parameters else ','.join(parameters)) + ')'
 
                 span.tag(TagDbType("PostgreSQL"))
-                span.tag(TagDbInstance(dsn['dbname']))
+                span.tag(TagDbInstance(dsn))
                 span.tag(TagDbStatement(procname + args))
 
                 return self._self_cur.callproc(procname, parameters)
