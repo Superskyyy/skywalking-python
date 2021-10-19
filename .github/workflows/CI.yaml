@@ -15,14 +15,15 @@
 # limitations under the License.
 #
 
-name: Build
+name: CI
 
 on:
   push:
     branches:
       - master
   pull_request:
-
+#  schedule: TODO: unpin minor lib versions and check weekly
+#    - 0 0 0 ? * FRI *
 concurrency:
   group: ci-it-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
