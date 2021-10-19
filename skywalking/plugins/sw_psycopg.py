@@ -43,7 +43,7 @@ def install():
         def execute(self, query, vars=None):
             dsn = self.connection.info.get_parameters()
             port = self.connection.info.port
-            peer = dsn['host'] + ':' + port
+            peer = dsn['host'] + ':' + str(port)
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/execute", peer=peer,
                                              component=Component.Psycopg) as span:
@@ -66,7 +66,7 @@ def install():
         def executemany(self, query, vars_list):
             dsn = self.connection.info.get_parameters()
             port = self.connection.info.port
-            peer = dsn['host'] + ':' + port
+            peer = dsn['host'] + ':' + str(port)
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/executemany", peer=peer,
                                              component=Component.Psycopg) as span:
@@ -99,7 +99,7 @@ def install():
         def callproc(self, procname, parameters=None):
             dsn = self.connection.info.get_parameters()
             port = self.connection.info.port
-            peer = dsn['host'] + ':' + port
+            peer = dsn['host'] + ':' + str(port)
 
             with get_context().new_exit_span(op="PostgreSLQ/Psycopg/callproc", peer=peer,
                                              component=Component.Psycopg) as span:
