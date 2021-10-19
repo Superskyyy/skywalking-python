@@ -43,6 +43,7 @@ def install():
         logger.debug('installing plugin %s', modname)
         plugin = importer.find_module(modname).load_module(modname)
 
+        # todo: refactor the version checker, currently it doesn't really work as intended
         supported = pkg_version_check(plugin)
         if not supported:
             logger.debug('check version for plugin %s\'s corresponding package failed, thus '

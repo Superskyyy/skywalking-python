@@ -33,19 +33,20 @@ link_vector = ["https://sanic.readthedocs.io/en/latest"]
 support_matrix = {
     "sanic": {
         ">=3.10": [],  # not supporting any version yet
-        ">=3.6": ["20.6.0", "20.9.0", "20.9.1", "20.12.3"]  # 21.9 Future LTS - Not supported by SW yet
+        ">=3.7": ["20.12.3"],  # 21.9 Future LTS - Not supported by SW yet
+        ">=3.6": ["20.12.3"]   # 20.12 last LTS for python 3.6
     }  # TODO add Sanic instrumentation for 21.9 (method signature change) remove - write_callback, stream_callback
 }
 
 
 def install():
-    from sanic import Sanic, handlers, response
+    from sanic import Sanic, handlers, headers
 
-    _format_http1_response = response.format_http1_response
+    _format_http1_response = headers.format_http1_response
     _handle_request = Sanic.handle_request
-    _handlers_ErrorHandler_reponse = handlers.ErrorHandler.response
+    _handlers_ErrorHandler_response = handlers.ErrorHandler.response
 
-    def _sw_format_http1_reponse(status: int, headers, body=b""):
+    def _sw_format_http1_response(status: int, headers, body=b""):
         if status is not None:
             entry_span = get_context().active_span()
             if entry_span is not None and type(entry_span) is not NoopSpan:
@@ -55,17 +56,17 @@ def install():
 
         return _format_http1_response(status, headers, body)
 
-    def _sw_handlers_ErrorHandler_reponse(self: handlers.ErrorHandler, req, e):
+    def _sw_handlers_ErrorHandler_response(self: handlers.ErrorHandler, req, e):
         if e is not None:
             entry_span = get_context().active_span()
             if entry_span is not None and type(entry_span) is not NoopSpan:
                 entry_span.raised()
 
-        return _handlers_ErrorHandler_reponse(self, req, e)
+        return _handlers_ErrorHandler_response(self, req, e)
 
-    response.format_http1_response = _sw_format_http1_reponse
+    headers.format_http1_response = _sw_format_http1_response
     Sanic.handle_request = _gen_sw_handle_request(_handle_request)
-    handlers.ErrorHandler.response = _sw_handlers_ErrorHandler_reponse
+    handlers.ErrorHandler.response = _sw_handlers_ErrorHandler_response
 
 
 def _gen_sw_handle_request(_handle_request):
