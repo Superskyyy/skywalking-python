@@ -32,7 +32,7 @@ jobs:
         with:
           submodules: true
       - name: Check License
-        uses: apache/skywalking-eyes@63d89639812f1a94bd45d9329d0f936ec4769a37
+        uses: apache/skywalking-eyes@49d536241d6fe8f92400702b08710514dc298cd4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check license header
