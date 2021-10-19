@@ -40,9 +40,9 @@ support_matrix = {
 
 
 def install():
-    from sanic import Sanic, handlers, response
+    from sanic import Sanic, handlers, headers
 
-    _format_http1_response = response.format_http1_response
+    _format_http1_response = headers.format_http1_response
     _handle_request = Sanic.handle_request
     _handlers_ErrorHandler_reponse = handlers.ErrorHandler.response
 
@@ -64,7 +64,7 @@ def install():
 
         return _handlers_ErrorHandler_reponse(self, req, e)
 
-    response.format_http1_response = _sw_format_http1_reponse
+    headers.format_http1_response = _sw_format_http1_reponse
     Sanic.handle_request = _gen_sw_handle_request(_handle_request)
     handlers.ErrorHandler.response = _sw_handlers_ErrorHandler_reponse
 
