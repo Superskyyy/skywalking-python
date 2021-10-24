@@ -3,7 +3,7 @@ This document is **automatically** generated from the SkyWalking Python testing 
 
 The column of versions only indicates the set of library versions tested in a best-effort manner.
 
-If you find newer major versions that are missing from the following table, and it's not documented as a limitation, 
+If you find newer major versions that are missing from the following table, and it's not documented as a limitation,
 please PR to update the test matrix in the plugin.
 
 Versions marked as NOT SUPPORTED may be due to
@@ -36,5 +36,5 @@ Library | Python Version - Lib Version | Plugin Name
 | [urllib_request](https://docs.python.org/3/library/urllib.request.html) | Python >=3.6 - ['*'];  | `sw_urllib_request` |
 ### Notes
 - The celery server running with "celery -A ..." should be run with the HTTP protocol
-as it uses multiprocessing by default which is not compatible with the gRPC protocol implementation 
+as it uses multiprocessing by default which is not compatible with the gRPC protocol implementation
 in SkyWalking currently. Celery clients can use whatever protocol they want.

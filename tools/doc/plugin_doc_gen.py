@@ -24,12 +24,16 @@ from skywalking.plugins import __path__ as plugins_path
 
 doc_head = """# Supported Libraries
 This document is **automatically** generated from the SkyWalking Python testing matrix.
+
 The column of versions only indicates the set of library versions tested in a best-effort manner.
+
 If you find newer major versions that are missing from the following table, and it's not documented as a limitation,
 please PR to update the test matrix in the plugin.
+
 Versions marked as NOT SUPPORTED may be due to
 an incompatible version with Python in the original library
 or a limitation of SkyWalking auto-instrumentation (welcome to contribute!)
+
 """
 table_head = """### Plugin Support Table
 Library | Python Version - Lib Version | Plugin Name
