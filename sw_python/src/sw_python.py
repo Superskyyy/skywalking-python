@@ -15,6 +15,14 @@
 # limitations under the License.
 #
 
-from sw_python.src.sw_python import start
+""" Just an entry point script
 
-start()
+python -m sw_python -d run command
+or just use the setup console script
+sw-python run command after setup install
+"""
+from skywalking.bootstrap.cli import sw_python
+
+
+def start():
+    sw_python.start()
