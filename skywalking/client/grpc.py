@@ -19,7 +19,7 @@ import grpc
 
 from skywalking import config
 from skywalking.client import LogDataReportService, ProfileTaskChannelService, ServiceManagementClient, \
-    TraceSegmentReportService
+                              TraceSegmentReportService
 from skywalking.command import command_service
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile import profile_task_execution_service

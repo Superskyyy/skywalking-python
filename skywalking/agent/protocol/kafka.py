@@ -22,7 +22,7 @@ from time import time
 from skywalking import config
 from skywalking.agent import Protocol
 from skywalking.client.kafka import KafkaLogDataReportService, KafkaServiceManagementClient, \
-    KafkaTraceSegmentReportService
+                                    KafkaTraceSegmentReportService
 from skywalking.loggings import get_logger, logger, logger_debug_enabled
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
 from skywalking.protocol.language_agent.Tracing_pb2 import Log, SegmentObject, SegmentReference, SpanObject

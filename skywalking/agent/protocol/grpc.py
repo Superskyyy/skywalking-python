@@ -26,7 +26,7 @@ from skywalking import config
 from skywalking.agent import Protocol
 from skywalking.agent.protocol.interceptors import header_adder_interceptor
 from skywalking.client.grpc import GrpcLogDataReportService, GrpcProfileTaskChannelService, \
-    GrpcServiceManagementClient, GrpcTraceSegmentReportService
+                                   GrpcServiceManagementClient, GrpcTraceSegmentReportService
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile.profile_task import ProfileTask
 from skywalking.profile.snapshot import TracingThreadSnapshot
