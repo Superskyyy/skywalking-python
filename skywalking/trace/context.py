@@ -15,18 +15,16 @@
 # limitations under the License.
 #
 
-from skywalking.profile.profile_status import ProfileStatusReference
-from skywalking import Component, agent, config
+from skywalking import Component, agent, config, profile
 from skywalking.agent import isfull
+from skywalking.profile.profile_status import ProfileStatusReference
 from skywalking.trace import ID
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.segment import Segment, SegmentRef
 from skywalking.trace.snapshot import Snapshot
-from skywalking.trace.span import Span, Kind, NoopSpan, EntrySpan, ExitSpan
+from skywalking.trace.span import EntrySpan, ExitSpan, Kind, NoopSpan, Span
 from skywalking.utils.counter import Counter
 from skywalking.utils.time import current_milli_time
-from skywalking import profile
-
 
 try:  # attempt to use async-local instead of thread-local context and spans
     import contextvars
@@ -87,13 +85,13 @@ class SpanContext(object):
 
         return None
 
-    def new_span(self, parent: Span, SpanType: type, **kwargs) -> Span:
+    def new_span(self, parent: Span, span_typle: type, **kwargs) -> Span:
         finished = parent and not parent._depth
         context = SpanContext() if finished else self
-        span = SpanType(context=context,
-                        sid=context._sid.next(),
-                        pid=parent.sid if parent and not finished else -1,
-                        **kwargs)
+        span = span_typle(context=context,
+                          sid=context._sid.next(),
+                          pid=parent.sid if parent and not finished else -1,
+                          **kwargs)
 
         # if parent finished and segment was archived before this child starts then we need to refer to parent
         if finished:

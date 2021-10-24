@@ -18,7 +18,7 @@
 from typing import List
 
 from skywalking import config
-from skywalking.utils.lang import b64encode, b64decode
+from skywalking.utils.lang import b64decode, b64encode
 
 
 class CarrierItem(object):

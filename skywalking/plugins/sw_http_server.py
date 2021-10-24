@@ -17,11 +17,11 @@
 
 import inspect
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.carrier import Carrier
-from skywalking.trace.context import get_context, NoopContext
+from skywalking.trace.context import NoopContext, get_context
 from skywalking.trace.span import NoopSpan
-from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
+from skywalking.trace.tags import TagHttpMethod, TagHttpStatusCode, TagHttpURL
 
 link_vector = ['https://docs.python.org/3/library/http.server.html',
                'https://werkzeug.palletsprojects.com/']
@@ -102,12 +102,12 @@ def wrap_werkzeug_request_handler(handler):
 
         return _send_response(self, code, *args, **kwargs)
 
-    WSGIRequestHandler = handler.__class__
+    wsgi_request_handler = handler.__class__
 
-    if not getattr(WSGIRequestHandler, '_sw_wrapped', False):
-        _send_response = WSGIRequestHandler.send_response
-        WSGIRequestHandler.send_response = _sw_send_response
-        WSGIRequestHandler._sw_wrapped = True
+    if not getattr(wsgi_request_handler, '_sw_wrapped', False):
+        _send_response = wsgi_request_handler.send_response
+        wsgi_request_handler.send_response = _sw_send_response
+        wsgi_request_handler._sw_wrapped = True
 
 
 def wrap_default_request_handler(handler):

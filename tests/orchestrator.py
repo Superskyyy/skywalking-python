@@ -21,7 +21,7 @@ A management utility to handle testing matrix for different Pythons and Library 
 import sys
 
 from skywalking.utils.comparator import operators
-from skywalking.utils.exception import VersionRuleException
+from skywalking.utils.exception import VersionRuleError
 
 
 def compare_version(rule_unit):
@@ -31,7 +31,7 @@ def compare_version(rule_unit):
     test_python_version = sys.version_info[:2]  # type: tuple
     f = operators.get(symbol) or None
     if not f:
-        raise VersionRuleException(f'version rule {rule_unit} error. only allow >,>=,==,<=,<,!= symbols')
+        raise VersionRuleError(f'version rule {rule_unit} error. only allow >,>=,==,<=,<,!= symbols')
 
     return f(test_python_version, expect_python_version)
 

@@ -15,12 +15,12 @@
 # limitations under the License.
 #
 
-from queue import Queue, Empty
+from queue import Empty, Queue
 from time import time
 
 from skywalking import config
 from skywalking.agent import Protocol
-from skywalking.client.http import HttpServiceManagementClient, HttpTraceSegmentReportService, HttpLogDataReportService
+from skywalking.client.http import HttpLogDataReportService, HttpServiceManagementClient, HttpTraceSegmentReportService
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.protocol.logging.Logging_pb2 import LogData
 from skywalking.trace.segment import Segment

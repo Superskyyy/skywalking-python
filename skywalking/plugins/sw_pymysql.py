@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagDbSqlParameters
+from skywalking.trace.tags import TagDbInstance, TagDbSqlParameters, TagDbStatement, TagDbType
 
 link_vector = ['https://pymysql.readthedocs.io/en/latest/']
 support_matrix = {

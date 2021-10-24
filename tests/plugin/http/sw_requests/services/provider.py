@@ -17,14 +17,13 @@
 
 import time
 
-
 if __name__ == '__main__':
     import socketserver
     from http.server import BaseHTTPRequestHandler
 
     class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
-        def do_POST(self):
+        def do_post(self):
             time.sleep(0.5)
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')

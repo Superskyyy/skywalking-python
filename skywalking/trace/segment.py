@@ -16,7 +16,7 @@
 #
 
 import time
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from skywalking import config
 from skywalking.trace import ID
@@ -24,8 +24,8 @@ from skywalking.utils.lang import tostring
 
 if TYPE_CHECKING:
     from skywalking.trace.carrier import Carrier
-    from skywalking.trace.span import Span
     from skywalking.trace.snapshot import Snapshot
+    from skywalking.trace.span import Span
 
 
 class SegmentRef(object):

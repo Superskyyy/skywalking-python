@@ -21,8 +21,7 @@ if __name__ == '__main__':
     group_id = 'skywalking'
     client_id = '0'
 
-    from kafka import KafkaConsumer
-    from kafka import TopicPartition
+    from kafka import KafkaConsumer, TopicPartition
     consumer = KafkaConsumer(group_id=group_id,
                              client_id=client_id,
                              bootstrap_servers=server_list)

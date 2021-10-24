@@ -18,8 +18,8 @@
 import time
 
 if __name__ == '__main__':
-    from flask import Flask, jsonify
     import pymysql.cursors
+    from flask import Flask, jsonify
 
     app = Flask(__name__)
 

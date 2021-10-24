@@ -18,14 +18,12 @@
 import sys
 import time
 import traceback
-from threading import Thread, Event, current_thread
+from threading import Event, Thread, current_thread
 from typing import Optional
 
-from skywalking import agent
-from skywalking import config
-from skywalking import profile
+from skywalking import agent, config, profile
 from skywalking.loggings import logger
-from skywalking.profile.profile_status import ProfileStatusReference, ProfileStatus
+from skywalking.profile.profile_status import ProfileStatus, ProfileStatusReference
 from skywalking.profile.profile_task import ProfileTask
 from skywalking.profile.snapshot import TracingThreadSnapshot
 from skywalking.trace.context import SpanContext

@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component
+from skywalking import Component, Layer
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement
+from skywalking.trace.tags import TagDbInstance, TagDbStatement, TagDbType
 
 link_vector = ['https://github.com/andymccurdy/redis-py/']
 support_matrix = {

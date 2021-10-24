@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component
-from skywalking import config
+from skywalking import Component, Layer, config
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import TagMqBroker, TagMqTopic
@@ -32,8 +31,7 @@ note = """"""
 
 
 def install():
-    from kafka import KafkaProducer
-    from kafka import KafkaConsumer
+    from kafka import KafkaConsumer, KafkaProducer
 
     _send = KafkaProducer.send
     __poll_once = KafkaConsumer._poll_once
@@ -52,8 +50,8 @@ def _sw__poll_once_func(__poll_once):
 
             with context.new_entry_span(
                     op=f"Kafka/{topics}/Consumer/{this.config['group_id'] or ''}") as span:
-                for consumerRecords in res.values():
-                    for record in consumerRecords:
+                for consumer_records in res.values():
+                    for record in consumer_records:
                         carrier = Carrier()
                         for item in carrier:
                             for header in record.headers:

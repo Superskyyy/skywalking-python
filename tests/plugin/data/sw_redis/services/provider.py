@@ -17,10 +17,9 @@
 
 import time
 
-
 if __name__ == '__main__':
-    from flask import Flask, jsonify
     import redis
+    from flask import Flask, jsonify
 
     app = Flask(__name__)
 

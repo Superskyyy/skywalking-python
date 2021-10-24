@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
-from skywalking.trace.context import get_context, NoopContext
+from skywalking import Component, Layer, config
+from skywalking.trace.context import NoopContext, get_context
 from skywalking.trace.span import NoopSpan
-from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
+from skywalking.trace.tags import TagHttpMethod, TagHttpStatusCode, TagHttpURL
 
 link_vector = ['https://requests.readthedocs.io/en/master/']
 support_matrix = {

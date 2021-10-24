@@ -20,7 +20,7 @@ import requests
 from google.protobuf import json_format
 
 from skywalking import config
-from skywalking.client import ServiceManagementClient, TraceSegmentReportService, LogDataReportService
+from skywalking.client import LogDataReportService, ServiceManagementClient, TraceSegmentReportService
 from skywalking.loggings import logger, logger_debug_enabled
 
 

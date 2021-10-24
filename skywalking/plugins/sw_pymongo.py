@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement
+from skywalking.trace.tags import TagDbInstance, TagDbStatement, TagDbType
 
 link_vector = ['https://pymongo.readthedocs.io']
 support_matrix = {
@@ -48,10 +48,10 @@ def install():
     inject_socket_info(SocketInfo)
 
 
-def inject_socket_info(SocketInfo):
-    _command = SocketInfo.command
+def inject_socket_info(socket_info):
+    _command = socket_info.command
 
-    def _sw_command(this: SocketInfo, dbname, spec, *args, **kwargs):
+    def _sw_command(this: socket_info, dbname, spec, *args, **kwargs):
         # pymongo sends `ismaster` command continuously. ignore it.
         if spec.get('ismaster') is None:
             address = this.sock.getpeername()
@@ -79,7 +79,7 @@ def inject_socket_info(SocketInfo):
 
         return result
 
-    SocketInfo.command = _sw_command
+    socket_info.command = _sw_command
 
 
 def _get_filter(request_type, spec):
@@ -100,10 +100,10 @@ def _get_filter(request_type, spec):
     return f'{request_type} {str(spec)}'
 
 
-def inject_bulk_write(_Bulk, bulk_op_map):
-    _execute = _Bulk.execute
+def inject_bulk_write(_bulk, bulk_op_map):
+    _execute = _bulk.execute
 
-    def _sw_execute(this: _Bulk, *args, **kwargs):
+    def _sw_execute(this: _bulk, *args, **kwargs):
         nodes = this.collection.database.client.nodes
         peer = ','.join([f'{address[0]}:{address[1]}' for address in nodes])
         context = get_context()
@@ -130,13 +130,13 @@ def inject_bulk_write(_Bulk, bulk_op_map):
 
             return bulk_result
 
-    _Bulk.execute = _sw_execute
+    _bulk.execute = _sw_execute
 
 
-def inject_cursor(Cursor):
-    __send_message = Cursor._Cursor__send_message
+def inject_cursor(cursor):
+    __send_message = cursor._Cursor__send_message
 
-    def _sw_send_message(this: Cursor, operation):
+    def _sw_send_message(this: cursor, operation):
         nodes = this.collection.database.client.nodes
         peer = ','.join([f'{address[0]}:{address[1]}' for address in nodes])
 
@@ -160,4 +160,4 @@ def inject_cursor(Cursor):
 
             return
 
-    Cursor._Cursor__send_message = _sw_send_message
+    cursor._Cursor__send_message = _sw_send_message

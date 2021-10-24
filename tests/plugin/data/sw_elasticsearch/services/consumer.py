@@ -17,7 +17,6 @@
 
 from elasticsearch import Elasticsearch
 
-
 if __name__ == '__main__':
     from flask import Flask, jsonify
 
