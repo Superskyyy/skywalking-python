@@ -31,7 +31,7 @@ class TestAtomicCounter(unittest.TestCase):
 
         [t.join() for t in threads]
 
-        assert counter.value == 1999
+        self.assertEqual(1999, counter.value)
 
 
 if __name__ == '__main__':
