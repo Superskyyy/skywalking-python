@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
+from skywalking import profile
 from skywalking.command.executors.command_executor import CommandExecutor
 from skywalking.command.profile_task_command import ProfileTaskCommand
-from skywalking import profile
 from skywalking.profile.profile_task import ProfileTask
 
 

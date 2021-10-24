@@ -20,10 +20,11 @@ from collections import deque
 
 from skywalking.command.base_command import BaseCommand
 from skywalking.command.executors import noop_command_executor_instance
-from skywalking.command.executors.profile_task_command_executor import ProfileTaskCommandExecutor
+from skywalking.command.executors.profile_task_command_executor import \
+    ProfileTaskCommandExecutor
 from skywalking.command.profile_task_command import ProfileTaskCommand
 from skywalking.loggings import logger
-from skywalking.protocol.common.Common_pb2 import Commands, Command
+from skywalking.protocol.common.Common_pb2 import Command, Commands
 from skywalking.utils.exception import UnsupportedCommandError
 
 

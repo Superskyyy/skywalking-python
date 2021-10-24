@@ -15,17 +15,14 @@
 # limitations under the License.
 #
 
-import time
+""" Just an entry point script
 
-if __name__ == '__main__':
-    from werkzeug import Request, Response
+python -m sw_python -d run command
+or just use the setup console script
+sw-python run command after setup install
+"""
+from skywalking.bootstrap.cli import sw_python
 
-    @Request.application
-    def application(request):
-        time.sleep(0.5)
-        return Response('{"song": "Despacito", "artist": "Luis Fonsi"}')
 
-    from werkzeug.serving import run_simple
-
-    PORT = 9091
-    run_simple('', PORT, application)
+def start():
+    sw_python.start()

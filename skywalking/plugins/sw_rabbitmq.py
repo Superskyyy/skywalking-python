@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component
+from skywalking import Component, Layer
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagMqBroker, TagMqTopic, TagMqQueue
+from skywalking.trace.tags import TagMqBroker, TagMqQueue, TagMqTopic
 
 link_vector = ['https://pika.readthedocs.io']
 support_matrix = {

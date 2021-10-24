@@ -43,7 +43,7 @@ Library | Python Version - Lib Version | Plugin Name
 
 def generate_plugin_doc():
     """
-    Generates a plugin.md doc to the docs folder
+    This function generates a plugin.md doc to the docs folder
 
     Returns: None
     Raises: Attribute Error - missing matrix/link/note in sw_plugin
@@ -69,14 +69,14 @@ def generate_plugin_doc():
             lib_link = link
             version_vector = plugin_support_matrix[lib_entry]  # type: dict
             pretty_vector = ''
-            for python_version in version_vector:  # e.g. {'>=3.10': ['2.5', '2.6'], '>=3.6': ['2.4.1', '2.5', '2.6']}
-                lib_versions = version_vector[python_version]
-                pretty_vector += f'Python {python_version} ' \
-                                 f"- {str(lib_versions) if lib_versions else 'NOT SUPPORTED YET'}; "
+            for python_version, lib_versions in version_vector.items():
+                python_version_text = f'Python {python_version}'
+                lib_version_text = f"{str(lib_versions) if lib_versions else 'NOT SUPPORTED YET'}; "
+                pretty_vector += f'{python_version_text} - {lib_version_text}'
             table_entry = f'| [{lib_entry}]({lib_link}) | {pretty_vector} | `{modname}` |'
             table_entries.append(table_entry)
 
-    with open('../../docs/en/setup/Plugins.md', 'w') as plugin_doc:
+    with open('docs/en/setup/Plugins.md', 'w') as plugin_doc:
         plugin_doc.write(doc_head)
 
         plugin_doc.write(table_head)

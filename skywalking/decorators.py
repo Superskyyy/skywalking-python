@@ -19,7 +19,7 @@ import inspect
 from functools import wraps
 from typing import List
 
-from skywalking import Layer, Component
+from skywalking import Component, Layer
 from skywalking.trace.context import get_context
 from skywalking.trace.tags import Tag
 

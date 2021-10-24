@@ -17,10 +17,9 @@
 
 import time
 
-
 if __name__ == '__main__':
-    from flask import Flask, jsonify
     import psycopg2
+    from flask import Flask, jsonify
 
     app = Flask(__name__)
 

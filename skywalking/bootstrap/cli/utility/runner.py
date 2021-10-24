@@ -59,6 +59,6 @@ def execute(command: List[str]) -> None:
 
     try:
         cli_logger.debug(f'New process starting with file - `{command[0]}` args - `{command}`')
-        os.execvp(command[0], command)  # noqa
+        os.execvp(command[0], command)
     except OSError:
         raise SWRunnerFailureError

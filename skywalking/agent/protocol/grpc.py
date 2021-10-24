@@ -17,7 +17,7 @@
 
 import logging
 import traceback
-from queue import Queue, Empty
+from queue import Empty, Queue
 from time import time
 
 import grpc
@@ -25,13 +25,17 @@ import grpc
 from skywalking import config
 from skywalking.agent import Protocol
 from skywalking.agent.protocol.interceptors import header_adder_interceptor
-from skywalking.client.grpc import GrpcServiceManagementClient, GrpcTraceSegmentReportService, \
-    GrpcProfileTaskChannelService, GrpcLogDataReportService
+from skywalking.client.grpc import (GrpcLogDataReportService,
+                                    GrpcProfileTaskChannelService,
+                                    GrpcServiceManagementClient,
+                                    GrpcTraceSegmentReportService)
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile.profile_task import ProfileTask
 from skywalking.profile.snapshot import TracingThreadSnapshot
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
-from skywalking.protocol.language_agent.Tracing_pb2 import SegmentObject, SpanObject, Log, SegmentReference
+from skywalking.protocol.language_agent.Tracing_pb2 import (Log, SegmentObject,
+                                                            SegmentReference,
+                                                            SpanObject)
 from skywalking.protocol.logging.Logging_pb2 import LogData
 from skywalking.protocol.profile.Profile_pb2 import ThreadSnapshot, ThreadStack
 from skywalking.trace.segment import Segment

@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-from skywalking import Component, agent, config
-from skywalking import profile
+from skywalking import Component, agent, config, profile
 from skywalking.agent import isfull
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile.profile_status import ProfileStatusReference
@@ -24,7 +23,7 @@ from skywalking.trace import ID
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.segment import Segment, SegmentRef
 from skywalking.trace.snapshot import Snapshot
-from skywalking.trace.span import Span, Kind, NoopSpan, EntrySpan, ExitSpan
+from skywalking.trace.span import EntrySpan, ExitSpan, Kind, NoopSpan, Span
 from skywalking.utils.counter import Counter
 from skywalking.utils.time import current_milli_time
 

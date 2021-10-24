@@ -15,11 +15,12 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.carrier import Carrier
-from skywalking.trace.context import get_context, NoopContext
+from skywalking.trace.context import NoopContext, get_context
 from skywalking.trace.span import NoopSpan
-from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode, TagHttpParams
+from skywalking.trace.tags import (TagHttpMethod, TagHttpParams,
+                                   TagHttpStatusCode, TagHttpURL)
 
 link_vector = ['https://www.djangoproject.com/']
 support_matrix = {
@@ -32,8 +33,8 @@ note = """"""
 
 
 def install():
-    from django.core.handlers.base import BaseHandler
     from django.core.handlers import exception
+    from django.core.handlers.base import BaseHandler
 
     _get_response = BaseHandler.get_response
     _handle_uncaught_exception = exception.handle_uncaught_exception

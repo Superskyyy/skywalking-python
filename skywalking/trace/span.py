@@ -18,13 +18,12 @@
 import time
 from abc import ABC
 from collections import defaultdict
-from typing import List, Union, DefaultDict
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, DefaultDict, List, Union
 
-from skywalking import Kind, Layer, Log, Component, LogItem, config
+from skywalking import Component, Kind, Layer, Log, LogItem, config
 from skywalking.trace import ID
 from skywalking.trace.carrier import Carrier
-from skywalking.trace.segment import SegmentRef, Segment
+from skywalking.trace.segment import Segment, SegmentRef
 from skywalking.trace.tags import Tag
 from skywalking.utils.lang import tostring
 

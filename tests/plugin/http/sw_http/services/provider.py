@@ -17,7 +17,6 @@
 
 import time
 
-
 if __name__ == '__main__':
     import socketserver
     from http.server import BaseHTTPRequestHandler

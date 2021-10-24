@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbStatement
+from skywalking.trace.tags import TagDbStatement, TagDbType
 
 link_vector = ['https://github.com/elastic/elasticsearch-py']
 support_matrix = {

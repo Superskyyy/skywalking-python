@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagMqBroker, TagCeleryParameters
+from skywalking.trace.tags import TagCeleryParameters, TagMqBroker
 
 link_vector = ['https://docs.celeryproject.org']
 # TODO: Celery is missing plugin test
@@ -34,6 +34,7 @@ in SkyWalking currently. Celery clients can use whatever protocol they want."""
 
 def install():
     from urllib.parse import urlparse
+
     from celery import Celery
 
     def send_task(self, name, args=None, kwargs=None, **options):

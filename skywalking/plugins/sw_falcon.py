@@ -15,11 +15,13 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.carrier import Carrier
-from skywalking.trace.context import get_context, NoopContext
+from skywalking.trace.context import NoopContext, get_context
 from skywalking.trace.span import NoopSpan
-from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpParams, TagHttpStatusCode, TagHttpStatusMsg
+from skywalking.trace.tags import (TagHttpMethod, TagHttpParams,
+                                   TagHttpStatusCode, TagHttpStatusMsg,
+                                   TagHttpURL)
 
 link_vector = ['https://falcon.readthedocs.io/en/stable/']
 support_matrix = {
@@ -32,7 +34,7 @@ note = """"""
 
 
 def install():
-    from falcon import API, request, RequestOptions
+    from falcon import API, RequestOptions, request
 
     _original_falcon_api = API.__call__
 

@@ -21,10 +21,12 @@ import os
 from kafka import KafkaProducer
 
 from skywalking import config
-from skywalking.client import ServiceManagementClient, TraceSegmentReportService, LogDataReportService
+from skywalking.client import (LogDataReportService, ServiceManagementClient,
+                               TraceSegmentReportService)
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
-from skywalking.protocol.management.Management_pb2 import InstancePingPkg, InstanceProperties
+from skywalking.protocol.management.Management_pb2 import (InstancePingPkg,
+                                                           InstanceProperties)
 from skywalking.utils.exception import KafkaConfigDuplicatedError
 
 kafka_configs = {}

@@ -17,7 +17,7 @@
 
 from concurrent.futures import ThreadPoolExecutor
 from queue import Queue
-from threading import Timer, RLock, Lock
+from threading import Lock, RLock, Timer
 from typing import Tuple
 
 from skywalking import agent

@@ -17,7 +17,6 @@
 
 import requests
 
-
 if __name__ == '__main__':
     from flask import Flask, jsonify
 

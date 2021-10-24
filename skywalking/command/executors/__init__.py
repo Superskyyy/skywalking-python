@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
-from skywalking.command.executors.noop_command_executor import NoopCommandExecutor
+from skywalking.command.executors.noop_command_executor import \
+    NoopCommandExecutor
 
 noop_command_executor_instance = NoopCommandExecutor()

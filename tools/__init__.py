@@ -14,14 +14,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-""" Just an entry point script
-python -m sw_python -d run command
-or just use the setup console script
-sw-python run command after setup install
-"""
-from skywalking.bootstrap.cli import sw_python
-
-
-def start():
-    sw_python.start()

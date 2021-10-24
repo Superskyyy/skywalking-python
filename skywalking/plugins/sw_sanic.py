@@ -16,11 +16,12 @@
 #
 import logging
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.carrier import Carrier
-from skywalking.trace.context import get_context, NoopContext
+from skywalking.trace.context import NoopContext, get_context
 from skywalking.trace.span import NoopSpan
-from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode, TagHttpParams
+from skywalking.trace.tags import (TagHttpMethod, TagHttpParams,
+                                   TagHttpStatusCode, TagHttpURL)
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,7 @@ note = """"""
 
 def install():
     from sanic import Sanic, handlers, response
+
     # TODO: format_http1_response is removed from response in later versions.
 
     _format_http1_response = response.format_http1_response

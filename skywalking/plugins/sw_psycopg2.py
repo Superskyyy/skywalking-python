@@ -15,9 +15,10 @@
 # limitations under the License.
 #
 
-from skywalking import Layer, Component, config
+from skywalking import Component, Layer, config
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagDbSqlParameters
+from skywalking.trace.tags import (TagDbInstance, TagDbSqlParameters,
+                                   TagDbStatement, TagDbType)
 
 link_vector = ['https://www.psycopg.org/']
 support_matrix = {
@@ -30,8 +31,8 @@ note = """"""
 
 
 def install():
-    import wrapt  # psycopg2 is read-only C extension objects so they need to be proxied
     import psycopg2
+    import wrapt  # psycopg2 is read-only C extension objects so they need to be proxied
 
     class ProxyCursor(wrapt.ObjectProxy):
         def __init__(self, cur):

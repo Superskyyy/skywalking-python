@@ -17,10 +17,10 @@
 
 from urllib.request import Request
 
-from skywalking import Layer, Component, config
-from skywalking.trace.context import get_context, NoopContext
+from skywalking import Component, Layer, config
+from skywalking.trace.context import NoopContext, get_context
 from skywalking.trace.span import NoopSpan
-from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusCode
+from skywalking.trace.tags import TagHttpMethod, TagHttpStatusCode, TagHttpURL
 
 link_vector = ['https://docs.python.org/3/library/urllib.request.html']
 support_matrix = {
@@ -33,8 +33,8 @@ note = """"""
 
 def install():
     import socket
-    from urllib.request import OpenerDirector
     from urllib.error import HTTPError
+    from urllib.request import OpenerDirector
 
     _open = OpenerDirector.open
 
