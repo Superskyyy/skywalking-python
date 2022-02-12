@@ -82,6 +82,7 @@ jobs:
         run: |
           make test-parallel-setup
           python3 -m pytest -v ${{ matrix.test-path }}
+          docker logs "${{ job.services.provider.id }}"
   CheckStatus:
     runs-on: ubuntu-latest
     timeout-minutes: 60
