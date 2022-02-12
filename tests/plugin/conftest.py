@@ -57,6 +57,7 @@ def docker_compose(request, prepare, version):
         for _ in range(1):
             try:
                 # prepare()
+                time.sleep(100)
                 stdout, stderr = compose.get_logs()
                 if stderr:
                     print(f'Errors\n:{stderr}')
