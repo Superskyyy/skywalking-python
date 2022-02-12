@@ -37,8 +37,15 @@ segmentItems:
                 value: http://provider:9092/users
               - key: http.status.code
                 value: '200'
-              - key: http.status.msg
-                value: OK
+            refs:
+              - parentEndpoint: /users
+                networkAddress: 'provider:9092'
+                refType: CrossProcess
+                parentSpanId: 1
+                parentTraceSegmentId: not null
+                parentServiceInstance: not null
+                parentService: consumer
+                traceId: not null
     serviceName: provider
   - segmentSize: 1
     segments:
@@ -80,6 +87,4 @@ segmentItems:
                 value: http://0.0.0.0:9090/users
               - key: http.status.code
                 value: '200'
-              - key: http.status.msg
-                value: OK
     serviceName: consumer
