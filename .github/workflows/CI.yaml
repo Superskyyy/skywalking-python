@@ -64,7 +64,7 @@ jobs:
       matrix:
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
         test-path: ${{fromJson(needs.prep-plugin-and-unit-tests.outputs.matrix)}}
-      fail-fast: true
+      fail-fast: false
     env:
       SW_PYTHON_VERSION: ${{ matrix.python-version }}
     steps:
