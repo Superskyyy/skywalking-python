@@ -21,9 +21,11 @@ if __name__ == '__main__':
 
     app = FastAPI()
 
+
     @app.get('/users')
     async def application():
-        #res = requests.get('http://provider:9092/users')
-        return {} #res.json()
+        # res = requests.get('http://provider:9092/users')
+        return {}  # res.json()
+
 
     uvicorn.run(app, port=9090)
