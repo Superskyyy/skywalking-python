@@ -49,7 +49,7 @@ segmentItems:
             isError: false
             operationName: /users
             parentSpanId: 0
-            peer: provider:9091
+            peer: provider:9092
             skipAnalysis: false
             spanId: 1
             spanLayer: Http
@@ -62,7 +62,7 @@ segmentItems:
                 value: http://provider:9092/users
               - key: http.status.code
                 value: '200'
-          - componentId: 7012
+          - componentId: 7014
             endTime: gt 0
             isError: false
             operationName: /users
