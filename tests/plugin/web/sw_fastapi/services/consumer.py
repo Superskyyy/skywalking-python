@@ -15,17 +15,18 @@
 # limitations under the License.
 #
 
-import requests
-
 if __name__ == '__main__':
-    from fastapi import FastAPI
-    import uvicorn
-
-    app = FastAPI()
-
-    @app.get('/users')
-    async def application():
-        res = requests.get('http://provider:9092/users')
-        return res.json()
-
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+    import time
+    while 1:
+        time.sleep(10)
+    # from fastapi import FastAPI
+    # import uvicorn
+    #
+    # app = FastAPI()
+    #
+    # @app.get('/users')
+    # async def application():
+    #     res = requests.get('http://provider:9092/users')
+    #     return res.json()
+    #
+    # uvicorn.run(app, host='0.0.0.0', port=9090)
