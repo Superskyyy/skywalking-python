@@ -66,7 +66,7 @@ def docker_compose(request, prepare, version):
                     print(f'OUTSKY:\n{stdout}')
                 else:
                     print('what???')
-                print("hello world!")
+                print('hello world!')
                 exception = None
                 break
             except Exception as e:
