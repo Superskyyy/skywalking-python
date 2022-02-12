@@ -15,71 +15,71 @@
 # limitations under the License.
 #
 segmentItems:
-- segmentSize: 1
-  segments:
-  - segmentId: not null
-    spans:
-    - componentId: 7012
-      endTime: gt 0
-      isError: false
-      operationName: /users
-      parentSpanId: -1
-      peer: not null
-      skipAnalysis: false
-      spanId: 0
-      spanLayer: Http
-      spanType: Entry
-      startTime: gt 0
-      tags:
-      - key: http.method
-        value: GET
-      - key: http.url
-        value: http://provider:9091/users
-      - key: http.status.code
-        value: '200'
-      - key: http.status.msg
-        value: OK
-  serviceName: provider
-- segmentSize: 1
-  segments:
-  - segmentId: not null
-    spans:
-    - componentId: 7002
-      endTime: gt 0
-      isError: false
-      operationName: /users
-      parentSpanId: 0
-      peer: provider:9091
-      skipAnalysis: false
-      spanId: 1
-      spanLayer: Http
-      spanType: Exit
-      startTime: gt 0
-      tags:
-      - key: http.method
-        value: GET
-      - key: http.url
-        value: http://provider:9091/users
-      - key: http.status.code
-        value: '200'
-    - componentId: 7012
-      endTime: gt 0
-      isError: false
-      operationName: /users
-      parentSpanId: -1
-      peer: not null
-      skipAnalysis: false
-      spanId: 0
-      spanLayer: Http
-      spanType: Entry
-      startTime: gt 0
-      tags:
-      - key: http.method
-        value: GET
-      - key: http.url
-        value: http://0.0.0.0:9090/users
-      - key: http.status.code
-        value: '200'
-      - key: http.status.msg
-        value: OK
-  serviceName: consumer
+  - segmentSize: 1
+    segments:
+      - segmentId: not null
+        spans:
+          - componentId: 7012
+            endTime: gt 0
+            isError: false
+            operationName: /users
+            parentSpanId: -1
+            peer: not null
+            skipAnalysis: false
+            spanId: 0
+            spanLayer: Http
+            spanType: Entry
+            startTime: gt 0
+            tags:
+              - key: http.method
+                value: GET
+              - key: http.url
+                value: http://provider:9091/users
+              - key: http.status.code
+                value: '200'
+              - key: http.status.msg
+                value: OK
+    serviceName: provider
+  - segmentSize: 1
+    segments:
+      - segmentId: not null
+        spans:
+          - componentId: 7002
+            endTime: gt 0
+            isError: false
+            operationName: /users
+            parentSpanId: 0
+            peer: provider:9091
+            skipAnalysis: false
+            spanId: 1
+            spanLayer: Http
+            spanType: Exit
+            startTime: gt 0
+            tags:
+              - key: http.method
+                value: GET
+              - key: http.url
+                value: http://provider:9091/users
+              - key: http.status.code
+                value: '200'
+          - componentId: 7012
+            endTime: gt 0
+            isError: false
+            operationName: /users
+            parentSpanId: -1
+            peer: not null
+            skipAnalysis: false
+            spanId: 0
+            spanLayer: Http
+            spanType: Entry
+            startTime: gt 0
+            tags:
+              - key: http.method
+                value: GET
+              - key: http.url
+                value: http://0.0.0.0:9090/users
+              - key: http.status.code
+                value: '200'
+              - key: http.status.msg
+                value: OK
+    serviceName: consumer

@@ -16,6 +16,30 @@
 #
 
 segmentItems:
+  - segmentSize: 1
+    segments:
+      - segmentId: not null
+        spans:
+          - componentId: 7014
+            endTime: gt 0
+            isError: false
+            operationName: /users
+            parentSpanId: -1
+            peer: not null
+            skipAnalysis: false
+            spanId: 0
+            spanLayer: Http
+            spanType: Entry
+            startTime: gt 0
+            tags:
+              - key: http.method
+                value: GET
+              - key: http.url
+                value: http://provider:9092/users
+              - key: http.status.code
+                value: '200'
+              - key: http.status.msg
+                value: OK
   - serviceName: provider
     segmentSize: 1
     segments:
@@ -56,8 +80,8 @@ segmentItems:
             parentSpanId: 0
             spanId: 1
             spanLayer: Http
-            startTime:  gt 0
-            endTime:  gt 0
+            startTime: gt 0
+            endTime: gt 0
             componentId: 7002
             isError: false
             spanType: Exit
