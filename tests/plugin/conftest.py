@@ -59,7 +59,7 @@ def docker_compose(request, prepare, version):
     for _ in range(0, 1):
         try:
             time.sleep(100)
-            a,b = compose.get_logs()
+            a, b = compose.get_logs()
             print(a, b)
             prepare()
             exception = None
