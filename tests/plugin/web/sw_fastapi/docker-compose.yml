@@ -31,7 +31,7 @@ services:
       - "9092:9092"
     volumes:
       - .:/app
-    command: ['bash', '-c', 'pip install fastapi && pip install -r /app/requirements.txt && python3 /app/services/provider.py']
+    command: ['bash', '-c', 'pip install fastapi uvicorn && pip install -r /app/requirements.txt && python3 /app/services/provider.py']
     depends_on:
       collector:
         condition: service_healthy
