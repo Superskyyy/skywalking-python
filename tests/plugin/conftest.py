@@ -60,7 +60,10 @@ def docker_compose(request, prepare, version):
         try:
             # time.sleep(100)
             a, b = compose.get_logs()
-            print(a, b)
+            if b:
+                print("Errors\\n:{}".format(b))
+            if a:
+                print("outs\\n:{}".format(a))
             prepare()
             exception = None
             break

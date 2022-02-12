@@ -41,8 +41,8 @@ jobs:
         uses: apache/skywalking-eyes@49d536241d6fe8f92400702b08710514dc298cd4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Lint codes
-        run: make lint
+#      - name: Lint codes
+#        run: make lint
   prep-plugin-and-unit-tests:
     name: Prepare Plugin and Unit Tests
     needs: license-and-lint
