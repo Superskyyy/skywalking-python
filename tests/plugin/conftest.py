@@ -56,8 +56,11 @@ def docker_compose(request, prepare, version):
 
     exception = None
     exception_delay = 100
-    for _ in range(0, 10):
+    for _ in range(0, 1):
         try:
+            time.sleep(100)
+            a,b = compose.get_logs()
+            print(a, b)
             prepare()
             exception = None
             break
