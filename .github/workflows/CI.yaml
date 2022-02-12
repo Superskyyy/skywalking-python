@@ -81,7 +81,7 @@ jobs:
       - name: Run unit tests
         run: |
           make test-parallel-setup
-          python3 -m pytest -v -s ${{ matrix.test-path }}
+          python3 -m pytest -v ${{ matrix.test-path }}
           docker logs "${{ job.services.provider.id }}"
   CheckStatus:
     runs-on: ubuntu-latest
