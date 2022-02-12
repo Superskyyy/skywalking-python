@@ -59,6 +59,11 @@ def docker_compose(request, prepare, version):
     for _ in range(0, 10):
         try:
             prepare()
+            stdout, stderr = compose.get_logs()
+            if stderr:
+                print("Errors\n:{}".format(stderr))
+            if stdout:
+                print("OUTSKY:\n{}".format(stdout))
             exception = None
             break
         except Exception as e:
