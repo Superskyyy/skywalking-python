@@ -24,10 +24,20 @@ if __name__ == '__main__':
 
     app = FastAPI()
 
+    import logging
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler("debug.log"),
+            logging.StreamHandler()
+        ]
+    )
 
     @app.get('/users')
     async def application():
         time.sleep(0.5)
+        logging.info('hello world log')
         return {'song': 'Despacito', 'artist': 'Luis Fonsi'}
-
-    uvicorn.run(app, host='0.0.0.0', port=9092)
+    uvicorn.run(app, host='0.0.0.0', port=9092, debug=True)
