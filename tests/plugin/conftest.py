@@ -61,9 +61,9 @@ def docker_compose(request, prepare, version):
             prepare()
             stdout, stderr = compose.get_logs()
             if stderr:
-                print("Errors\n:{}".format(stderr))
+                print(f'Errors\n:{stderr}')
             if stdout:
-                print("OUTSKY:\n{}".format(stdout))
+                print(f'OUTSKY:\n{stdout}')
             exception = None
             break
         except Exception as e:
