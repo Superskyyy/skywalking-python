@@ -50,7 +50,6 @@ def docker_compose(request, prepare, version):
         with open(os.path.join(cwd, 'requirements.txt'), mode='w') as req:
             req.write(version)
 
-
     with DockerCompose(filepath=cwd) as compose:
 
         exception = None
@@ -62,11 +61,11 @@ def docker_compose(request, prepare, version):
                 if stderr:
                     print(f'Errors\n:{stderr}')
                 else:
-                    print("what?")
+                    print('what?')
                 if stdout:
                     print(f'OUTSKY:\n{stdout}')
                 else:
-                    print("what???")
+                    print('what???')
 
                 exception = None
                 break
@@ -79,4 +78,3 @@ def docker_compose(request, prepare, version):
             raise Exception(f"""Wait time exceeded {exception_delay} secs. Exception {exception}""")
 
         yield compose
-
