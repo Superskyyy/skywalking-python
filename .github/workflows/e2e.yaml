@@ -20,10 +20,10 @@ on:
   push:
     branches:
       - master
-
-concurrency:
-  group: ci-it-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+# seems like concurrency only work for one slot
+#concurrency:
+#  group: ci-it-${{ github.event.pull_request.number || github.ref }}
+#  cancel-in-progress: true
 
 jobs:
   E2E:
