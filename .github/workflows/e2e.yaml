@@ -50,8 +50,7 @@ jobs:
       - name: Build SkyWalking Python agent base image
         env:
           SW_PYTHON_VERSION: 3.7
-        run: |
-          - docker build -t skywalking/skywalking-python-agent:3.7-latest .
+        run: docker build -t skywalking/skywalking-python-agent:3.7-latest .
       - name: Setup go
         uses: actions/setup-go@v2
         with:
