@@ -17,7 +17,7 @@ version: '2.1'
 
 services:
   # The following services are inherited by three protocols for testing
-  oap:
+  oap: # bump up oap
     image: ghcr.io/apache/skywalking/oap:2bfa642d36f21e2d5bc81ac423c313538520c6c9
     # Python agent supports gRPC/ HTTP/ Kafka reporting
     expose: # maybe move to extend for clarity
