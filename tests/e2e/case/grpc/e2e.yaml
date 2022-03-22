@@ -48,7 +48,7 @@ verify:
     interval: 10s
   cases:
     # basic check: service list
-    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql service ls
+    - query: swctl --display yaml --base-url=http://localhost:12800/graphql service ls
       expected: ../expected/service.yml
 #    # basic check: service metrics
 #    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
