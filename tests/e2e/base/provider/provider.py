@@ -19,14 +19,24 @@
 This module contains the Provider part of the e2e tests.
 We also cover the usage of logging interception in this module.
 """
-import logging.handlers
+import logging
 import random
 import time
 
 import uvicorn
 from fastapi import FastAPI
 
-from tests.e2e.base.logger import stream_handler
+
+class SWFormatterMock(logging.Formatter):
+    def format(self, record):
+        result = super().format(record)
+        return 'e2e:\n' + result
+
+
+formatter = SWFormatterMock(logging.BASIC_FORMAT)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
 
 app = FastAPI()
 

@@ -16,7 +16,8 @@
 FROM skywalking/skywalking-python-agent:3.7-latest
 
 VOLUME /services
-ADD consumer.py /services/
+COPY consumer.py /services/
+RUN pip install fastapi uvicorn aiohttp
 
 # Execute the consumer.py with agent attached
-CMD ["python3 /services/consumer.py"]
+CMD ["python3", "/services/consumer.py"]

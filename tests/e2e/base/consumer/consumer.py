@@ -21,14 +21,23 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi import Request
 
-from tests.e2e.base.logger import stream_handler
 
-app = FastAPI()
+class SWFormatterMock(logging.Formatter):
+    def format(self, record):
+        result = super().format(record)
+        return 'e2e:\n' + result
+
+
+formatter = SWFormatterMock(logging.BASIC_FORMAT)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
 
 e2e_consumer_logger = logging.getLogger('__name__')
 e2e_consumer_logger.setLevel(logging.INFO)
 
 e2e_consumer_logger.addHandler(stream_handler)
+app = FastAPI()
 
 
 @app.post('/artist')

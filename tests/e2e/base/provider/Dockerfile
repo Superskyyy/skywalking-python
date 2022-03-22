@@ -16,7 +16,8 @@
 FROM skywalking/skywalking-python-agent:3.7-latest
 
 VOLUME /services
-ADD provider.py /services/
+COPY provider.py /services/
+RUN pip install fastapi uvicorn
 
 # Execute the provider.py with agent attached
-CMD ["python3 /services/provider.py"]
+CMD ["python3", "/services/provider.py"]
