@@ -15,12 +15,6 @@
 # limitations under the License.
 name: E2E
 
-on:
-  pull_request:
-  push:
-    branches:
-      - master
-
 concurrency:
   group: ci-it-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
