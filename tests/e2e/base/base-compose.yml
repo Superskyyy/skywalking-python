@@ -30,7 +30,7 @@ services:
       test: ["CMD", "sh", "-c", "nc -zn 127.0.0.1 11800"]
       interval: 5s
       timeout: 60s
-      retries: 120
+      retries: 1
 
   provider:
     build:
@@ -52,7 +52,7 @@ services:
       test: [ "CMD", "sh", "-c", "nc -zn 127.0.0.1 9090"]
       interval: 5s
       timeout: 60s
-      retries: 120
+      retries: 1
 
   consumer:
     # Reuses the provider agent image
@@ -74,7 +74,7 @@ services:
       test: [ "CMD", "sh", "-c", "nc -zn 127.0.0.1 9090"]
       interval: 5s
       timeout: 60s
-      retries: 120
+      retries: 1
 
 networks:
   e2e:
