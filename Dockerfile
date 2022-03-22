@@ -14,7 +14,7 @@
 # limitations under the License.
 
 ARG SW_PYTHON_VERSION
-
+# todo use local runner - remember to indicate env var to 3.7 etc.!
 FROM python:${SW_PYTHON_VERSION}
 
 ARG ROOT=.

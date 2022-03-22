@@ -19,4 +19,4 @@ VOLUME /services
 ADD consumer.py /services/
 
 # Execute the consumer.py with agent attached
-CMD ["/services/consumer.py"]
+CMD ["python3 /services/consumer.py"]

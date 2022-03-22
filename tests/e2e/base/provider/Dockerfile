@@ -19,4 +19,4 @@ VOLUME /services
 ADD provider.py /services/
 
 # Execute the provider.py with agent attached
-CMD ["/services/provider.py"]
+CMD ["python3 /services/provider.py"]
