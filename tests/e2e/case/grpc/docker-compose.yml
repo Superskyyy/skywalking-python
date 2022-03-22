@@ -20,26 +20,26 @@ version: '2.1'
 services:
   oap:
     extends:
-      file: ../../base/base-compose.yml
+      file: ../../base/docker-compose.base.yml
       service: oap
     ports:
       - "12800"
 
   provider:
     extends:
-      file: ../../base/base-compose.yml
+      file: ../../base/docker-compose.base.yml
       service: provider
     ports:
       - "9090"
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
-    depends_on:
-      oap:
-        condition: service_healthy
+#    depends_on:
+#      oap:
+#        condition: service_healthy
 
   consumer:
     extends:
-      file: ../../base/base-compose.yml
+      file: ../../base/docker-compose.base.yml
       service: consumer
     environment:
       PROVIDER_URL: http://provider:9090 # remove this

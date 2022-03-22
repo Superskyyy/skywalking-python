@@ -36,7 +36,6 @@ services:
     build:
       context: provider
     image: skywalking-agent:e2e-provider
-
     expose:
       - 9090
     networks:
@@ -49,13 +48,16 @@ services:
       # extends to 3 protocols
       # SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
     healthcheck:
-      test: [ "CMD", "sh", "-c", "nc -zn 127.0.0.1 9090"]
+      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090"]
       interval: 5s
       timeout: 60s
-      retries: 1
-
+      retries: 115
+#    healthcheck:
+#      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090"]
+#      interval: 5s
+#      timeout: 60s
+#      retries: 120
   consumer:
-    # Reuses the provider agent image
     build:
       context: consumer
     image: skywalking-agent:e2e-consumer
@@ -74,7 +76,11 @@ services:
       test: [ "CMD", "sh", "-c", "nc -zn 127.0.0.1 9090"]
       interval: 5s
       timeout: 60s
-      retries: 1
-
+      retries: 115
+#    healthcheck:
+#      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090"]
+#      interval: 5s
+#      timeout: 60s
+#      retries: 120
 networks:
   e2e:
