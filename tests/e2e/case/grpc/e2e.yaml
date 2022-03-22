@@ -27,6 +27,7 @@ setup:
       command: bash tests/e2e/script/prepare/install.sh swctl
 
 cleanup:
+  # It will be set to always by GHA, change to success if local debugging.
   on: always
 
 trigger:
@@ -43,50 +44,50 @@ verify:
   # verify with retry strategy
   retry:
     # max retry count
-    count: 20
+    count: 0
     # the interval between two retries
     interval: 10s
   cases:
     # basic check: service list
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql service ls
       expected: ../expected/service.yml
-#    # basic check: service metrics
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
-#      expected: ../expected/metrics-has-value.yml
-#    # basic check: service endpoint
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --keyword=info --service-name=e2e-service-provider
-#      expected: ../expected/service-endpoint.yml
-#    # basic check: service endpoint metrics
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=POST:/info --service-name=e2e-service-provider |yq e 'to_entries' -
-#      expected: ../expected/metrics-has-value.yml
-#
-#    # service instance list
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql instance list --service-name=e2e-service-provider
-#      expected: ../expected/service-instance.yml
-#
-#    # service instance pvm metrics TODO: PVM Collection Implementation missing
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name instance_jvm_thread_live_count --instance-name=provider1 --service-name=e2e-service-provider |yq e 'to_entries' -
-#      expected: ../expected/metrics-has-value.yml
-#
-#    # trace segment list
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls
-#      expected: ../expected/traces-list.yml
-#    # trace detail
-#    - query: |
-#        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
-#          swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
-#            | yq e '.traces | select(.[].endpointnames[0]=="POST:/info") | .[0].traceids[0]' - \
-#        )
-#      expected: ../expected/trace-info-detail.yml
-#
-#    # event list TODO: Event Implementation missing
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql event list --service-name=e2e-service-provider --instance-name=provider1
-#      expected: ../expected/event-list.yml
-#
-#    # logs list
-#    - query: |
-#        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql logs list --service-name=e2e-service-provider --trace-id=$( \
-#            swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
-#              | yq e '.traces | select(.[].endpointnames[0]=="POST:/info") | .[0].traceids[0]' -
-#        )
-#      expected: ../expected/logs-list.yml
+    # basic check: service metrics TODO: Metric Collection Implementation is not merged https://github.com/apache/skywalking/issues/7084
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
+      expected: ../expected/metrics-has-value.yml
+     basic check: service endpoint
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --keyword=info --service-name=e2e-service-provider
+      expected: ../expected/service-endpoint.yml
+    # basic check: service endpoint metrics
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=POST:/info --service-name=e2e-service-provider |yq e 'to_entries' -
+      expected: ../expected/metrics-has-value.yml
+
+    # service instance list
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql instance list --service-name=e2e-service-provider
+      expected: ../expected/service-instance.yml
+
+    # service instance pvm metrics TODO: PVM Collection Implementation needed https://github.com/apache/skywalking/issues/5944
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name instance_jvm_thread_live_count --instance-name=provider1 --service-name=e2e-service-provider |yq e 'to_entries' -
+      expected: ../expected/metrics-has-value.yml
+
+    # trace segment list
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls
+      expected: ../expected/traces-list.yml
+    # trace detail
+    - query: |
+        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
+          swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
+            | yq e '.traces | select(.[].endpointnames[0]=="POST:/info") | .[0].traceids[0]' - \
+        )
+      expected: ../expected/trace-info-detail.yml
+
+    # event list TODO: Events Implementation needed
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql event list --service-name=e2e-service-provider --instance-name=provider1
+      expected: ../expected/event-list.yml
+
+    # logs list
+    - query: |
+        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql logs list --service-name=e2e-service-provider --trace-id=$( \
+            swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
+              | yq e '.traces | select(.[].endpointnames[0]=="POST:/info") | .[0].traceids[0]' -
+        )
+      expected: ../expected/logs-list.yml
