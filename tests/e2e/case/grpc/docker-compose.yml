@@ -33,9 +33,9 @@ services:
       - "9090"
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
-#    depends_on:
-#      oap:
-#        condition: service_healthy
+    depends_on:
+      oap:
+        condition: service_healthy
 
   consumer:
     extends:

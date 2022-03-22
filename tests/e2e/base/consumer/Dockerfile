@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Note: This image is a general purpose one containing multiple protocols
 FROM skywalking/skywalking-python-agent:3.7-latest
 
 VOLUME /services
@@ -20,4 +21,4 @@ COPY consumer.py /services/
 RUN pip install fastapi uvicorn aiohttp
 
 # Execute the consumer.py with agent attached
-CMD ["python3", "/services/consumer.py"]
+CMD ["sw-python", "run", "python3", "/services/consumer.py"]

@@ -20,4 +20,4 @@ COPY provider.py /services/
 RUN pip install fastapi uvicorn
 
 # Execute the provider.py with agent attached
-CMD ["python3", "/services/provider.py"]
+CMD ["sw-python", "run", "python3", "/services/provider.py"]
