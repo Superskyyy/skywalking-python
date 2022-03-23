@@ -54,6 +54,7 @@ async def application(request: Request):
     try:
         payload = await request.json()
     except Exception as e:
+        print(e)
         payload = {}
     e2e_consumer_logger.info('Info! This is not reported!')
 

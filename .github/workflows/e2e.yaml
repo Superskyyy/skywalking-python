@@ -20,16 +20,17 @@ on:
   push:
     branches:
       - master
+
 # seems like concurrency only work for one slot
-#concurrency:
-#  group: ci-it-${{ github.event.pull_request.number || github.ref }}
-#  cancel-in-progress: true
+concurrency:
+  group: ci-e2e-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   E2E:
     name: Basic function + ${{ matrix.case.name }} transport(Python3.7)
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 30
     strategy:
       matrix:
         case:
