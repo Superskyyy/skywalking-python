@@ -23,7 +23,7 @@ from skywalking import config
 from skywalking.agent import Protocol
 from skywalking.client.kafka import KafkaServiceManagementClient, KafkaTraceSegmentReportService, \
     KafkaLogDataReportService
-from skywalking.loggings import logger, getLogger, logger_debug_enabled
+from skywalking.loggings import logger, getLogger, LOGGER_DEBUG_ENABLED
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
 from skywalking.protocol.language_agent.Tracing_pb2 import SegmentObject, SpanObject, Log, SegmentReference
 from skywalking.protocol.logging.Logging_pb2 import LogData
@@ -63,7 +63,7 @@ class KafkaProtocol(Protocol):
                     return
 
                 queue.task_done()
-                if logger_debug_enabled:
+                if LOGGER_DEBUG_ENABLED:
                     logger.debug('reporting segment %s', segment)
 
                 s = SegmentObject(
@@ -127,7 +127,7 @@ class KafkaProtocol(Protocol):
                     return
                 queue.task_done()
 
-                if logger_debug_enabled:
+                if LOGGER_DEBUG_ENABLED:
                     logger.debug('Reporting Log')
 
                 yield log_data

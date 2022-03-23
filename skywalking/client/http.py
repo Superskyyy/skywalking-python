@@ -21,7 +21,7 @@ from google.protobuf import json_format
 
 from skywalking import config
 from skywalking.client import ServiceManagementClient, TraceSegmentReportService, LogDataReportService
-from skywalking.loggings import logger, logger_debug_enabled
+from skywalking.loggings import logger, LOGGER_DEBUG_ENABLED
 
 
 class HttpServiceManagementClient(ServiceManagementClient):
@@ -43,11 +43,11 @@ class HttpServiceManagementClient(ServiceManagementClient):
                 'language': 'python',
             }]
         })
-        if logger_debug_enabled:
+        if LOGGER_DEBUG_ENABLED:
             logger.debug('heartbeat response: %s', res)
 
     def send_heart_beat(self):
-        if logger_debug_enabled:
+        if LOGGER_DEBUG_ENABLED:
             logger.debug(
                 'service heart beats, [%s], [%s]',
                 config.service_name,
@@ -57,7 +57,7 @@ class HttpServiceManagementClient(ServiceManagementClient):
             'service': config.service_name,
             'serviceInstance': config.service_instance,
         })
-        if logger_debug_enabled:
+        if LOGGER_DEBUG_ENABLED:
             logger.debug('heartbeat response: %s', res)
 
 
@@ -112,7 +112,7 @@ class HttpTraceSegmentReportService(TraceSegmentReportService):
                     } for ref in span.refs if ref.trace_id]
                 } for span in segment.spans]
             })
-            if logger_debug_enabled:
+            if LOGGER_DEBUG_ENABLED:
                 logger.debug('report traces response: %s', res)
 
 
@@ -130,5 +130,5 @@ class HttpLogDataReportService(LogDataReportService):
         log_batch = [json.loads(json_format.MessageToJson(log_data)) for log_data in generator]
         if log_batch:  # prevent empty batches
             res = self.session.post(self.url_report, json=log_batch)
-            if logger_debug_enabled:
+            if LOGGER_DEBUG_ENABLED:
                 logger.debug('report batch log response: %s', res)

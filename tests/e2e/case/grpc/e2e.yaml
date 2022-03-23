@@ -81,10 +81,7 @@ verify:
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls
       expected: ../expected/traces-list.yml
     # trace detail
-            swctl --display yaml --base-url=http://localhost:12800/graphql trace $( \
-              swctl --display yaml --base-url=http://localhost:12800/graphql trace ls \
-                | yq e '.traces | select(.[].endpointnames[0]=="/artist") | .[0].traceids[0]' - \
-            )
+
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
