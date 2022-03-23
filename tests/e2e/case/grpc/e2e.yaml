@@ -28,7 +28,7 @@ setup:
 
 cleanup:
   # change to success if debugging.
-  on: always # always for CI
+  on: success # always for CI
 
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
@@ -44,7 +44,7 @@ verify:
   # verify with retry strategy
   retry:
     # max retry count
-    count: 0
+    count: 10
     # the interval between two retries
     interval: 10s
   cases:
@@ -58,8 +58,8 @@ verify:
 #      expected: ../expected/metrics-has-value.yml
     # basic check: service endpoint
     # swctl --display yaml --base-url=http://localhost:12800/graphql endpoint list --keyword=artist --service-name=e2e-service-provider
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --service-name=e2e-service-provider
-#      expected: ../expected/service-endpoint.yml
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --service-name=e2e-service-provider
+      expected: ../expected/service-endpoint.yml
     # basic check: service endpoint metrics
     #swctl --display yaml --base-url=http://localhost:12800/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist --service-name=e2e-service-provider |yq e 'to_entries' -
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist --service-name=e2e-service-provider |yq e 'to_entries' -
