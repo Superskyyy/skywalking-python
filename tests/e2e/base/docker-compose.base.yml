@@ -48,6 +48,7 @@ services:
       SW_AGENT_NAME: e2e-service-provider
       SW_AGENT_INSTANCE: provider1
       SW_AGENT_LOGGING_LEVEL: DEBUG
+      SW_AGENT_LOG_REPORTER_ACTIVE: True
       SW_AGENT_LOG_REPORTER_LEVEL: WARNING
       # extends to 3 protocols
       # SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
@@ -68,6 +69,7 @@ services:
       SW_AGENT_NAME: e2e-service-consumer
       SW_AGENT_INSTANCE: consumer1
       SW_AGENT_LOGGING_LEVEL: DEBUG
+      SW_AGENT_LOG_REPORTER_ACTIVE: True
       SW_AGENT_LOG_REPORTER_LEVEL: WARNING
       # extends to 3 protocols
       # SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800

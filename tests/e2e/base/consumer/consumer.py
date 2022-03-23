@@ -21,14 +21,6 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi import Request
 
-from skywalking import config, agent
-
-config.init(logging_level='DEBUG', service_name='e2e-service-consumer', collector_address='localhost:11800')
-config.log_reporter_active = True
-config.service_instance = 'consumer1'
-
-agent.start()
-
 
 class SWFormatterMock(logging.Formatter):
     def format(self, record):
@@ -63,7 +55,7 @@ async def application(request: Request):
     try:
         async with aiohttp.ClientSession() as session:
             # change to localhost to run locally
-            async with session.post('http://localhost:9091/artist', data=payload) as response:
+            async with session.post('http://provider:9090/artist', data=payload) as response:
                 return await response.json()
     except Exception as e:
         print(e)
@@ -72,4 +64,4 @@ async def application(request: Request):
 
 if __name__ == '__main__':
     # noinspection PyTypeChecker
-    uvicorn.run(app, host='0.0.0.0', port=9092)
+    uvicorn.run(app, host='0.0.0.0', port=9090)
