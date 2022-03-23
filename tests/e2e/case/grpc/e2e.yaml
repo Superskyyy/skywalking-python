@@ -33,7 +33,7 @@ cleanup:
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
   interval: 3s      # Trigger the action every 3 seconds.
-  times: 5          # The retry count before the request success.
+  times: 5          # Don't omit this!
   url: http://${consumer_host}:${consumer_9090}/artist
   method: POST       # Http trigger method.
   headers:
@@ -54,8 +54,8 @@ verify:
       expected: ../expected/service.yml
     # basic check: service metrics
     # swctl --display yaml --base-url=http://localhost:12800/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
-#      expected: ../expected/metrics-has-value.yml
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
+      expected: ../expected/metrics-has-value.yml
     # basic check: service endpoint
     # swctl --display yaml --base-url=http://localhost:12800/graphql endpoint list --keyword=artist --service-name=e2e-service-provider
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --service-name=e2e-service-provider
@@ -85,7 +85,7 @@ verify:
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
-            | yq e '.traces | select(.[].endpointnames[0]=="POST:/info") | .[0].traceids[0]' - \
+            | yq e '.traces | select(.[].endpointnames[0]=="/artist") | .[0].traceids[0]' - \
         )
       expected: ../expected/trace-artist-detail.yml
 
@@ -98,6 +98,6 @@ verify:
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql logs list --service-name=e2e-service-provider --trace-id=$( \
             swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
-              | yq e '.traces | select(.[].endpointnames[0]=="POST:/info") | .[0].traceids[0]' -
+              | yq e '.traces | select(.[].endpointnames[0]=="/artist") | .[0].traceids[0]' -
         )
       expected: ../expected/logs-list.yml
