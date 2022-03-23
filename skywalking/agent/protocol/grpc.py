@@ -108,7 +108,6 @@ class GrpcProtocol(Protocol):
                     return
 
                 queue.task_done()
-
                 if logger_debug_enabled:
                     logger.debug('reporting segment %s', segment)
 

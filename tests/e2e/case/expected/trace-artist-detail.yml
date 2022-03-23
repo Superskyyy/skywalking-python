@@ -30,10 +30,10 @@ spans:
     serviceinstancename: "provider1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
-    endpointname: POST:/info
+    endpointname: /artist
     type: Entry
     peer: ""
-    component: Tomcat
+    component: Unknown # Fixme: FastAPI plugin isn't included until OAP v9.0.0
     iserror: false
     layer: Http
     tags:
@@ -42,6 +42,8 @@ spans:
         value: POST
       - key: url
         value: {{ notEmpty .value }}
+      - key: http.status_code
+        value: "200"
       {{- end }}
     logs: []
   {{- end }}

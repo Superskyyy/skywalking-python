@@ -30,11 +30,12 @@ def getLogger(name=None):  # noqa
 
     return logger
 
-
 logger = getLogger('skywalking')
-logger_debug_enabled = logger.isEnabledFor(logging.DEBUG)
 
+logger_debug_enabled = False
 
 def init():
+    global logger_debug_enabled
     logging.addLevelName(logging.CRITICAL + 10, 'OFF')
     logger.setLevel(logging.getLevelName(config.logging_level))
+    logger_debug_enabled = logger.isEnabledFor(logging.DEBUG)
