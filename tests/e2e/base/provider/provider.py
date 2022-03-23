@@ -26,6 +26,15 @@ import time
 import uvicorn
 from fastapi import FastAPI
 
+from skywalking import config, agent
+
+config.init(logging_level='DEBUG', service_name='e2e-service-provider', collector_address='localhost:11800')
+config.logging_level = 'DEBUG'
+config.log_reporter_active = True
+
+
+agent.start()
+
 
 class SWFormatterMock(logging.Formatter):
     def format(self, record):
@@ -46,6 +55,7 @@ e2e_provider_logger.setLevel(logging.INFO)
 e2e_provider_logger.addHandler(stream_handler)
 
 
+#@trace(op='awesome')
 @app.get('/artist')
 @app.post('/artist')
 async def application():
@@ -61,4 +71,4 @@ async def application():
 
 if __name__ == '__main__':
     # noinspection PyTypeChecker
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+    uvicorn.run(app, host='0.0.0.0', port=9091)

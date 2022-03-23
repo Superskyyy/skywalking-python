@@ -21,7 +21,13 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi import Request
 
+from skywalking import config, agent
 
+config.init(logging_level='DEBUG', service_name='e2e-service-consumer', collector_address='localhost:11800')
+config.log_reporter_active = True
+config.service_instance = 'consumer1'
+
+agent.start()
 class SWFormatterMock(logging.Formatter):
     def format(self, record):
         result = super().format(record)
@@ -39,10 +45,13 @@ e2e_consumer_logger.setLevel(logging.INFO)
 e2e_consumer_logger.addHandler(stream_handler)
 app = FastAPI()
 
-
+@app.get('/artist')
 @app.post('/artist')
 async def application(request: Request):
-    payload = await request.json()
+    try:
+        payload = await request.json()
+    except:
+        payload = {}
     e2e_consumer_logger.info('Info! This is not reported!')
 
     e2e_consumer_logger.warning('Warning! This is reported!')
@@ -59,4 +68,4 @@ async def application(request: Request):
 
 if __name__ == '__main__':
     # noinspection PyTypeChecker
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+    uvicorn.run(app, host='0.0.0.0', port=9092)
