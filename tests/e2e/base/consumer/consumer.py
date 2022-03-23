@@ -28,6 +28,8 @@ config.log_reporter_active = True
 config.service_instance = 'consumer1'
 
 agent.start()
+
+
 class SWFormatterMock(logging.Formatter):
     def format(self, record):
         result = super().format(record)
@@ -45,12 +47,13 @@ e2e_consumer_logger.setLevel(logging.INFO)
 e2e_consumer_logger.addHandler(stream_handler)
 app = FastAPI()
 
+
 @app.get('/artist')
 @app.post('/artist')
 async def application(request: Request):
     try:
         payload = await request.json()
-    except:
+    except Exception as e:
         payload = {}
     e2e_consumer_logger.info('Info! This is not reported!')
 

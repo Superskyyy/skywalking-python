@@ -55,7 +55,6 @@ e2e_provider_logger.setLevel(logging.INFO)
 e2e_provider_logger.addHandler(stream_handler)
 
 
-#@trace(op='awesome')
 @app.get('/artist')
 @app.post('/artist')
 async def application():

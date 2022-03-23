@@ -28,7 +28,7 @@ setup:
 
 cleanup:
   # change to success if debugging.
-  on: never # always
+  on: always # always for CI
 
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
