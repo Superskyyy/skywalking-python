@@ -54,8 +54,8 @@ verify:
       expected: ../expected/service.yml
     # basic check: service metrics
     # swctl --display yaml --base-url=http://localhost:12800/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
-    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
-      expected: ../expected/metrics-has-value.yml
+#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
+#      expected: ../expected/metrics-has-value.yml
     # basic check: service endpoint
     # swctl --display yaml --base-url=http://localhost:12800/graphql endpoint list --keyword=artist --service-name=e2e-service-provider
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --keyword=artist --service-name=e2e-service-provider
