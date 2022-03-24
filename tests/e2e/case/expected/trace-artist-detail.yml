@@ -19,21 +19,15 @@ spans:
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
-    refs:
-      {{- contains .refs }}
-      - traceid: {{ notEmpty .traceid }}
-        parentsegmentid: {{ notEmpty .parentsegmentid }}
-        parentspanid: 1
-        type: CROSS_PROCESS
-      {{- end }}
-    servicecode: "e2e-service-provider"
-    serviceinstancename: "provider1"
+    refs: []
+    servicecode: "e2e-service-consumer"
+    serviceinstancename: "consumer1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
     endpointname: /artist
     type: Entry
-    peer: ""
-    component: Unknown # Fixme: FastAPI plugin isn't included until OAP v9.0.0
+    peer: {{ notEmpty .peer }}
+    component: FastAPI
     iserror: false
     layer: Http
     tags:
@@ -42,7 +36,59 @@ spans:
         value: POST
       - key: url
         value: {{ notEmpty .value }}
-      - key: http.status_code
+      - key: http.status.code
+        value: "200"
+      {{- end }}
+    logs: []
+
+  - traceid: {{ notEmpty .traceid }}
+    segmentid: {{ notEmpty .segmentid }}
+    spanid: {{ .spanid }}
+    parentspanid: {{ .parentspanid }}
+    refs: []
+    servicecode: "e2e-service-consumer"
+    serviceinstancename: "consumer1"
+    starttime: {{ gt .starttime 0 }}
+    endtime: {{ gt .endtime 0 }}
+    endpointname: /artist
+    type: Exit
+    peer: "provider:9090"
+    component: AioHTTP
+    iserror: false
+    layer: Http
+    tags:
+      {{- contains .tags }}
+      - key: http.method
+        value: POST
+      - key: "http://provider:9090/artist"
+        value: {{ notEmpty .value }}
+      - key: http.status.code
+        value: "200"
+      {{- end }}
+    logs: []
+
+  - traceid: {{ notEmpty .traceid }}
+    segmentid: {{ notEmpty .segmentid }}
+    spanid: {{ .spanid }}
+    parentspanid: {{ .parentspanid }}
+    refs: []
+    servicecode: "e2e-service-provider"
+    serviceinstancename: "provider1"
+    starttime: {{ gt .starttime 0 }}
+    endtime: {{ gt .endtime 0 }}
+    endpointname: /artist
+    type: Entry
+    peer: {{ notEmpty .peer }}
+    component: FastAPI
+    iserror: false
+    layer: Http
+    tags:
+      {{- contains .tags }}
+      - key: http.method
+        value: POST
+      - key: url
+        value: {{ notEmpty .value }}
+      - key: http.status.code
         value: "200"
       {{- end }}
     logs: []
