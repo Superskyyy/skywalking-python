@@ -40,7 +40,6 @@ spans:
         value: "200"
       {{- end }}
     logs: []
-
   - traceid: {{ notEmpty .traceid }}
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
@@ -66,7 +65,6 @@ spans:
         value: "200"
       {{- end }}
     logs: []
-
   - traceid: {{ notEmpty .traceid }}
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
