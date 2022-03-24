@@ -14,6 +14,7 @@
 # limitations under the License.
 
 spans:
+  {{- contains .spans}}
   - traceid: {{ notEmpty .traceid }}
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
@@ -95,3 +96,4 @@ spans:
         value: "200"
       {{- end }}
     logs: []
+  {{- end }}
