@@ -14,13 +14,13 @@
 # limitations under the License.
 
 spans:
-  {{- contains .spans }}
+  {{- contains .spans}}
   - traceid: {{ notEmpty .traceid }}
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
     refs: []
-    servicecode: "e2e-service-consumer"
+    servicecode: "e2e-service-prooia??"
     serviceinstancename: "consumer1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
@@ -69,7 +69,13 @@ spans:
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
-    refs: []
+    refs:
+      {{- contains .refs }}
+      - traceid: {{ notEmpty .traceid }}
+        parentsegmentid: {{ .parentsegmentid }}
+        parentspanid: {{ .parentspanid }}
+        type: CROSS_PROCESS
+      {{- end }}
     servicecode: "e2e-service-provider"
     serviceinstancename: "provider1"
     starttime: {{ gt .starttime 0 }}
@@ -83,8 +89,8 @@ spans:
     tags:
       {{- contains .tags }}
       - key: http.method
-        value: POST
-      - key: url
+        value: "POST"
+      - key: http.url
         value: {{ notEmpty .value }}
       - key: http.status.code
         value: "200"
