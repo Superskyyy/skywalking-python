@@ -21,10 +21,10 @@ spans:
     parentspanid: {{ .parentspanid }}
     refs: []
     servicecode: "e2e-service-prooia??"
-    serviceinstancename: "consumer1"
+    serviceinstancename: aohlo? #"helloworld??consumer1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
-    endpointname: /artist
+    endpointname: /artistabc
     type: Entry
     peer: {{ notEmpty .peer }}
     component: FastAPI
