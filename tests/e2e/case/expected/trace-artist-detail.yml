@@ -21,7 +21,7 @@ spans:
     parentspanid: {{ .parentspanid }}
     refs: []
     servicecode: "e2e-service-prooia??"
-    serviceinstancename: aohlo? #"helloworld??consumer1"
+    serviceinstancename: aohlo?
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
     endpointname: /artistabc
@@ -76,7 +76,7 @@ spans:
         parentspanid: {{ .parentspanid }}
         type: CROSS_PROCESS
       {{- end }}
-    servicecode: "e2e-service-provider"
+    servicecode: "e2e-service-providermiaomiaomioa?"
     serviceinstancename: "provider1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}

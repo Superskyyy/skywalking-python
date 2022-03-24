@@ -65,3 +65,9 @@ jobs:
         with:
           log-dir: /tmp/e2e-logs
           e2e-file: ${{ matrix.case.path }}
+      - name: Upload Logs
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: e2e_logs
+          path: "${{ env.SW_INFRA_E2E_LOG_DIR }}"
