@@ -81,7 +81,6 @@ verify:
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls
       expected: ../expected/traces-list.yml
     # trace detail
-
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls --service-name=e2e-service-consumer\
