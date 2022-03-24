@@ -51,7 +51,7 @@ spans:
     endtime: {{ gt .endtime 0 }}
     endpointname: /artist
     type: Exit
-    peer: "provider:9090"
+    peer: ""
     component: AioHTTP
     iserror: false
     layer: Http
