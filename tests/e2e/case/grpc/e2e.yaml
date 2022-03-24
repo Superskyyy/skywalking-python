@@ -44,9 +44,9 @@ verify:
   # verify with retry strategy
   retry:
     # max retry count
-    count: 10
+    count: 20
     # the interval between two retries
-    interval: 10s
+    interval: 5s
   cases:
     # basic check: service list
     # swctl --display yaml --base-url=http://localhost:12800/graphql service ls
