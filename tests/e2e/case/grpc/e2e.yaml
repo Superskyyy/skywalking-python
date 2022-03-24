@@ -18,7 +18,7 @@
 setup:
   env: compose
   file: docker-compose.yml
-  timeout: 1200
+  timeout: 20m
   init-system-environment: ../../script/env
   steps:
     - name: install yq
@@ -90,7 +90,6 @@ verify:
       expected: ../expected/trace-artist-detail.yml
 
     # event list TODO: Events Implementation needed
-    # swctl --display yaml --base-url=http://localhost:12800/graphql event list --service-name=e2e-service-provider --instance-name=provider1
 #    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql event list --service-name=e2e-service-provider --instance-name=provider1
 #      expected: ../expected/event-list.yml
 
