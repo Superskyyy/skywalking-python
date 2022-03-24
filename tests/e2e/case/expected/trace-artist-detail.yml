@@ -14,7 +14,6 @@
 # limitations under the License.
 
 spans:
-  {{- contains .spans}}
   - traceid: {{ notEmpty .traceid }}
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
@@ -90,10 +89,9 @@ spans:
       {{- contains .tags }}
       - key: http.method
         value: "POST"
-      - key: url  # Change OAP side e2e from url -> http.url #
+      - key: http.url  # Change OAP side e2e from url -> http.url #
         value: {{ notEmpty .value }}
       - key: http.status.code # Change OAP side e2e from status.code -> http.status.code
         value: "200"
       {{- end }}
     logs: []
-  {{- end }}
