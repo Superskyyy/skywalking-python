@@ -20,7 +20,7 @@ spans:
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
     refs: []
-    servicecode: "e2e-service-prooia??"
+    servicecode: "e2e-service-consumer"
     serviceinstancename: "consumer1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
