@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -21,20 +20,24 @@ spans:
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
     refs: []
-    servicecode: consumer-py
-    serviceinstancename: consumer-py-instance66666666
+    servicecode: "e2e-service-consumer"
+    serviceinstancename: "consumer1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
-    endpointname: /test
+    endpointname: /artist
     type: Entry
     peer: {{ notEmpty .peer }}
-    component: Python
+    component: FastAPI
     iserror: false
     layer: Http
     tags:
       {{- contains .tags }}
       - key: http.method
         value: POST
+      - key: url
+        value: {{ notEmpty .value }}
+      - key: http.status.code
+        value: "200"
       {{- end }}
     logs: []
   - traceid: {{ notEmpty .traceid }}
@@ -42,53 +45,49 @@ spans:
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
     refs: []
-    servicecode: consumer-py
-    serviceinstancename: consumer-py-instance555555555555
+    servicecode: "e2e-service-consumer"
+    serviceinstancename: "consumer1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
-    endpointname: /users
+    endpointname: /artist
     type: Exit
-    peer: medium-java:9092
-    component: Python
+    peer: "provider:9090"
+    component: AioHTTP
     iserror: false
     layer: Http
     tags:
       {{- contains .tags }}
       - key: http.method
         value: POST
-      - key: url
-        value: http://medium-java:9092/users
-      - key: status.code
-        value: "20055"
+      - key: "http://provider:9090/artist"
+        value: {{ notEmpty .value }}
+      - key: http.status.code
+        value: "200"
       {{- end }}
     logs: []
   - traceid: {{ notEmpty .traceid }}
     segmentid: {{ notEmpty .segmentid }}
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
-    refs:
-      {{- contains .refs }}
-      - traceid: {{ notEmpty .traceid }}
-        parentsegmentid: {{ .parentsegmentid }}
-        parentspanid: {{ .parentspanid }}
-        type: CROSS_PROCESS
-      {{- end }}
-    servicecode: e2e-service-consumer
-    serviceinstancename: consumer1444444444444
+    refs: []
+    servicecode: "e2e-service-provider"
+    serviceinstancename: "provider1"
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
-    endpointname: POST:/users
+    endpointname: /artist
     type: Entry
-    peer: ""
-    component: Tomcat
+    peer: {{ notEmpty .peer }}
+    component: FastAPI
     iserror: false
     layer: Http
     tags:
       {{- contains .tags }}
-      - key: url
-        value: http://medium-java:9092/users
       - key: http.method
         value: POST
+      - key: url
+        value: {{ notEmpty .value }}
+      - key: http.status.code
+        value: "200"
       {{- end }}
     logs: []
   {{- end }}
