@@ -37,7 +37,7 @@
 #      - key: url
 #        value: {{ notEmpty .value }}
 #      - key: http.status.code
-#        value: "200"
+#        value: "2001"
 #      {{- end }}
 #    logs: []
 #  - traceid: {{ notEmpty .traceid }}
@@ -62,7 +62,7 @@
 #      - key: "http://provider:9090/artist"
 #        value: {{ notEmpty .value }}
 #      - key: http.status.code
-#        value: "200"
+#        value: "2002"
 #      {{- end }}
 #    logs: []
 #  - traceid: {{ notEmpty .traceid }}
@@ -93,7 +93,7 @@
 #      - key: url
 #        value: {{ notEmpty .value }}
 #      - key: http.status.code
-#        value: "200"
+#        value: "2003"
 #      {{- end }}
 #    logs: []
 #  {{- end }}
@@ -157,7 +157,7 @@ spans:
       - key: url
         value: http://medium-java:9092/users
       - key: status.code
-        value: "20000"
+        value: "20055"
       {{- end }}
     logs: []
   - traceid: {{ notEmpty .traceid }}
