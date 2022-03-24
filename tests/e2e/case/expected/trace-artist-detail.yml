@@ -157,7 +157,7 @@ spans:
       - key: url
         value: http://medium-java:9092/users
       - key: status.code
-        value: "200"
+        value: "20000"
       {{- end }}
     logs: []
   - traceid: {{ notEmpty .traceid }}
