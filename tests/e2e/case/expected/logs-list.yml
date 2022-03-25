@@ -14,7 +14,7 @@
 # limitations under the License.
 
 logs:
-  {{ - contains .logs }}
+  {{- contains .logs }}
   - servicename: e2e-service-provider
     serviceid: {{ b64enc "e2e-service-provider" }}.1
     serviceinstancename: provider1
@@ -26,13 +26,13 @@ logs:
     contenttype: TEXT
     content: {{ notEmpty .content }}
     tags:
-    {{ - contains .tags }}
+    {{- contains .tags }}
     - key: level
       value: WARNING
     - key: logger
       value: {{ notEmpty .value }}
     - key: thread
       value: {{ notEmpty .value }}
-    {{ - end }}
-  {{ - end }}
+    {{- end }}
+  {{- end }}
 total: {{ gt .total 0 }}

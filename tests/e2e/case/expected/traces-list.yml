@@ -14,16 +14,16 @@
 # limitations under the License.
 
 traces:
-  {{ - contains .traces }}
+  {{- contains .traces }}
   - segmentid: {{ notEmpty .segmentid }}
     endpointnames:
-    {{ - contains .endpointnames }}
+    {{- contains .endpointnames }}
     - /artist
-    {{ - end }}
+    {{- end }}
     duration: {{ ge .duration 0 }}
     start: "{{ notEmpty .start}}"
     iserror: false
     traceids:
       - {{ (index .traceids 0) }}
-  {{ - end }}
+  {{- end }}
 total: {{ gt .total 0 }}
