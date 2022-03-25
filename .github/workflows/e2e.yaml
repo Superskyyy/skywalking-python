@@ -17,11 +17,19 @@ name: E2E
 
 on:
   pull_request:
+    paths-ignore:
+      - "*.md"
+      - "*.txt"
+      - ".asf.yaml"
+      - ".dlc.json"
+      - ".licenserc.yaml"
+      - "docs/*"
+      - ".github/workflows/*"
   push:
     branches:
       - master
   schedule:
-    - cron '0 0 0 ? * FRI *' # every Friday at midnight
+    - cron: '0 18 * * *'
 
 concurrency:
   group: ci-e2e-${{ github.event.pull_request.number || github.ref }}

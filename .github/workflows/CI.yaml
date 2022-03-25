@@ -22,8 +22,17 @@ on:
     branches:
       - master
   pull_request:
+    paths-ignore:
+      - "*.md"
+      - "*.txt"
+      - ".asf.yaml"
+      - ".dlc.json"
+      - ".licenserc.yaml"
+      - "docs/*"
+      - ".github/workflows/*"
   schedule: #TODO: unpin minor lib versions and check weekly with automation
-    - cron '0 0 0 ? * FRI *' # every Friday at midnight
+    - cron: '0 18 * * *'
+
 concurrency:
   group: ci-it-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

@@ -22,7 +22,8 @@ on:
     branches:
       - master
   schedule:
-    - cron '0 0 0 ? * FRI *' # every Friday at midnight
+    - cron: '0 18 * * *'
+
 concurrency:
   group: dlc-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
