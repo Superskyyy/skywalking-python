@@ -22,7 +22,8 @@ services:
     extends:
       file: ../../base/docker-compose.base.yml
       service: oap
-
+    ports:
+      - "12800"
   provider:
     extends:
       file: ../../base/docker-compose.base.yml
