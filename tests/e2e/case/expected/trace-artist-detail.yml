@@ -14,11 +14,12 @@
 # limitations under the License.
 
 spans:
+{{- contains .spans }}
 - traceid: {{ notEmpty .traceid }}
   segmentid: {{ notEmpty .segmentid }}
   spanid: {{ .spanid }}
   parentspanid: {{ .parentspanid }}
-  refs: [ ]
+  refs: []
   servicecode: e2e-service-consumer
   serviceinstancename: consumer1
   starttime: {{ gt .starttime 0 }}
@@ -38,12 +39,12 @@ spans:
     - key: http.status.code
       value: "200"
     {{- end }}
-  logs: [ ]
+  logs: []
 - traceid: {{ notEmpty .traceid }}
   segmentid: {{ notEmpty .segmentid }}
   spanid: {{ .spanid }}
   parentspanid: {{ .parentspanid }}
-  refs: [ ]
+  refs: []
   servicecode: e2e-service-consumer
   serviceinstancename: consumer1
   starttime: {{ gt .starttime 0 }}
@@ -63,7 +64,7 @@ spans:
     - key: http.status.code
       value: "200"
     {{- end }}
-  logs: [ ]
+  logs: []
 - traceid: {{ notEmpty .traceid }}
   segmentid: {{ notEmpty .segmentid }}
   spanid: {{ .spanid }}
@@ -86,6 +87,7 @@ spans:
   iserror: false
   layer: Http
   tags:
+    {{- contains .tags }}
     - key: http.method
       value: "POST"
     - key: http.url
@@ -94,4 +96,6 @@ spans:
     - key: http.status.code
       # Change OAP side e2e from status.code -> http.status.code
       value: "200"
-  logs: [ ]
+    {{- end }}
+  logs: []
+{{- end }}

@@ -18,7 +18,7 @@ traces:
   - segmentid: {{ notEmpty .segmentid }}
     endpointnames:
     {{- contains .endpointnames }}
-    - /artist
+      - /artist
     {{- end }}
     duration: {{ ge .duration 0 }}
     start: "{{ notEmpty .start}}"
