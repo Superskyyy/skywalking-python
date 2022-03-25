@@ -24,8 +24,7 @@ logs:
     traceid: {{ notEmpty .traceid }}
     timestamp: {{ gt .timestamp 0 }}
     contenttype: TEXT
-    content: |
-      {{ notEmpty .content }}
+    content: {{ notEmpty .content }}
     tags:
     {{- contains .tags }}
     - key: level
