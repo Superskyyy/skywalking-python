@@ -19,8 +19,6 @@ import logging
 
 from skywalking import config
 
-LOGGER_DEBUG_ENABLED = False
-
 
 def getLogger(name=None):  # noqa
     logger = logging.getLogger(name)
@@ -34,10 +32,9 @@ def getLogger(name=None):  # noqa
 
 
 logger = getLogger('skywalking')
+logger_debug_enabled = logger.isEnabledFor(logging.DEBUG)
 
 
 def init():
-    global LOGGER_DEBUG_ENABLED
     logging.addLevelName(logging.CRITICAL + 10, 'OFF')
     logger.setLevel(logging.getLevelName(config.logging_level))
-    LOGGER_DEBUG_ENABLED = logger.isEnabledFor(logging.DEBUG)
