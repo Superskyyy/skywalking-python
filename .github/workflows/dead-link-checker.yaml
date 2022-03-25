@@ -21,7 +21,8 @@ on:
   push:
     branches:
       - master
-
+  schedule:
+    - 0 0 0 ? * FRI *
 concurrency:
   group: dlc-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

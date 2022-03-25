@@ -56,7 +56,6 @@ def __heartbeat():
 
 def __report():
     wait = base = 0
-    print('report start')
     while not __finished.is_set():
         try:
             __protocol.report(__queue)  # is blocking actually, blocks for max config.QUEUE_TIMEOUT seconds
@@ -118,7 +117,6 @@ def __command_dispatch():
 def __init_threading():
     global __heartbeat_thread, __report_thread, __log_report_thread, __query_profile_thread, \
         __command_dispatch_thread, __send_profile_thread, __queue, __log_queue, __snapshot_queue, __finished
-    print('hello!')
     __queue = Queue(maxsize=config.max_buffer_size)
     __finished = Event()
     __heartbeat_thread = Thread(name='HeartbeatThread', target=__heartbeat, daemon=True)
@@ -242,7 +240,6 @@ def isfull():
 
 def archive(segment: 'Segment'):
     try:  # unlike checking __queue.full() then inserting, this is atomic
-        print('wtf?')
         __queue.put(segment, block=False)
     except Full:
         logger.warning('the queue is full, the segment will be abandoned')

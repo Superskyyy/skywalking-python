@@ -14,25 +14,25 @@
 # limitations under the License.
 
 logs:
-  {{- contains .logs }}
+  { { - contains .logs } }
   - servicename: e2e-service-provider
-    serviceid: {{ b64enc "e2e-service-provider" }}.1
+    serviceid: { { b64enc "e2e-service-provider" } }.1
     serviceinstancename: provider1
-    serviceinstanceid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "provider1" }}
+    serviceinstanceid: { { b64enc "e2e-service-provider" } }.1_{{ b64enc "provider1" }}
     endpointname: null
     endpointid: null
-    traceid: {{ notEmpty .traceid }}
-    timestamp: {{ gt .timestamp 0 }}
+    traceid: { { notEmpty .traceid } }
+    timestamp: { { gt .timestamp 0 } }
     contenttype: TEXT
-    content: {{ notEmpty .content }}
+    content: { { notEmpty .content } }
     tags:
-    {{- contains .tags }}
+    { { - contains .tags } }
     - key: level
       value: WARNING
     - key: logger
-      value: {{ notEmpty .value }}
+      value: { { notEmpty .value } }
     - key: thread
-      value: {{ notEmpty .value }}
-    {{- end }}
-  {{- end }}
-total: {{ gt .total 0 }}
+      value: { { notEmpty .value } }
+    { { - end } }
+  { { - end } }
+total: { { gt .total 0 } }

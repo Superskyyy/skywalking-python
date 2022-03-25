@@ -22,8 +22,8 @@ on:
     branches:
       - master
   pull_request:
-#  schedule: TODO: unpin minor lib versions and check weekly
-#    - 0 0 0 ? * FRI *
+  schedule: #TODO: unpin minor lib versions and check weekly with automation
+    - 0 0 0 ? * FRI *
 concurrency:
   group: ci-it-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -62,7 +62,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
         test-path: ${{fromJson(needs.prep-plugin-and-unit-tests.outputs.matrix)}}
       fail-fast: false
     env:
@@ -85,7 +85,7 @@ jobs:
   CheckStatus:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    needs: [plugin-and-unit-tests]
+    needs: [ plugin-and-unit-tests ]
     steps:
       - name: Nothing
         run: echo "Just to make the GitHub merge button green"

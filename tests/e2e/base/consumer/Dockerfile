@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Note: This image is a general purpose one containing multiple protocols
+# Note: Base image is a general purpose image containing multiple protocols
+# without non-intrusive entrypoint.
 FROM skywalking/skywalking-python-agent:3.7-latest
 
 VOLUME /services

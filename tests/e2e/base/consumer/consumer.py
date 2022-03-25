@@ -14,29 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import logging
 
 import aiohttp
 import uvicorn
 from fastapi import FastAPI
 from fastapi import Request
 
-
-class SWFormatterMock(logging.Formatter):
-    def format(self, record):
-        result = super().format(record)
-        return 'e2e:\n' + result
-
-
-formatter = SWFormatterMock(logging.BASIC_FORMAT)
-
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-
-e2e_consumer_logger = logging.getLogger('__name__')
-e2e_consumer_logger.setLevel(logging.INFO)
-
-e2e_consumer_logger.addHandler(stream_handler)
 app = FastAPI()
 
 
@@ -45,16 +28,7 @@ app = FastAPI()
 async def application(request: Request):
     try:
         payload = await request.json()
-    except Exception as e:
-        print(e)
-        payload = {}
-    e2e_consumer_logger.info('Info! This is not reported!')
-
-    e2e_consumer_logger.warning('Warning! This is reported!')
-
-    try:
         async with aiohttp.ClientSession() as session:
-            # change to localhost to run locally
             async with session.post('http://provider:9090/artist', data=payload) as response:
                 return await response.json()
     except Exception as e:

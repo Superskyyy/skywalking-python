@@ -26,13 +26,13 @@ services:
     networks:
       - e2e
     restart: on-failure
-#    healthcheck:
-#      test: ["CMD", "sh", "-c", "nc -zn 127.0.0.1 11800"]
-#      interval: 5s
-#      timeout: 60s
-#      retries: 1
+    #    healthcheck:
+    #      test: ["CMD", "sh", "-c", "nc -zn 127.0.0.1 11800"]
+    #      interval: 5s
+    #      timeout: 60s
+    #      retries: 1
     healthcheck: # python base image has no nc?
-      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/11800"]
+      test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/11800" ]
       interval: 5s
       timeout: 60s
       retries: 120
@@ -53,7 +53,7 @@ services:
       # extends to 3 protocols
       # SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
     healthcheck: # python base image has no nc?
-      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090"]
+      test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
       interval: 5s
       timeout: 60s
       retries: 120
@@ -73,13 +73,13 @@ services:
       SW_AGENT_LOG_REPORTER_LEVEL: WARNING
       # extends to 3 protocols
       # SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
-#    healthcheck:
-#      test: [ "CMD", "sh", "-c", "nc -zn 127.0.0.1 9090"]
-#      interval: 5s
-#      timeout: 60s
-#      retries: 120
+    #    healthcheck:
+    #      test: [ "CMD", "sh", "-c", "nc -zn 127.0.0.1 9090"]
+    #      interval: 5s
+    #      timeout: 60s
+    #      retries: 120
     healthcheck: # python base image has no nc?
-      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090"]
+      test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
       interval: 5s
       timeout: 60s
       retries: 120

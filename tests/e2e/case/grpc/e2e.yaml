@@ -28,7 +28,7 @@ setup:
 
 cleanup:
   # change to success if debugging.
-  on: never # always for CI
+  on: always
 
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
@@ -49,37 +49,32 @@ verify:
     interval: 5s
   cases:
     # basic check: service list
-    # swctl --display yaml --base-url=http://localhost:12800/graphql service ls
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql service ls
       expected: ../expected/service.yml
     # basic check: service metrics
-    # swctl --display yaml --base-url=http://localhost:12800/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
       expected: ../expected/metrics-has-value.yml
     # basic check: service endpoint
-    # swctl --display yaml --base-url=http://localhost:12800/graphql endpoint list --keyword=artist --service-name=e2e-service-provider
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --service-name=e2e-service-provider
       expected: ../expected/service-endpoint.yml
     # basic check: service endpoint metrics
-    #swctl --display yaml --base-url=http://localhost:12800/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist --service-name=e2e-service-provider |yq e 'to_entries' -
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist --service-name=e2e-service-provider |yq e 'to_entries' -
       expected: ../expected/metrics-has-value.yml
 
     # service instance list
-    # swctl --display yaml --base-url=http://localhost:12800/graphql instance list --service-name=e2e-service-provider
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql instance list --service-name=e2e-service-provider
       expected: ../expected/service-instance.yml
 
     # TODO: Metric Collection Implementation is not merged https://github.com/apache/skywalking/issues/7084
     # service instance pvm metrics TODO: PVM Collection Implementation needed https://github.com/apache/skywalking/issues/5944
     # swctl --display yaml --base-url=http://localhost:12800/graphql metrics linear --name instance_jvm_thread_live_count --instance-name=provider1 --service-name=e2e-service-provider |yq e 'to_entries' -
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name instance_jvm_thread_live_count --instance-name=provider1 --service-name=e2e-service-provider |yq e 'to_entries' -
-#      expected: ../expected/metrics-has-value.yml
+    #    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name instance_jvm_thread_live_count --instance-name=provider1 --service-name=e2e-service-provider |yq e 'to_entries' -
+    #      expected: ../expected/metrics-has-value.yml
 
     # trace segment list
-    # swctl --display yaml --base-url=http://localhost:12800/graphql trace ls
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls
       expected: ../expected/traces-list.yml
+
     # trace detail
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
@@ -88,9 +83,9 @@ verify:
         )
       expected: ../expected/trace-artist-detail.yml
 
-    # event list TODO: Events Implementation needed
-#    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql event list --service-name=e2e-service-provider --instance-name=provider1
-#      expected: ../expected/event-list.yml
+    # event list TODO: Events Implementation needed - no tracking issues yet
+    #    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql event list --service-name=e2e-service-provider --instance-name=provider1
+    #      expected: ../expected/event-list.yml
 
     # logs list
     - query: |

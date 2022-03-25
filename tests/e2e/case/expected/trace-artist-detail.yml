@@ -14,41 +14,41 @@
 # limitations under the License.
 
 spans:
-{{- contains .spans }}
-- traceid: {{ notEmpty .traceid }}
-  segmentid: {{ notEmpty .segmentid }}
-  spanid: {{ .spanid }}
-  parentspanid: {{ .parentspanid }}
-  refs: []
+  { { - contains .spans } }
+- traceid: { { notEmpty .traceid } }
+  segmentid: { { notEmpty .segmentid } }
+  spanid: { { .spanid } }
+  parentspanid: { { .parentspanid } }
+  refs: [ ]
   servicecode: e2e-service-consumer
   serviceinstancename: consumer1
-  starttime: {{ gt .starttime 0 }}
-  endtime: {{ gt .endtime 0 }}
+  starttime: { { gt .starttime 0 } }
+  endtime: { { gt .endtime 0 } }
   endpointname: /artist
   type: Entry
-  peer: {{ notEmpty .peer }}
+  peer: { { notEmpty .peer } }
   component: FastAPI
   iserror: false
   layer: Http
   tags:
-    {{- contains .tags }}
+    { { - contains .tags } }
     - key: http.method
       value: POST
     - key: http.url
-      value: {{ notEmpty .value }}
+      value: { { notEmpty .value } }
     - key: http.status.code
       value: "200"
-    {{- end }}
-  logs: []
-- traceid: {{ notEmpty .traceid }}
-  segmentid: {{ notEmpty .segmentid }}
-  spanid: {{ .spanid }}
-  parentspanid: {{ .parentspanid }}
-  refs: []
+    { { - end } }
+  logs: [ ]
+- traceid: { { notEmpty .traceid } }
+  segmentid: { { notEmpty .segmentid } }
+  spanid: { { .spanid } }
+  parentspanid: { { .parentspanid } }
+  refs: [ ]
   servicecode: e2e-service-consumer
   serviceinstancename: consumer1
-  starttime: {{ gt .starttime 0 }}
-  endtime: {{ gt .endtime 0 }}
+  starttime: { { gt .starttime 0 } }
+  endtime: { { gt .endtime 0 } }
   endpointname: /artist
   type: Exit
   peer: provider:9090
@@ -56,38 +56,38 @@ spans:
   iserror: false
   layer: Http
   tags:
-    {{- contains .tags }}
+    { { - contains .tags } }
     - key: http.method
       value: POST
     - key: http.url
       value: http://provider:9090/artist
     - key: http.status.code
       value: "200"
-    {{- end }}
-  logs: []
-- traceid: {{ notEmpty .traceid }}
-  segmentid: {{ notEmpty .segmentid }}
-  spanid: {{ .spanid }}
-  parentspanid: {{ .parentspanid }}
+    { { - end } }
+  logs: [ ]
+- traceid: { { notEmpty .traceid } }
+  segmentid: { { notEmpty .segmentid } }
+  spanid: { { .spanid } }
+  parentspanid: { { .parentspanid } }
   refs:
-    {{- contains .refs }}
-    - traceid: {{ notEmpty .traceid }}
-      parentsegmentid: {{ .parentsegmentid }}
-      parentspanid: {{ .parentspanid }}
+    { { - contains .refs } }
+    - traceid: { { notEmpty .traceid } }
+      parentsegmentid: { { .parentsegmentid } }
+      parentspanid: { { .parentspanid } }
       type: CROSS_PROCESS
-    {{- end }}
+    { { - end } }
   servicecode: e2e-service-provider
   serviceinstancename: provider1
-  starttime: {{ gt .starttime 0 }}
-  endtime: {{ gt .endtime 0 }}
+  starttime: { { gt .starttime 0 } }
+  endtime: { { gt .endtime 0 } }
   endpointname: /artist
   type: Entry
-  peer: {{ notEmpty .peer }}
+  peer: { { notEmpty .peer } }
   component: FastAPI
   iserror: false
   layer: Http
   tags:
-    {{- contains .tags }}
+    { { - contains .tags } }
     - key: http.method
       value: "POST"
     - key: http.url
@@ -96,6 +96,6 @@ spans:
     - key: http.status.code
       # Change OAP side e2e from status.code -> http.status.code
       value: "200"
-    {{- end }}
-  logs: []
-{{- end }}
+    { { - end } }
+  logs: [ ]
+  { { - end } }

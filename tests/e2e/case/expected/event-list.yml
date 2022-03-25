@@ -14,8 +14,8 @@
 # limitations under the License.
 
 events:
-{{- contains .events }}
-- uuid: {{ notEmpty .uuid }}
+  { { - contains .events } }
+- uuid: { { notEmpty .uuid } }
   source:
     service: e2e-service-provider
     serviceinstance: provider1
@@ -24,11 +24,11 @@ events:
   type: Normal
   message: Start Java Application
   parameters:
-  {{- contains .parameters }}
-    - key: OPTS
-      value: {{ notEmpty .value }}
-  {{- end }}
-  starttime: {{ gt .starttime 0 }}
-  endtime: {{ gt .endtime 0 }}
-{{- end }}
-total: {{ gt .total 0 }}
+  { { - contains .parameters } }
+  - key: OPTS
+    value: { { notEmpty .value } }
+  { { - end } }
+  starttime: { { gt .starttime 0 } }
+  endtime: { { gt .endtime 0 } }
+  { { - end } }
+total: { { gt .total 0 } }
