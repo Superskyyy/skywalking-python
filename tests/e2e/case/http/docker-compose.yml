@@ -34,7 +34,6 @@ services:
     environment: # HTTP endpoint
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
       SW_AGENT_PROTOCOL: http
-      #SW_AGENT_PROFILE_ACTIVE: 'False'
     depends_on:
       oap:
         condition: service_healthy
@@ -46,7 +45,6 @@ services:
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
       SW_AGENT_PROTOCOL: http
-      #SW_AGENT_PROFILE_ACTIVE: 'False'
     ports:
       - "9090"
     depends_on:
