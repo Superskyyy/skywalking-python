@@ -23,7 +23,7 @@ on:
       - master
   pull_request:
   schedule: #TODO: unpin minor lib versions and check weekly with automation
-    - 0 0 0 ? * FRI *
+    - cron '0 0 0 ? * FRI *' # every Friday at midnight
 concurrency:
   group: ci-it-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

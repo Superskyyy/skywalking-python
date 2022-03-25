@@ -21,7 +21,7 @@ on:
     branches:
       - master
   schedule:
-    - 0 0 0 ? * FRI *
+    - cron '0 0 0 ? * FRI *' # every Friday at midnight
 
 concurrency:
   group: ci-e2e-${{ github.event.pull_request.number || github.ref }}
