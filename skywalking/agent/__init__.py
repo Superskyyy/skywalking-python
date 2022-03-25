@@ -56,6 +56,7 @@ def __heartbeat():
 
 def __report():
     wait = base = 0
+
     while not __finished.is_set():
         try:
             __protocol.report(__queue)  # is blocking actually, blocks for max config.QUEUE_TIMEOUT seconds
