@@ -17,6 +17,7 @@
 
 """
 This module contains the Provider part of the e2e tests.
+consumer (FastAPI) -> consumer (AIOHTTP) -> provider (FastAPI + logging_with_exception)
 We also cover the usage of logging interception in this module.
 """
 import io
@@ -54,31 +55,28 @@ class E2EProviderFormatter(logging.Formatter):
 
 
 formatter = E2EProviderFormatter(logging.BASIC_FORMAT)
-
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 
-app = FastAPI()
-
 e2e_provider_logger = logging.getLogger('__name__')
 e2e_provider_logger.setLevel(logging.INFO)
-
 e2e_provider_logger.addHandler(stream_handler)
+
+app = FastAPI()
 
 
 @app.get('/artist')
 @app.post('/artist')
 async def application():
     time.sleep(random.random())
-    # set agent threshold to surpass the warning log which is 10 and the debug log which is 5
     e2e_provider_logger.warning('E2E Provider Warning, this is reported!')
     # shouldn't be reported according to agent setting
-    e2e_provider_logger.debug('Casual Debug...not reported.')
+    e2e_provider_logger.debug('E2E Provider Debug, this is not reported!')
 
-    # try:
-    #     raise Exception('This is an exception!')
-    # except Exception:  # noqa
-    #     e2e_provider_logger.exception('E2E Provider Exception, this is reported!')
+    try:
+        raise Exception('E2E Provider Exception Text!')
+    except Exception:  # noqa
+        e2e_provider_logger.exception('E2E Provider Exception, this is reported!')
 
     return {'artist': 'Luis Fonsi'}
 

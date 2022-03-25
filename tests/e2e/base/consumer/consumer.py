@@ -15,6 +15,10 @@
 # limitations under the License.
 #
 
+"""
+This module contains the Consumer part of the e2e tests.
+consumer (FastAPI) -> consumer (AIOHTTP) -> provider (FastAPI + logging_with_exception)
+"""
 import aiohttp
 import uvicorn
 from fastapi import FastAPI
@@ -31,8 +35,7 @@ async def application(request: Request):
         async with aiohttp.ClientSession() as session:
             async with session.post('http://provider:9090/artist', data=payload) as response:
                 return await response.json()
-    except Exception as e:
-        print(e)
+    except Exception:  # noqa
         return {'message': 'Error'}
 
 
