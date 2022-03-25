@@ -18,6 +18,7 @@ FROM skywalking/skywalking-python-agent:3.7-latest
 VOLUME /services
 COPY provider.py /services/
 RUN pip install fastapi uvicorn
+RUN pip install kafka-python
 
 # Execute the provider.py with agent attached
 CMD ["sw-python", "run", "python3", "/services/provider.py"]

@@ -19,6 +19,7 @@ FROM skywalking/skywalking-python-agent:3.7-latest
 VOLUME /services
 COPY consumer.py /services/
 RUN pip install fastapi uvicorn aiohttp
+RUN pip install kafka-python
 
 # Execute the consumer.py with agent attached
 CMD ["sw-python", "run", "python3", "/services/consumer.py"]
