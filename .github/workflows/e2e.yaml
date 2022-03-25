@@ -49,17 +49,18 @@ jobs:
             path: tests/e2e/case/http/e2e.yaml
           - name: Kafka
             path: tests/e2e/case/kafka/e2e.yaml
+      fail-fast: false
     steps:
       - name: Checkout source codes
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      - name: Set up dependencies
-        run: make setup install
+#      - name: Set up Python 3.7
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.7
+#      - name: Set up dependencies
+#        run: make setup install
       - name: Build SkyWalking Python agent base image
         run: docker build --build-arg SW_PYTHON_VERSION -t skywalking/skywalking-python-agent:3.7-latest .
         env:
