@@ -24,7 +24,7 @@ logs:
     traceid: {{ notEmpty .traceid }}
     timestamp: {{ gt .timestamp 0 }}
     contenttype: TEXT
-    content: {{ notEmpty .content }}
+    content: {{ regexp .content "(?s).+E2E Provider Warning.+"}}
     tags:
     {{- contains .tags }}
     - key: level
@@ -34,5 +34,24 @@ logs:
     - key: thread
       value: {{ notEmpty .value }}
     {{- end }}
+  - servicename: e2e-service-provider
+    serviceid: { { b64enc "e2e-service-provider" } }.1
+    serviceinstancename: provider1
+    serviceinstanceid: { { b64enc "e2e-service-provider" } }.1_{{ b64enc "provider1" }}
+    endpointname: null
+    endpointid: null
+    traceid: { { notEmpty .traceid } }
+    timestamp: { { gt .timestamp 0 } }
+    contenttype: TEXT
+    content: { { regexp .content "(?s).+E2E Provider Exception.+Traceback(most recent call last).+" } }
+    tags:
+    { { - contains .tags } }
+    - key: level
+      value: ERROR
+    - key: logger
+      value: { { notEmpty .value } }
+    - key: thread
+      value: { { notEmpty .value } }
+    { { - end } }
   {{- end }}
-total: {{ gt .total 0 }}
+total: 2
