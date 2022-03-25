@@ -45,7 +45,7 @@ logs:
     contenttype: TEXT
     content: {{ regexp .content "(?s).+E2E Provider Exception.+Traceback(most recent call last).+" }}
     tags:
-    {{ - contains .tags }}
+    {{- contains .tags }}
     - key: level
       value: ERROR
     - key: logger
