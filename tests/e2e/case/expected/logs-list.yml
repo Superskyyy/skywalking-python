@@ -52,6 +52,6 @@ logs:
       value: {{ notEmpty .value }}
     - key: thread
       value: {{ notEmpty .value }}
-    {{  - end }}
+    {{- end }}
   {{- end }}
 total: 2
