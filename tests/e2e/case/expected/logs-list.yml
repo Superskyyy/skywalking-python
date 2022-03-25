@@ -29,7 +29,7 @@ logs:
     tags:
     {{- contains .tags }}
     - key: level
-      value: INFO
+      value: WARNING
     - key: logger
       value: {{ notEmpty .value }}
     - key: thread
