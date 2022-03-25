@@ -23,4 +23,5 @@ ARG SW_PYTHON_AGENT_VERSION
 
 RUN pip install --no-cache-dir "apache-skywalking[${SW_PYTHON_AGENT_PROTOCOL}]==${SW_PYTHON_AGENT_VERSION}"
 
+# So that the agent can be auto-started when container is started
 ENTRYPOINT ["sw-python", "run"]
