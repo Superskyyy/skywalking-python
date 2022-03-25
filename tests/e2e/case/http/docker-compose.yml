@@ -31,8 +31,8 @@ services:
       service: provider
     ports:
       - "9090"
-    environment:
-      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
+    environment: # HTTP endpoint
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
     depends_on:
       oap:
         condition: service_healthy
@@ -42,8 +42,7 @@ services:
       file: ../../base/docker-compose.base.yml
       service: consumer
     environment:
-      PROVIDER_URL: http://provider:9090 # remove this
-      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
     ports:
       - "9090"
     depends_on:

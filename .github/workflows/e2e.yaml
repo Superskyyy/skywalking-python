@@ -36,10 +36,10 @@ jobs:
         case:
           - name: gRPC
             path: tests/e2e/case/grpc/e2e.yaml
-#          - name: HTTP
-#            path: tests/e2e/case/http/e2e.yaml
-#          - name: Kafka
-#            path: tests/e2e/case/kafka/e2e.yaml
+          - name: HTTP
+            path: tests/e2e/case/http/e2e.yaml
+          - name: Kafka
+            path: tests/e2e/case/kafka/e2e.yaml
     steps:
       - name: Checkout source codes
         uses: actions/checkout@v2

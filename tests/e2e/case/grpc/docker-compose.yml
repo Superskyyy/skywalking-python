@@ -42,7 +42,6 @@ services:
       file: ../../base/docker-compose.base.yml
       service: consumer
     environment:
-      PROVIDER_URL: http://provider:9090 # remove this
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
     ports:
       - "9090"
