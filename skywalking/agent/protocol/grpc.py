@@ -27,7 +27,7 @@ from skywalking.agent import Protocol
 from skywalking.agent.protocol.interceptors import header_adder_interceptor
 from skywalking.client.grpc import GrpcServiceManagementClient, GrpcTraceSegmentReportService, \
     GrpcProfileTaskChannelService, GrpcLogDataReportService
-from skywalking.loggings import logger, LOGGER_DEBUG_ENABLED
+from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile.profile_task import ProfileTask
 from skywalking.profile.snapshot import TracingThreadSnapshot
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
@@ -59,12 +59,12 @@ class GrpcProtocol(Protocol):
         self.log_reporter = GrpcLogDataReportService(self.channel)
 
     def _cb(self, state):
-        if LOGGER_DEBUG_ENABLED:
+        if logger_debug_enabled:
             logger.debug('grpc channel connectivity changed, [%s -> %s]', self.state, state)
         self.state = state
 
     def query_profile_commands(self):
-        if LOGGER_DEBUG_ENABLED:
+        if logger_debug_enabled:
             logger.debug('query profile commands')
         self.profile_channel.do_query()
 
@@ -108,7 +108,7 @@ class GrpcProtocol(Protocol):
                     return
 
                 queue.task_done()
-                if LOGGER_DEBUG_ENABLED:
+                if logger_debug_enabled:
                     logger.debug('reporting segment %s', segment)
 
                 s = SegmentObject(
@@ -177,7 +177,7 @@ class GrpcProtocol(Protocol):
 
                 queue.task_done()
 
-                if LOGGER_DEBUG_ENABLED:
+                if logger_debug_enabled:
                     logger.debug('Reporting Log')
 
                 yield log_data

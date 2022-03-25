@@ -21,7 +21,7 @@ from skywalking import config
 from skywalking.client import ServiceManagementClient, TraceSegmentReportService, ProfileTaskChannelService, \
     LogDataReportService
 from skywalking.command import command_service
-from skywalking.loggings import logger, LOGGER_DEBUG_ENABLED
+from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile import profile_task_execution_service
 from skywalking.profile.profile_task import ProfileTask
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
@@ -46,7 +46,7 @@ class GrpcServiceManagementClient(ServiceManagementClient):
         ))
 
     def send_heart_beat(self):
-        if LOGGER_DEBUG_ENABLED:
+        if logger_debug_enabled:
             logger.debug(
                 'service heart beats, [%s], [%s]',
                 config.service_name,

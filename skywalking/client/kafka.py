@@ -22,7 +22,7 @@ from kafka import KafkaProducer
 
 from skywalking import config
 from skywalking.client import ServiceManagementClient, TraceSegmentReportService, LogDataReportService
-from skywalking.loggings import logger, LOGGER_DEBUG_ENABLED
+from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
 from skywalking.protocol.management.Management_pb2 import InstancePingPkg, InstanceProperties
 
@@ -57,7 +57,7 @@ __init_kafka_configs()
 
 class KafkaServiceManagementClient(ServiceManagementClient):
     def __init__(self):
-        if LOGGER_DEBUG_ENABLED:
+        if logger_debug_enabled:
             logger.debug('kafka reporter configs: %s', kafka_configs)
         self.producer = KafkaProducer(**kafka_configs)
         self.topic_key_register = 'register-'
@@ -77,7 +77,7 @@ class KafkaServiceManagementClient(ServiceManagementClient):
         self.producer.send(topic=self.topic, key=key, value=value)
 
     def send_heart_beat(self):
-        if LOGGER_DEBUG_ENABLED:
+        if logger_debug_enabled:
             logger.debug(
                 'service heart beats, [%s], [%s]',
                 config.service_name,
@@ -93,7 +93,7 @@ class KafkaServiceManagementClient(ServiceManagementClient):
         value = bytes(instance_ping_pkg.SerializeToString())
         future = self.producer.send(topic=self.topic, key=key, value=value)
         res = future.get(timeout=10)
-        if LOGGER_DEBUG_ENABLED:
+        if logger_debug_enabled:
             logger.debug('heartbeat response: %s', res)
 
 
