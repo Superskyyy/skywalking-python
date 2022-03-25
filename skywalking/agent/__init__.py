@@ -118,6 +118,7 @@ def __command_dispatch():
 def __init_threading():
     global __heartbeat_thread, __report_thread, __log_report_thread, __query_profile_thread, \
         __command_dispatch_thread, __send_profile_thread, __queue, __log_queue, __snapshot_queue, __finished
+
     __queue = Queue(maxsize=config.max_buffer_size)
     __finished = Event()
     __heartbeat_thread = Thread(name='HeartbeatThread', target=__heartbeat, daemon=True)
