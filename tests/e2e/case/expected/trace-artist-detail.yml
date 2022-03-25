@@ -89,7 +89,7 @@ spans:
   tags:
     {{- contains .tags }}
     - key: http.method
-      value: "POST"
+      value: POST
     - key: http.url
       # Change OAP side e2e from url -> http.url # why is oap e2e passing?? todo check with custom e2e build
       value: http://provider:9090/artist
