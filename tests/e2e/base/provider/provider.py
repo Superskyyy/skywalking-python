@@ -75,10 +75,10 @@ async def application():
     # shouldn't be reported according to agent setting
     e2e_provider_logger.debug('Casual Debug...not reported.')
 
-    try:
-        raise Exception('This is an exception!')
-    except Exception:  # noqa
-        e2e_provider_logger.exception('E2E Provider Exception, this is reported!')
+    # try:
+    #     raise Exception('This is an exception!')
+    # except Exception:  # noqa
+    #     e2e_provider_logger.exception('E2E Provider Exception, this is reported!')
 
     return {'artist': 'Luis Fonsi'}
 
