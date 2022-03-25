@@ -43,7 +43,7 @@ class E2EProviderFormatter(logging.Formatter):
     def formatException(self, ei):  # noqa
         """
         Mock user defined formatter which limits the traceback depth
-        to None -> meaning it will not print trackback at all.
+        to None -> meaning it will not involve trackback at all.
         but the agent should still be able to capture the traceback
         at default level of 5 by ignoring the cache.
         """
@@ -72,10 +72,12 @@ app = FastAPI()
 @app.post('/artist')
 async def application():
     time.sleep(random.random())
+    # Warning is reported
     e2e_provider_logger.warning('E2E Provider Warning, this is reported!')
-    # shouldn't be reported according to agent setting
+    # Debug is not reported according to default agent setting
     e2e_provider_logger.debug('E2E Provider Debug, this is not reported!')
 
+    # Exception is reported with trackback depth of 5 (default)
     try:
         raise Exception('E2E Provider Exception Text!')
     except Exception:  # noqa
