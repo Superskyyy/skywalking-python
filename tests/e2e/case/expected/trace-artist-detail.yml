@@ -20,8 +20,8 @@ spans:
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
     refs: []
-    servicecode: "e2e-service-consumer"
-    serviceinstancename: "consumer1"
+    servicecode: e2e-service-consumer
+    serviceinstancename: consumer1
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
     endpointname: /artist
@@ -34,7 +34,7 @@ spans:
       {{- contains .tags }}
       - key: http.method
         value: POST
-      - key: url
+      - key: http.url
         value: {{ notEmpty .value }}
       - key: http.status.code
         value: "200"
@@ -45,13 +45,13 @@ spans:
     spanid: {{ .spanid }}
     parentspanid: {{ .parentspanid }}
     refs: []
-    servicecode: "e2e-service-consumer"
-    serviceinstancename: "consumer1"
+    servicecode: e2e-service-consumer
+    serviceinstancename: consumer1
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
     endpointname: /artist
     type: Exit
-    peer: ""
+    peer: provider:9090
     component: AioHTTP
     iserror: false
     layer: Http
@@ -59,8 +59,8 @@ spans:
       {{- contains .tags }}
       - key: http.method
         value: POST
-      - key: "http://provider:9090/artist"
-        value: {{ notEmpty .value }}
+      - key: http.url
+        value: http://provider:9090/artist
       - key: http.status.code
         value: "200"
       {{- end }}
@@ -76,8 +76,8 @@ spans:
         parentspanid: {{ .parentspanid }}
         type: CROSS_PROCESS
       {{- end }}
-    servicecode: "e2e-service-provider"
-    serviceinstancename: "provider1"
+    servicecode: e2e-service-provider
+    serviceinstancename: provider1
     starttime: {{ gt .starttime 0 }}
     endtime: {{ gt .endtime 0 }}
     endpointname: /artist
@@ -90,8 +90,8 @@ spans:
       {{- contains .tags }}
       - key: http.method
         value: "POST"
-      - key: http.url  # Change OAP side e2e from url -> http.url #
-        value: {{ notEmpty .value }}
+      - key: http.url  # Change OAP side e2e from url -> http.url # why is oap e2e passing?? todo check with custom e2e build
+        value: http://provider:9090/artist
       - key: http.status.code # Change OAP side e2e from status.code -> http.status.code
         value: "200"
       {{- end }}
