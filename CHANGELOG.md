@@ -18,6 +18,7 @@
   - Fix local log stack depth overridden by agent log formatter (#192)
   - Fix typo that cause user sitecustomize.py not loaded (#193)
   - Fix multiple components inconsistently named on SkyWalking UI (#TBD)
+  - Fix SW_AGENT_LOGGING_LEVEL not properly set during startup (#TBD)
 - Docs:
   - Add a FAQ doc on `how to use with uwsgi` (#188)
 - Others:
