@@ -21,7 +21,7 @@ traces:
       - /artist
     {{- end }}
     duration: {{ ge .duration 0 }}
-    start: "{{ notEmpty .start}}"
+    start: {{ notEmpty .start}}
     iserror: false
     traceids:
       - {{ (index .traceids 0) }}
