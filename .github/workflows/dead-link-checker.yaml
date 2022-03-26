@@ -18,6 +18,11 @@ name: Dead Link Checker
 
 on:
   pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 18 * * *'
 
 concurrency:
   group: dlc-${{ github.event.pull_request.number || github.ref }}
