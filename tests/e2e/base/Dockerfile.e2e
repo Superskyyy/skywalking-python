@@ -22,7 +22,7 @@ VOLUME /services
 
 COPY consumer.py provider.py /services/
 
-RUN make setup install
+RUN make -C ../../.. setup install
 
 RUN pip install requests kafka-python
 # Extra dependencies for e2e services
