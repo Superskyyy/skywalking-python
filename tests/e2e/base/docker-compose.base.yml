@@ -31,10 +31,10 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
+
+
   provider:
-    build:
-      context: provider
-    image: skywalking-agent:e2e-provider
+    image: skywalking-agent:latest-e2e
     expose:
       - 9090
     networks:
@@ -50,10 +50,11 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
+    command: [ "python", "provider/provider.py" ]
+
+
   consumer:
-    build:
-      context: consumer
-    image: skywalking-agent:e2e-consumer
+    image: skywalking-agent:latest-e2e
     expose:
       - 9090
     networks:
@@ -69,5 +70,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
+    command: [ "python", "provider/provider.py" ]
+
 networks:
   e2e:

@@ -75,7 +75,7 @@ jobs:
         test-path: ${{fromJson(needs.prep-plugin-and-unit-tests.outputs.matrix)}}
       fail-fast: false
     env:
-      SW_PYTHON_VERSION: ${{ matrix.python-version }}
+      BASE_PYTHON_VERSION: ${{ matrix.python-version }}
     steps:
       - name: Checkout source codes
         uses: actions/checkout@v2

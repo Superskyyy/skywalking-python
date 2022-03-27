@@ -36,6 +36,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  Docker:
+    name: Construct agent image
+    runs-on: ubuntu-latest
+    time-out: 10
+    steps:
+      - name: Checkout source codes
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Build SkyWalking Python agent base image
+        run: | 
+          docker build --build-arg BASE_PYTHON_VERSION -t apache/skywalking-python-agent:latest-e2e --no-cache -f tests/e2e/Dockerfile.e2e
+          docker save -o docker-images-skywalking-python.tar apache/skywalking-python-agent:latest-e2e
+        env:
+          BASE_PYTHON_VERSION: 3.7
+      - name: Upload docker image
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-images-skywalking-python
+          path: docker-images-skywalking-python.tar
   E2E:
     name: Basic function + ${{ matrix.case.name }} transport (Python3.7)
     runs-on: ubuntu-latest
@@ -55,10 +75,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Build SkyWalking Python agent base image
-        run: docker build --build-arg SW_PYTHON_VERSION -t skywalking/skywalking-python-agent:3.7-latest .
-        env:
-          SW_PYTHON_VERSION: 3.7
+      - name: Pull SkyWalking Python agent base image
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-images-skywalking-python
+          path: docker-images
+      - name: Load docker images
+        run: find docker-images -name "*.tar" -exec docker load -i {} \;
       - name: Setup go
         uses: actions/setup-go@v2
         with:

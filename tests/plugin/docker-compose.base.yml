@@ -33,9 +33,9 @@ services:
 
   agent:
     build:
-      context: ../..
+      context: .
       args:
-        - SW_PYTHON_VERSION=${SW_PYTHON_VERSION:-latest}
+        - BASE_PYTHON_VERSION=${BASE_PYTHON_VERSION:-latest}
     image: skywalking-agent:ci
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: collector:19876

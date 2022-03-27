@@ -13,12 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM skywalking/skywalking-python-agent:3.7-latest
+# Builds -> skywalking-agent:latest-e2e
+ARG BASE_PYTHON_VERSION
+
+FROM python:${BASE_PYTHON_VERSION}
 
 VOLUME /services
-COPY provider.py /services/
-RUN pip install fastapi uvicorn
-RUN pip install kafka-python
 
-# Execute the provider.py with agent attached
-CMD ["sw-python", "run", "python3", "/services/provider.py"]
+COPY consumer.py provider.py /services/
+
+RUN make setup install
+
+RUN pip install requests kafka-python
+# Extra dependencies for e2e services
+RUN pip install fastapi uvicorn
+
+# Entrypoint with agent attached
+Entrypoint ["sw-python", "run"]
