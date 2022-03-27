@@ -24,8 +24,8 @@ COPY tests/e2e/base/consumer/consumer.py /services/
 COPY tests/e2e/base/provider/provider.py /services/
 
 # Root of the project
-WORKDIR ../../..
-RUN make setup-test # install
+COPY . /skywalking-python/
+RUN cd /skywalking-python && make setup-test # install
 
 RUN pip install requests kafka-python
 # Extra dependencies for e2e services
