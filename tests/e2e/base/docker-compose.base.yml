@@ -34,7 +34,8 @@ services:
 
 
   provider:
-    image: skywalking-agent:latest-e2e
+    # Previously built in CI
+    image: apache/skywalking-python-agent:latest-e2e
     expose:
       - 9090
     networks:
@@ -54,7 +55,7 @@ services:
 
 
   consumer:
-    image: skywalking-agent:latest-e2e
+    image: apache/skywalking-python-agent:latest-e2e
     expose:
       - 9090
     networks:

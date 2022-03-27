@@ -23,4 +23,4 @@ WORKDIR /agent
 
 ADD $ROOT /agent
 
-RUN make -C ../.. setup-test install
+RUN make setup-test install

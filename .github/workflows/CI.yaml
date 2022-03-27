@@ -81,12 +81,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Set up dependencies
-        run: make setup install
+#      - name: Set up Python ${{ matrix.python-version }}
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - name: Set up dependencies
+#        run: make setup install
       - name: Run unit tests
         run: |
           make test-parallel-setup
