@@ -20,7 +20,7 @@ FROM python:${BASE_PYTHON_VERSION}
 
 VOLUME /services
 
-COPY consumer.py provider.py /services/
+COPY consumer/consumer.py provider/provider.py /services/
 
 RUN make -C ../../.. setup install
 
