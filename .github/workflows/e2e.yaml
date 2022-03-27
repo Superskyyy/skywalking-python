@@ -58,7 +58,7 @@ jobs:
           path: docker-images-skywalking-python.tar
   E2E:
     name: Basic function + ${{ matrix.case.name }} transport (Python3.7)
-    depends-on: Docker
+    needs: Docker
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
