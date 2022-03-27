@@ -23,4 +23,4 @@ WORKDIR /agent
 
 ADD $ROOT /agent
 
-RUN make setup-test install
+RUN cd /agent && make setup-test

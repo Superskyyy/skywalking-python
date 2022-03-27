@@ -32,11 +32,7 @@ services:
       retries: 120
 
   agent:
-    build:
-      context: .
-      args:
-        - BASE_PYTHON_VERSION=${BASE_PYTHON_VERSION:-latest}
-    image: skywalking-agent:ci
+    image: apache/skywalking-python-agent:latest-plugin
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: collector:19876
       SW_AGENT_LOGGING_LEVEL: DEBUG
