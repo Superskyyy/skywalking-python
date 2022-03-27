@@ -50,7 +50,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "python", "provider/provider.py" ]
+    command: [ "python", "/services/provider.py" ]
 
 
   consumer:
@@ -70,7 +70,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "python", "provider/provider.py" ]
+    command: [ "python", "/services/provider.py" ]
 
 networks:
   e2e:
