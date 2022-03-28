@@ -29,7 +29,7 @@ RUN cd /skywalking-python && make install
 
 RUN pip install requests kafka-python
 # Extra dependencies for e2e services
-RUN pip install fastapi uvicorn
+RUN pip install fastapi uvicorn aiohttp
 
 # Entrypoint with agent attached
 Entrypoint ["sw-python", "run"]

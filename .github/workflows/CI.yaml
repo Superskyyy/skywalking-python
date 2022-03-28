@@ -76,7 +76,7 @@ jobs:
     steps:
       - name: Build SkyWalking Python agent base plugin image
         run: | 
-          docker build --build-arg BASE_PYTHON_VERSION -t apache/skywalking-python-agent:latest-plugin --no-cache -f tests/plugin/Dockerfile.plugin .
+          docker build --build-arg BASE_PYTHON_VERSION -t apache/skywalking-python-agent:latest-plugin --no-cache . -f tests/plugin/Dockerfile.plugin
       - name: Upload docker image with specific python version
         uses: actions/upload-artifact@v3
         with:
