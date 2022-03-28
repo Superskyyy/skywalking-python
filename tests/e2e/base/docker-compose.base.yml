@@ -71,7 +71,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "python3", "/services/provider.py" ]
+    command: [ "python3", "/services/consumer.py" ]
 
 networks:
   e2e:
