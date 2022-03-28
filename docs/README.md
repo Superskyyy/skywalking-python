@@ -4,7 +4,7 @@
 
 The Python Agent for Apache SkyWalking provides the native tracing/logging abilities for Python projects.
 
-This documentation covers a number of ways to set up the Python agent for various use cases.
+This docum1213entation covers a number of ways to set up the Python agent for various use cases.
 
 [![GitHub stars](https://img.shields.io/github/stars/apache/skywalking-python.svg?style=for-the-badge&label=Stars&logo=github)](https://github.com/apache/skywalking-python)
 [![Twitter Follow](https://img.shields.io/twitter/follow/asfskywalking.svg?style=for-the-badge&label=Follow&logo=twitter)](https://twitter.com/AsfSkyWalking)
