@@ -64,9 +64,28 @@ jobs:
           echo "::set-output name=matrix::$(bash tests/gather_test_paths.sh)"
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
+      fail-fast: false
+    env:
+      BASE_PYTHON_VERSION: ${{ matrix.python-version }}
+    steps:
+      - name: Build SkyWalking Python agent base plugin image
+      run: | 
+        docker build --build-arg BASE_PYTHON_VERSION -t apache/skywalking-python-agent:latest-plugin --no-cache -f tests/plugin/Dockerfile.plugin .
+      - name: Upload docker image with specific python version
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-images-skywalking-python-plugin-${{ matrix.python-version }}
+          path: docker-images-skywalking-python-plugin-${{ matrix.python-version }}.tar
+
   plugin-and-unit-tests:
     name: Plugin and Unit Tests
-    needs: prep-plugin-and-unit-tests
+    needs: [ prep-plugin-and-unit-tests, docker ]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -81,9 +100,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Build SkyWalking Python agent base plugin image
-        run: | 
-          docker build --build-arg BASE_PYTHON_VERSION -t apache/skywalking-python-agent:latest-plugin --no-cache -f tests/plugin/Dockerfile.plugin .
+      - name: Pull SkyWalking Python agent base image
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-images-skywalking-python-plugin-${{ matrix.python-version }}
+          path: docker-images
+      - name: Load docker images
+        run: find docker-images -name "*.tar" -exec docker load -i {} \;
       - name: Run unit tests
         run: |
           make test-parallel-setup
