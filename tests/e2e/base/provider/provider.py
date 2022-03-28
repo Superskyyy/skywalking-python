@@ -72,17 +72,18 @@ app = FastAPI()
 @app.post('/artist')
 async def application():
     time.sleep(random.random())
+    # Exception is reported with trackback depth of 5 (default)
+    try:
+        raise Exception('E2E Provider Exception Text!')
+    except Exception:  # noqa
+        e2e_provider_logger.exception('E2E Provider Exception, this is reported!')
+    # FIXME - a temp workaround of a flaky test related to issue #8752
+    # Later arrived logs are at top of list, thus q
+    time.sleep(0.5)
     # Warning is reported
     e2e_provider_logger.warning('E2E Provider Warning, this is reported!')
     # Debug is not reported according to default agent setting
     e2e_provider_logger.debug('E2E Provider Debug, this is not reported!')
-
-    # Exception is reported with trackback depth of 5 (default)
-    try:
-        time.sleep(0.5)  # FIXME - a temp workaround of a flaky test related to issue #8752
-        raise Exception('E2E Provider Exception Text!')
-    except Exception:  # noqa
-        e2e_provider_logger.exception('E2E Provider Exception, this is reported!')
 
     return {'artist': 'Luis Fonsi'}
 
