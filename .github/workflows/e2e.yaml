@@ -42,7 +42,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout source codes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Build SkyWalking Python agent base e2e image
@@ -73,7 +73,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout source codes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Pull SkyWalking Python agent base image

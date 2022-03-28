@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source codes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Check License
@@ -57,7 +57,7 @@ jobs:
     needs: license-and-lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-matrix
         run: |
           sudo apt-get install jq
@@ -97,7 +97,7 @@ jobs:
       BASE_PYTHON_VERSION: ${{ matrix.python-version }}
     steps:
       - name: Checkout source codes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Pull SkyWalking Python agent base image
