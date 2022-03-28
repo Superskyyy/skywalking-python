@@ -79,7 +79,7 @@ async def application():
 
     # Exception is reported with trackback depth of 5 (default)
     try:
-        time.sleep(0.1)  # Workaround of a flaky test related to issue #8752
+        time.sleep(0.5)  # FIXME - a temp workaround of a flaky test related to issue #8752
         raise Exception('E2E Provider Exception Text!')
     except Exception:  # noqa
         e2e_provider_logger.exception('E2E Provider Exception, this is reported!')

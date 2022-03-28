@@ -49,7 +49,7 @@ jobs:
         run: | 
           docker build --build-arg BASE_PYTHON_VERSION -t apache/skywalking-python-agent:latest-e2e --no-cache . -f tests/e2e/base/Dockerfile.e2e
           docker save -o docker-images-skywalking-python-e2e.tar apache/skywalking-python-agent:latest-e2e
-        env:
+        env:  # may support pypy in the future
           BASE_PYTHON_VERSION: 3.7
       - name: Upload docker image
         uses: actions/upload-artifact@v3

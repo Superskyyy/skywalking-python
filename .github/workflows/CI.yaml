@@ -67,7 +67,7 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     strategy:
-      matrix:
+      matrix:  # may support pypy in the future
         python-version: [ "3.6", "3.7", "3.8", "3.9", "3.10" ]
       fail-fast: false
     env:
@@ -111,6 +111,11 @@ jobs:
           path: docker-images
       - name: Load docker images
         run: find docker-images -name "*.tar" -exec docker load -i {} \;
+      - name: Set up Python ${{ matrix.python-version }}
+        # This step is crucial for correct plugin matrix in test orchestration
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: Run unit tests
         run: |
           make test-parallel-setup
