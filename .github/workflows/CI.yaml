@@ -236,10 +236,11 @@ jobs:
       - name: Merge Requirement
         # check license, lint, plugin and e2e tests, then echo success to get exit 0
         run: |
-          passStatus=('success' 'skipped');
-          echo ${{ needs.license-and-lint.result }};
-          echo ${{ needs.plugin-and-unit-tests.result }};
-          echo ${{ needs.e2e-tests.result }};
-          [[ ${{ needs.license-and-lint.result }} != 'success' ]] && exit 2;
-          ! [[ " ${passStatus[@]} " =~ " ${{ needs.plugin-and-unit-tests.result }} " ]]  && exit 3;
-          ! [[ " ${passStatus[@]} " =~ " ${{ needs.e2e-tests.result }} " ]]  && exit 4 || echo 'success!';
+          execute=${{ needs.changes.outputs.agent }}
+          lintResults=${{ needs.license-and-lint.result }}
+          pluginResults=${{ needs.plugin-and-unit-tests.result }};
+          e2eResults=${{ needs.e2e-tests.result }};
+          [[ ${lintResults} == 'success' ]] || exit 2;
+          [[ ${pluginResults} == 'success' ]] || [[ ${execute} != 'true' && ${pluginResults} == 'skipped' ]] || exit 3;
+          [[ ${e2eResults} == 'success' ]] || [[ ${execute} != 'true' && ${e2eResults} == 'skipped' ]] || exit 4;
+          exit 0;
