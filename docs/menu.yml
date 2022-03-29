@@ -16,7 +16,7 @@
 
 
 catalog:
-  - name: "SkyWalking Python Overview"
+  - name: "SkyWalking Python Overview1"
     path: "/readme"
   - name: "Installation"
     path: "/en/setup/installation"
