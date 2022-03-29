@@ -244,4 +244,3 @@ jobs:
           ! [[ " ${passStatus[@]} " =~ " ${{ needs.plugin-and-unit-tests.result }} " ]]  && exit -1;
           echo "hello1"
           ! [[ " ${passStatus[@]} " =~ " ${{ needs.e2e-tests.result }} " ]]  && exit -1;
-          echo "hello2"
