@@ -239,4 +239,5 @@ jobs:
           echo ${{ needs.license-and-lint.result }};
           echo ${{ needs.plugin-and-unit-tests.result }};
           echo ${{ needs.e2e-tests.result }};
+          [[ ${{ needs.license-and-lint.result }} != 'success' ]] && echo '2';
           echo $?;
