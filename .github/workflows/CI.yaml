@@ -235,13 +235,10 @@ jobs:
     steps:
       - name: Merge Requirement
         run: |
+          passStatus=('success' 'skipped');
           echo ${{ needs.license-and-lint.result }};
           echo ${{ needs.plugin-and-unit-tests.result }};
           echo ${{ needs.e2e-tests.result }};
-          [[ ${{ needs.license-and-lint.result }} != 'success' ]] && exit -1;
-          passStatus=('success' 'skipped');
-          echo "hello0"
-          ! [[ " ${passStatus[@]} " =~ " ${{ needs.plugin-and-unit-tests.result }} " ]]  && exit -1;
-          echo "hello1"
-          ! [[ " ${passStatus[@]} " =~ " ${{ needs.e2e-tests.result }} " ]]  && exit -1;
-          exit 0;
+          [[ ${{ needs.license-and-lint.result }} != 'success' ]] && exit 1;
+          ! [[ " ${passStatus[@]} " =~ " ${{ needs.plugin-and-unit-tests.result }} " ]]  && exit 2;
+          ! [[ " ${passStatus[@]} " =~ " ${{ needs.e2e-tests.result }} " ]]  && exit 3;
