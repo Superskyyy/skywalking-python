@@ -38,5 +38,5 @@ jobs:
       - run: sudo npm install -g markdown-link-check
       - run: |
           for file in $(find . -name "*.md"); do
-            markdown-link-check -c .dlc.json -q -v "$file"
+            markdown-link-check -c .dlc.json -v "$file"
           done
