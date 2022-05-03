@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-import pathlib, abc
+import pathlib
 
 from setuptools import setup, find_packages
 
