@@ -118,7 +118,7 @@ jobs:
 
   docker-plugin:
     # build docker image for plugin tests, with matrix of Python versions
-    name: Construct Agent Plugin Test Images
+    name: Construct Plugin Test Images
     needs: [ license-and-lint, changes, plugin-doc-check, prep-plugin-and-unit-tests ]
     if: |
       always() &&
@@ -149,7 +149,7 @@ jobs:
   plugin-and-unit-tests:
     # Execute plugin tests with matrix of Python versions and matrix of cases
     # this step is only run after passing building images + prep matrix + changes
-    name: Execute Agent Plugin and Unit Tests
+    name: Execute Plugin and Unit Tests
     needs: [ license-and-lint, changes, plugin-doc-check, docker-plugin, prep-plugin-and-unit-tests ]
     if: |
       always() &&
@@ -187,7 +187,7 @@ jobs:
 
   docker-e2e:
     # build docker image for E2E tests, single Python version for now.
-    name: Construct Agent E2E Test Images
+    name: Construct E2E Test Images
     needs: [ license-and-lint, changes, plugin-doc-check ]
     if: |
       always() && 
@@ -218,7 +218,7 @@ jobs:
 
   e2e-tests:
     # execute E2E tests with SkyWalking-infra-e2e with a matrix of agent protocols
-    name: Basic function + ${{ matrix.case.name }} Transport (Python3.7)
+    name: E2E + ${{ matrix.case.name }} Transport (Python${{ matrix.case.python-image-variant }})
     needs: [ license-and-lint, changes, plugin-doc-check, docker-e2e ]
     if: |
       always() && 
@@ -253,7 +253,7 @@ jobs:
       - name: Load docker images
         run: find docker-images -name "*.tar" -exec docker load -i {} \;
       - name: Run E2E Tests
-        uses: apache/skywalking-infra-e2e@main
+        uses: superskyyy/skywalking-infra-e2e@main
         with:
           log-dir: /tmp/e2e-logs
           e2e-file: ${{ matrix.case.path }}
