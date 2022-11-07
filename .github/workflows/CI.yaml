@@ -65,6 +65,7 @@ jobs:
   changes:
     # Check if any file related to Agent/ CI behavior is changed
     # set outputs for other jobs to access for if conditions
+    name: Check Changes
     runs-on: ubuntu-latest
     needs: [ license-and-lint, plugin-doc-check ]
     # To prevent error when there's no base branch
@@ -100,7 +101,7 @@ jobs:
   # Only run the Plugin and E2E jobs if there are essential changes as stated above
   prep-plugin-and-unit-tests:
     # prep step for plugin and unit test
-    name: Prepare Plugin and UT Matrix
+    name: Build Plugin and UT Matrix
     needs: [ license-and-lint, changes, plugin-doc-check ]
     if: |
       always() && 
@@ -118,7 +119,7 @@ jobs:
 
   docker-plugin:
     # build docker image for plugin tests, with matrix of Python versions
-    name: Construct Plugin Test Images
+    name: Build Plugin Test Image
     needs: [ license-and-lint, changes, plugin-doc-check, prep-plugin-and-unit-tests ]
     if: |
       always() &&
@@ -149,7 +150,7 @@ jobs:
   plugin-and-unit-tests:
     # Execute plugin tests with matrix of Python versions and matrix of cases
     # this step is only run after passing building images + prep matrix + changes
-    name: Execute Plugin and Unit Tests
+    name: Plugin and Unit Tests
     needs: [ license-and-lint, changes, plugin-doc-check, docker-plugin, prep-plugin-and-unit-tests ]
     if: |
       always() &&
@@ -187,7 +188,7 @@ jobs:
 
   docker-e2e:
     # build docker image for E2E tests, single Python version for now.
-    name: Construct E2E Test Images
+    name: Build E2E Test Image
     needs: [ license-and-lint, changes, plugin-doc-check ]
     if: |
       always() && 
@@ -218,7 +219,7 @@ jobs:
 
   e2e-tests:
     # execute E2E tests with SkyWalking-infra-e2e with a matrix of agent protocols
-    name: E2E + ${{ matrix.case.name }} Transport (Python${{ matrix.case.python-image-variant }})
+    name: E2E
     needs: [ license-and-lint, changes, plugin-doc-check, docker-e2e ]
     if: |
       always() && 
