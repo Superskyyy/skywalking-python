@@ -37,12 +37,12 @@ endif
 .PHONY: gen
 gen:
 	poetry run python3 -m grpc_tools.protoc --version || poetry run pip install grpcio-tools
-	poetry run python3 tools/codegen.py
+	poetry run python3 tools/grpc_code_gen.py
 
 .PHONY: gen-basic
 gen-basic:
 	python3 -m grpc_tools.protoc --version || python3 -m pip install grpcio-tools
-	python3 tools/codegen.py
+	python3 tools/grpc_code_gen.py
 
 .PHONY: install
 install: gen-basic
@@ -68,7 +68,7 @@ fix:
 
 .PHONY: doc-gen
 doc-gen: gen
-	poetry run python3 tools/doc/plugin_doc_gen.py
+	poetry run python3 tools/plugin_doc_gen.py
 
 .PHONY: check-doc-gen
 check-doc-gen: doc-gen

@@ -17,14 +17,16 @@
 # under the License.
 #
 .idea/
+.fleet/
 *.iml
 .DS_Store
 *~
 **/*_pb2*
-__pycache__
+**/__pycache__
+**/.pytest_cache
 build/
 dist/
-*.pyc
+**/*.pyc
 /apache_skywalking.egg-info/
 **/.venv/
 tests/**/requirements.txt
