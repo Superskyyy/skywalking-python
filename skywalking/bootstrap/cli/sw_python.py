@@ -38,10 +38,6 @@ def start() -> None:
                                        'or refer to the CLI documentation',
                         choices=list(_options.keys()))
 
-    # TODO support parsing optional sw_config.yaml
-    # parser.add_argument('-config', nargs='?', type=argparse.FileType('r'),
-    #                     help='Optionally takes a sw_python.yaml config file')
-
     # The command arg compress all remaining args into itself
     parser.add_argument('command', help='Your original commands e.g. gunicorn app.wsgi',
                         nargs=argparse.REMAINDER, metavar='command')
@@ -69,7 +65,7 @@ def start() -> None:
 def dispatch(args: argparse.Namespace) -> None:
     """ Dispatches parsed args to a worker """
     cli_option, actual_command = args.option, args.command
-
+    print(f'CLI option {cli_option} received, actual command {actual_command}')
     cli_logger.debug(f"SkyWalking Python agent with CLI option '{cli_option}' and command {actual_command}")
 
     # Dispatch actual user application command to runner

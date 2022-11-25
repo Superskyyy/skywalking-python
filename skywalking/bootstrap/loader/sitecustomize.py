@@ -18,7 +18,8 @@
 """ This version of sitecustomize will
 1. initialize the SkyWalking Python Agent.
 2. invoke an existing sitecustomize.py.
-Not compatible with Python <= 3.3
+
+Requires Python 3.7+ (os.register_at_fork)
 
 When executing commands with `sw-python run command`
 This particular sitecustomize module will be picked up by any valid replacement
@@ -94,7 +95,8 @@ if os.environ.get('SW_PYTHON_BOOTSTRAP_PROPAGATE') == 'False':
         if loader_path in partitioned:  # check if we are already removed by a third-party
             partitioned.remove(loader_path)
             os.environ['PYTHONPATH'] = os.path.pathsep.join(partitioned)
-            _sw_loader_logger.debug('Removed loader from PYTHONPATH, spawned process will not have agent enabled')
+            _sw_loader_logger.debug('Removed loader from PYTHONPATH, spawned process by exec will not have agent '
+                                    'enabled')
 
 # Note that users could be misusing the CLI to call a Python program that
 # their Python env doesn't have SkyWalking installed. Or even call another
@@ -120,15 +122,21 @@ if not (version_match and prefix_match):
     _sw_loader_logger.error('The sw-python CLI was instructed to run a program '
                             'using an different Python installation '
                             'this is not safe and loader will not proceed. '
-                            'Please make sure that sw-python cli, skywalking agent and your '
-                            'application are using the same Python installation, '
-                            'Rerun with debug flag, `sw-python -d run yourapp` for some troubleshooting information.'
+                            'Please make sure that sw-python CLI, skywalking agent and your '
+                            'application are using the same Python executable, '
+                            'Rerun with debug flag, `sw-python -d run <your_command>` for '
+                            'some troubleshooting information.'
                             'use `which sw-python` to find out the invoked CLI location')
-    os._exit(1)  # do not go further
+    os._exit(1)  # noqa: do not go further
 
 else:
     from skywalking import agent, config
 
+    print(f'os pid {os.getpid()}, running sitecustomize.py from {__file__}')
+    # FIXME agent should and instance name should be reset after fork, but this is before fork
+    config.init(collector_address='localhost:12800', protocol='http', service_name='test-fastapi-service',
+                log_reporter_active=True, service_instance=f'test_instance-{os.getpid()} forkfork',
+                logging_level='CRITICAL')
     # also override debug for skywalking agent itself
     if os.environ.get('SW_PYTHON_CLI_DEBUG_ENABLED') == 'True':  # set from the original CLI runner
         config.logging_level = 'DEBUG'
@@ -144,6 +152,9 @@ else:
     # noinspection PyBroadException
     try:
         _sw_loader_logger.debug('SkyWalking Python Agent starting, loader finished.')
-        agent.start()
+        os.register_at_fork(after_in_child=agent.start)
+        #if not os.getenv('prefork'): # without --master
+        agent.start()  # not sure what happens when superisor+gunicorn is used? fixme will it even work?
+
     except Exception:
         _sw_loader_logger.exception('SkyWalking Python Agent failed to start, please inspect your package installation')

@@ -27,7 +27,7 @@ from skywalking.config import meter_reporter_peroid
 
 class MeterService(Thread):
     def __init__(self):
-        super().__init__(daemon=True)
+        super().__init__(name='MeterServiceThread', daemon=True)
         self.meter_map = {}
 
     def register(self, meter: BaseMeter):

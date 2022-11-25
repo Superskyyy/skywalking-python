@@ -34,8 +34,12 @@ class HttpProtocol(Protocol):
         self.log_reporter = HttpLogDataReportService()
 
     def fork_after_in_child(self):
+        # FIXME uwsgi won't trigger these unless we check pid is differnt from parent
+        print('fork after in child is called')
         self.service_management.fork_after_in_child()
         self.traces_reporter.fork_after_in_child()
+        self.log_reporter.fork_after_in_child()
+        # meter not supported yet
 
     def heartbeat(self):
         if not self.properties_sent:

@@ -181,7 +181,8 @@ class GrpcProtocol(Protocol):
                 queue.task_done()
 
                 if logger_debug_enabled:
-                    logger.debug('Reporting Log')
+                    print('haha')
+                    logger.critical('Reporting Log')
 
                 yield log_data
 

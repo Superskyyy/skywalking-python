@@ -23,6 +23,19 @@ Currently, the `sw-python` CLI provides a `run` option, which you can use to exe
 (either begins with the `python` command or Python-based programs like `gunicorn` on your path) 
 just like you invoke them normally, plus a prefix, the following example demonstrates the usage.
 
+**Important note**
+If you use Gunicorn (uWSGI is fine) but don't actually indicate `gunicorn` after `sw-python run` (via other scripts), 
+sw-python will not be notified and will start an agent in the master process, you can turn this behavior off by adding an
+`--fork-only` flag to the command. 
+WAIT WAIT FIXME, this maybe wrong, since env vars os.envrion is not kept to supervisor since it's not written in python
+ not passed through os.exec
+
+Servers like uWSGI own a large number of tunable options, we havn't tested all, if you find agent not working in some modes, feel free
+to start a issue and discuss it.
+```shell
+sw-python --fork-only run supervisord blabla
+```
+
 If your previous command to run your gunicorn application is:
 
 `gunicorn app.wsgi`
@@ -46,9 +59,9 @@ and will force exit with an error message indicating the reasoning.
 
 #### Disabling child processes from starting new agents
 
-Sometimes you don't actually need the agent to monitor anything in a child process.
+Sometimes you don't actually need the agent to monitor anything in a child process if they are created by os.exec calls.
 
-If you do not need the agent to get loaded for application child processes, you can turn off the behavior by setting an environment variable.
+You can turn off the behavior by setting the following environment variable to False.
 
 `SW_PYTHON_BOOTSTRAP_PROPAGATE` to `False`
 
@@ -64,9 +77,14 @@ You would normally want to provide additional configurations other than the defa
 The currently supported method is to provide the environment variables listed 
 and explained in the [Environment Variables List](EnvVars.md).
 
-#### Through a sw-config.yaml
+export your configuration by:
+```shell
+export SW_AGENT_COLLECTOR_BACKEND_SERVICES=localhost:11800
+```
+#### Through command line/configuration file
 
-Currently, only environment variable configuration is supported; an optional `yaml` configuration is to be implemented.
+Currently, only environment variable configuration is supported; After the 1.0.0 release we will introduce a new dependency
+to handle the parsing of command line and file-based configurations.
 
 ### Enabling CLI DEBUG mode
 
@@ -84,4 +102,3 @@ Please attach the debug logs to the [SkyWalking Issues](https://github.com/apach
 #### Known limitations
 
 1. The CLI may not work properly with arguments that involve double quotation marks in some shells.
-2. The CLI and bootstrapper stdout logs could get messy in Windows shells.

@@ -17,6 +17,7 @@
 
 import atexit
 import os
+import threading
 from queue import Queue, Full
 from threading import Thread, Event
 from typing import TYPE_CHECKING
@@ -72,12 +73,13 @@ def __report():
 
 def __report_log():
     wait = base = 0
-
     while not __finished.is_set():
         try:
+            print('trying to report log from pid %s' % os.getpid())
             __protocol.report_log(__log_queue)
             wait = base
         except Exception as exc:
+            print('wtf???', exc)
             logger.error(str(exc))
             wait = min(60, wait * 2 or 1)
 
@@ -209,6 +211,9 @@ def __fini():
         __protocol.send_snapshot(__snapshot_queue, False)
         __snapshot_queue.join()
 
+    if config.meter_reporter_active:
+        __protocol.report_meter(__meter_queue, False)
+        __meter_queue.join()
     __finished.set()
 
 
@@ -233,8 +238,10 @@ def __fork_after_in_child():
 
 def start():
     global __started
+    print(f'started?> {__started} at pid {os.getpid()}')
     if __started:
-        return
+        print(f'its already started!, we have threads {threading.enumerate()}')
+
     __started = True
 
     flag = False

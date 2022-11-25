@@ -15,24 +15,3 @@
 # limitations under the License.
 #
 
-""" This sub-package is for the convenience of deployment and automation
-A CLI for running Python scripts and programs with SkyWalking Python Agent automatically attached.
-`loader/sitecustomize.py` is invoked by the Python interpreter at startup.
-"""
-
-import logging
-
-
-def get_cli_logger():
-    """ A logger used by sw-python CLI """
-    logger = logging.getLogger('skywalking-cli')
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter(f'{"*"*10}\n%(name)s [%(levelname)s]:\n%(message)s\n{"*"*10}')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.propagate = False
-
-    return logger
-
-
-cli_logger = get_cli_logger()
