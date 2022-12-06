@@ -4,7 +4,7 @@
 
 **SkyWalking-Python**: The Python Agent for Apache SkyWalking provides the native tracing/metrics/logging abilities for Python projects.
 
-**[SkyWalking](https://github.com/apache/skywalking)**: Application performance monitor tool for distributed systems, especially designed for microservices, cloud native and container-based (Kubernetes) architectures.
+**[SkyWalking](https://github.com/apache/skywfalking)**: Application performance monitor tool for distributed systems, especially designed for microservices, cloud native and container-based (Kubernetes) architectures.
 
 
 [![GitHub stars](https://img.shields.io/github/stars/apache/skywalking-python.svg?style=for-the-badge&label=Stars&logo=github)](https://github.com/apache/skywalking-python)

@@ -153,8 +153,8 @@ else:
     try:
         _sw_loader_logger.debug('SkyWalking Python Agent starting, loader finished.')
         os.register_at_fork(after_in_child=agent.start)
-        # if not os.getenv('prefork'): without --master
-        agent.start()  # not sure what happens when superisor+gunicorn is used? fixme will it even work?
+        if not os.getenv('prefork'):  # without --master
+            agent.start()  # not sure what happens when superisor+gunicorn is used? fixme will it even work?
 
     except Exception:
         _sw_loader_logger.exception('SkyWalking Python Agent failed to start, please inspect your package installation')
