@@ -28,7 +28,7 @@ COPY . /skywalking-python/
 RUN cd /skywalking-python && apt-get update && apt-get install -y make && make install
 
 # Extra dependencies for e2e services
-sudo apt-get install gcc
+RUN sudo apt-get install gcc
 RUN pip install fastapi uvicorn aiohttp flask gunicorn uwsgi
 
 # Entrypoint with agent attached
