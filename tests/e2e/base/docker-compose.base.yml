@@ -53,7 +53,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "gunicorn", "/sevices/provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000" ]
+    command: [ "gunicorn", "/sevices/provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
 
 
   consumer:
@@ -71,7 +71,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "gunicorn", "/sevices/consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000" ]
+    command: [ "gunicorn", "/sevices/consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
 
 networks:
   e2e:
