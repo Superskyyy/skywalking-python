@@ -34,14 +34,14 @@ the entire gunicorn config file, which is not a good idea. Instead, inside the s
 inject a gunicorn hook that will start the agent after the worker is forked. (with os.register_at_fork)
 """
 from uwsgidecorators import postfork
-from skywalking import agent, config
+from skywalking import agent
 import os
 
 from skywalking.loggings import logger
-
-config.init(collector_address='localhost:12800', protocol='http', service_name='test-fastapi-service',
-            log_reporter_active=True, service_instance=f'test_instance-{os.getpid()} forkfork',
-            logging_level='CRITICAL')
+#
+# config.init(collector_address='localhost:12800', protocol='http', service_name='test-fastapi-service',
+#             log_reporter_active=True, service_instance=f'test_instance-{os.getpid()} forkfork',
+#             logging_level='CRITICAL')
 
 
 @postfork

@@ -75,7 +75,6 @@ def __report_log():
     wait = base = 0
     while not __finished.is_set():
         try:
-            print('trying to report log from pid %s' % os.getpid())
             __protocol.report_log(__log_queue)
             wait = base
         except Exception as exc:

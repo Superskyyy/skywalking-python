@@ -36,18 +36,18 @@ def prefork_handler(command: List[str]) -> None:
     """
     print(command)
     if command[0] == 'gunicorn' and '0' not in command:  # fixme exlcude when worker=0
-        cli_logger.info(f'We noticed you are using Gunicorn, '
-                        f'we will automatically start the SkyWalking Python Agent'
-                        f'in all child (worker) processes except for the master.')
+        cli_logger.info('We noticed you are using Gunicorn, '
+                        'we will automatically start the SkyWalking Python Agent'
+                        'in all child (worker) processes except for the master.')
         os.environ['prefork'] = 'gunicorn'
         # os.environ['GUNICORN_CMD_ARGS'] = '--config python:gunicorn_conf'
     elif command[0] == 'uwsgi':
-        cli_logger.info(f'We noticed you are using uWSGI, '
-                        f'we will automatically add the following '
-                        f'environment variables to your uWSGI options (to ensure a functional Python agent): '
-                        f'--enable-threads --py-call-uwsgi-fork-hooks.'
-                        f'We will also start the SkyWalking Python Agent in all child (worker) '
-                        f'processes except for the master.')
+        cli_logger.info('We noticed you are using uWSGI, '
+                        'we will automatically add the following '
+                        'environment variables to your uWSGI options (to ensure a functional Python agent): '
+                        '--enable-threads --py-call-uwsgi-fork-hooks.'
+                        'We will also start the SkyWalking Python Agent in all child (worker) '
+                        'processes except for the master.')
 
         # this sets the option --import to our custom uwsgidecorator.postfork() function
         # which is in loader/uw.py
