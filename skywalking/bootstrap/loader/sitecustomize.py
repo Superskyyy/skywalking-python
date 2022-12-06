@@ -132,11 +132,11 @@ if not (version_match and prefix_match):
 else:
     from skywalking import agent, config
 
-    print(f'os pid {os.getpid()}, running sitecustomize.py from {__file__}')
+    # print(f'os pid {os.getpid()}, running sitecustomize.py from {__file__}')
     # FIXME agent should and instance name should be reset after fork, but this is before fork
-    config.init(collector_address='localhost:12800', protocol='http', service_name='test-fastapi-service',
-                log_reporter_active=True, service_instance=f'test_instance-{os.getpid()} forkfork',
-                logging_level='CRITICAL')
+    # config.init(collector_address='localhost:12800', protocol='http', service_name='test-fastapi-service',
+    #             log_reporter_active=True, service_instance=f'test_instance-{os.getpid()} forkfork',
+    #             logging_level='CRITICAL')
     # also override debug for skywalking agent itself
     if os.environ.get('SW_PYTHON_CLI_DEBUG_ENABLED') == 'True':  # set from the original CLI runner
         config.logging_level = 'DEBUG'

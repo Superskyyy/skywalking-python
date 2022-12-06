@@ -73,12 +73,12 @@ def __report():
 
 def __report_log():
     wait = base = 0
+
     while not __finished.is_set():
         try:
             __protocol.report_log(__log_queue)
             wait = base
         except Exception as exc:
-            print('wtf???', exc)
             logger.error(str(exc))
             wait = min(60, wait * 2 or 1)
 
