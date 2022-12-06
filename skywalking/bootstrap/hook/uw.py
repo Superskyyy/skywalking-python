@@ -38,10 +38,6 @@ from uwsgidecorators import postfork
 import os
 from skywalking import agent, config
 
-config.init(collector_address='localhost:12800', protocol='http', service_name='test-fastapi-service',
-            log_reporter_active=True, service_instance=f'test_instance-{os.getpid()} forkfork',
-            logging_level='CRITICAL')
-
 
 @postfork
 def setup_agent():
