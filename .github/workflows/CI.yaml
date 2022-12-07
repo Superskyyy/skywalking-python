@@ -261,7 +261,6 @@ jobs:
       - name: Run E2E Tests
         uses: apache/skywalking-infra-e2e@964ede199fe199e166920169dc5f8c9b214cfac5
         with:
-          verbosity: debug
           log-dir: /tmp/e2e-logs
           e2e-file: ${{ matrix.case.path }}
       - name: Upload Logs
