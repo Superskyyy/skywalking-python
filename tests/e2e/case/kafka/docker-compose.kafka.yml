@@ -68,7 +68,7 @@ services:
       retries: 120
   oap:
     extends:
-      file: ../../../base/docker-compose.base.yml
+      file: ../../base/docker-compose.base.yml
       service: oap
     environment:
       SW_KAFKA_FETCHER: default
@@ -80,7 +80,7 @@ services:
 
   provider:
     extends:
-      file: ../../../base/docker-compose.base.yml
+      file: ../../base/docker-compose.base.yml
       service: provider
     ports:
       - "9090"
@@ -91,7 +91,7 @@ services:
 
   consumer:
     extends:
-      file: ../../../base/docker-compose.base.yml
+      file: ../../base/docker-compose.base.yml
       service: consumer
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
