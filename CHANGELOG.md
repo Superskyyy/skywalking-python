@@ -8,6 +8,7 @@
   - Add reporter for PVM runtime metrics (default:disabled) (#238, #247)
   - Add Greenlet profiler (#246)
   - Add test and support for Python Slim base images (#249)
+  - Sw-python CLI now automatically handles Gunicorn and uWSGI pre-forking behavior. (#256)
 
 - Plugins:
   - Add aioredis, aiormq, amqp, asyncpg, aio-pika, kombu RMQ plugins (#230 Missing test coverage) 
@@ -27,6 +28,7 @@
   - New documentation on the newly added meter reporter feature (#240)
   - New documentation on the newly added greenlet profiler and the original threading profiler (#250)
   - Overhaul documentation on development setup and testing (#249)
+  - Overhaul documentation on how to use agent with preforking servers [Gunicorn/uWSGI] (#256)
 
 - Others:
   - Pin CI SkyWalking License Eye (#221)

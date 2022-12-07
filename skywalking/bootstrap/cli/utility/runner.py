@@ -34,6 +34,7 @@ def prefork_handler(command: List[str]) -> None:
     There could be cases where gunicorn/uwsgi is loaded by other scripts,
     it is possible that the env variables (e.g. loading sitecustomize.py) are lost in such flow.
     """
+    # todo: check --enable-threads, it must be set in env
     print(command)
     if command[0] == 'gunicorn' and '0' not in command:  # fixme exlcude when worker=0
         cli_logger.info('We noticed you are using Gunicorn, '
