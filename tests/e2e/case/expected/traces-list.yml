@@ -14,20 +14,8 @@
 # limitations under the License.
 
 # todo check precisely 5 times repeat, for multiprocessings
-#traces:
-#  {{- contains .traces }}
-#  - segmentid: {{ notEmpty .segmentid }}
-#    endpointnames:
-#    {{- contains .endpointnames }}
-#      - /artist
-#    {{- end }}
-#    duration: {{ ge .duration 0 }}
-#    start: {{ notEmpty .start}}
-#    iserror: false
-#    traceids:
-#      - {{ (index .traceids 0) }}
-#  {{- end }}
 traces:
+  {{- contains .traces }}
   - segmentid: {{ notEmpty .segmentid }}
     endpointnames:
     {{- contains .endpointnames }}
@@ -38,43 +26,4 @@ traces:
     iserror: false
     traceids:
       - {{ (index .traceids 0) }}
-  - segmentid: {{ notEmpty .segmentid }}
-    endpointnames:
-    {{- contains .endpointnames }}
-      - /artist
-    {{- end }}
-    duration: {{ ge .duration 0 }}
-    start: {{ notEmpty .start}}
-    iserror: false
-    traceids:
-      - {{ (index .traceids 0) }}
-  - segmentid: {{ notEmpty .segmentid }}
-    endpointnames:
-    {{- contains .endpointnames }}
-      - /artist
-    {{- end }}
-    duration: {{ ge .duration 0 }}
-    start: {{ notEmpty .start}}
-    iserror: false
-    traceids:
-      - {{ (index .traceids 0) }}
-  - segmentid: {{ notEmpty .segmentid }}
-    endpointnames:
-    {{- contains .endpointnames }}
-      - /artist
-    {{- end }}
-    duration: {{ ge .duration 0 }}
-    start: {{ notEmpty .start}}
-    iserror: false
-    traceids:
-      - {{ (index .traceids 0) }}
-  - segmentid: {{ notEmpty .segmentid }}
-    endpointnames:
-    {{- contains .endpointnames }}
-      - /artist
-    {{- end }}
-    duration: {{ ge .duration 0 }}
-    start: {{ notEmpty .start}}
-    iserror: false
-    traceids:
-      - {{ (index .traceids 0) }}
+  {{- end }}

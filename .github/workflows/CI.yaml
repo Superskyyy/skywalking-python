@@ -198,7 +198,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        python-image-variant: [ "3.7", "3.7-slim" ]
+        python-image-variant: ["3.7-slim" ]
       fail-fast: false
     env:
       BASE_PYTHON_IMAGE: ${{ matrix.python-image-variant }}
@@ -259,7 +259,8 @@ jobs:
       - name: Load docker images
         run: find docker-images -name "*.tar" -exec docker load -i {} \;
       - name: Run E2E Tests
-        uses: apache/skywalking-infra-e2e@964ede199fe199e166920169dc5f8c9b214cfac5
+        uses: superskyyy/skywalking-infra-e2e@main
+        # superskyyy/skywalking-infra-e2e@964ede199fe199e166920169dc5f8c9b214cfac5
         with:
           log-dir: /tmp/e2e-logs
           e2e-file: ${{ matrix.case.path }}
