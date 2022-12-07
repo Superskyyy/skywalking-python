@@ -26,15 +26,12 @@ services:
     ports:
       - "12800"
 
-
   provider:
     extends:
-      file: ../../../base/docker-compose.base.yml
+      file: ../../base/docker-compose.base.yml
       service: provider
     ports:
       - "9090"
-    volumes:
-      - ../provider/provider.py:/services/provider.py
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
     depends_on:
