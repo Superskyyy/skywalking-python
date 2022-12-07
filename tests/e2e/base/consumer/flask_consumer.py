@@ -15,41 +15,25 @@
 # limitations under the License.
 #
 
-version: '2.1'
+import time
+import random
+from flask import Flask, request
 
-services:
-  oap:
-    extends:
-      file: ../../base/docker-compose.base.yml
-      service: oap
-    ports:
-      - "12800"
+app = Flask(__name__)
 
-  provider:
-    extends:
-      file: ../../base/docker-compose.base.yml
-      service: fastapi_provider
-    ports:
-      - "9090"
-    environment: # HTTP endpoint
-      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
-      SW_AGENT_PROTOCOL: http
-    depends_on:
-      oap:
-        condition: service_healthy
 
-  consumer:
-    extends:
-      file: ../../base/docker-compose.base.yml
-      service: flask_consumer
-    environment:
-      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
-      SW_AGENT_PROTOCOL: http
-    ports:
-      - "9090"
-    depends_on:
-      provider:
-        condition: service_healthy
+@app.route('/artist', methods=['POST'])
+def artist():
+    try:
+        time.sleep(random.random())
+        payload = request.get_json()
+        print(f'args: {payload}')
 
-networks:
-  e2e:
+        return {'artist': 'song'}
+    except Exception as e:  # noqa
+        return {'message': str(e)}
+
+
+if __name__ == '__main__':
+    # noinspection PyTypeChecker
+    app.run(host='0.0.0.0', port=9090)

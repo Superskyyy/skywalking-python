@@ -32,7 +32,7 @@ services:
       retries: 120
 
 
-  provider:
+  fastapi-provider:
     # Previously built in CI
     image: apache/skywalking-python-agent:latest-e2e
     expose:
@@ -40,8 +40,8 @@ services:
     networks:
       - e2e
     environment:
-      SW_AGENT_NAME: e2e-service-provider
-      SW_AGENT_INSTANCE: provider1
+      SW_AGENT_NAME: e2e-service-fastapi-provider
+      SW_AGENT_INSTANCE: provider1_should_change_to_pid
       SW_AGENT_LOGGING_LEVEL: DEBUG
       SW_AGENT_LOG_REPORTER_ACTIVE: "True"
       SW_AGENT_LOG_REPORTER_LEVEL: WARNING
@@ -53,25 +53,113 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "python3", "/services/provider.py" ]
+    command: [ "python3", "/services/fastapi_provider.py" ]
 
-
-  consumer:
+  flask-provider:
     image: apache/skywalking-python-agent:latest-e2e
     expose:
       - 9090
     networks:
       - e2e
     environment:
-      SW_AGENT_NAME: e2e-service-consumer
-      SW_AGENT_INSTANCE: consumer1
+      SW_AGENT_NAME: e2e-service-flask-provider
+      SW_AGENT_INSTANCE: provider1_should_change_to_pid
+      SW_AGENT_LOGGING_LEVEL: DEBUG
+      SW_AGENT_LOG_REPORTER_ACTIVE: "True"
+      SW_AGENT_LOG_REPORTER_LEVEL: WARNING
+      SW_AGENT_LOG_REPORTER_SAFE_MODE: "True"
+      SW_AGENT_METER_REPORTER_ACTIVE: "True"
+      SW_AGENT_PVM_METER_REPORTER_ACTIVE: "True"
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+    command: [ "python3", "/services/flask_provider.py" ]
+
+
+  fastapi-consumer:
+    image: apache/skywalking-python-agent:latest-e2e
+    expose:
+      - 9090
+    networks:
+      - e2e
+    environment:
+      SW_AGENT_NAME: e2e-service-fastapi-consumer
+      SW_AGENT_INSTANCE: consumer1_should_change_to_pid
       SW_AGENT_LOGGING_LEVEL: DEBUG
     healthcheck:
       test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "python3", "/services/consumer.py" ]
+    command: [ "python3", "/services/fastapi_consumer.py" ]
 
+  flask-consumer:
+    image: apache/skywalking-python-agent:latest-e2e
+    expose:
+      - 9090
+    networks:
+      - e2e
+    environment:
+      SW_AGENT_NAME: e2e-service-flask-consumer
+      SW_AGENT_INSTANCE: consumer1_should_change_to_pid
+      SW_AGENT_LOGGING_LEVEL: DEBUG
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+    command: [ "python3", "/services/flask_consumer.py" ]
+
+  # used by Kafka reporter e2e tests
+  zookeeper:
+    image: zookeeper:latest
+    hostname: zookeeper
+    expose:
+      - 2181
+    networks:
+      - e2e
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    healthcheck:
+      test: [ "CMD", "sh", "-c", "nc -nz 127.0.0.1 2181" ]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+
+  broker-a:
+    image: bitnami/kafka:latest
+    hostname: broker-a
+    expose:
+      - 9092
+    networks:
+      - e2e
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_BROKER_ID=10
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    healthcheck:
+      test: [ "CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+
+  broker-b:
+    image: bitnami/kafka:latest
+    hostname: broker-b
+    expose:
+      - 9092
+    networks:
+      - e2e
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_BROKER_ID=24
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    healthcheck:
+      test: [ "CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 5s
+      timeout: 60s
+      retries: 120
 networks:
   e2e:

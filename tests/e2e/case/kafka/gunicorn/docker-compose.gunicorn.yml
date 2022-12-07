@@ -20,12 +20,12 @@ version: '2.1'
 services:
   zookeeper:
     extends:
-      file: ../docker-compose.kafka.yml
+      file: ../../../base/docker-compose.base.yml
       service: zookeeper
 
   broker-a:
     extends:
-      file: ../docker-compose.kafka.yml
+      file: ../../../base/docker-compose.base.yml
       service: broker-a
     depends_on:
       zookeeper:
@@ -33,7 +33,7 @@ services:
 
   broker-b:
     extends:
-      file: ../docker-compose.kafka.yml
+      file: ../../../base/docker-compose.base.yml
       service: broker-b
     depends_on:
       zookeeper:
@@ -41,7 +41,7 @@ services:
 
   oap:
     extends:
-      file: ../docker-compose.kafka.yml
+      file: ../../../base/docker-compose.base.yml
       service: oap
     depends_on:
       broker-a:
@@ -50,11 +50,12 @@ services:
         condition: service_healthy
     ports:
       - "12800"
+
   provider:
     extends:
-      file: ../docker-compose.kafka.yml
-      service: provider
-    command: [ "gunicorn", "services.provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
+      file: ../../../base/docker-compose.base.yml
+      service: fastapi-provider
+    command: [ "gunicorn", "services.fastapi_provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       oap:
         condition: service_healthy
@@ -63,9 +64,9 @@ services:
 
   consumer:
     extends:
-      file: ../docker-compose.kafka.yml
-      service: consumer
-    command: [ "gunicorn", "services.consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
+      file: ../../../base/docker-compose.base.yml
+      service: fastapi-consumer
+    command: [ "gunicorn", "services.fastapi_consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       provider:
         condition: service_healthy
