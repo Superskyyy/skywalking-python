@@ -190,7 +190,7 @@ jobs:
   docker-e2e:
     # build docker image for E2E tests, single Python version for now.
     name: Build E2E Test Image
-    needs: [ license-and-lint, plugin-doc-check, changes ]
+    needs: [ license-and-lint, changes ]
     if: |
       always() && 
       ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
