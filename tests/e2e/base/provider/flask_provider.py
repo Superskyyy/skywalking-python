@@ -14,10 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+import logging
 import time
 import random
 from flask import Flask, request
+
+from tests.e2e.base.utils.log_formatter import E2EProviderFormatter
 
 app = Flask(__name__)
 formatter = E2EProviderFormatter(logging.BASIC_FORMAT)

@@ -27,7 +27,7 @@ import time
 import uvicorn
 from fastapi import FastAPI
 
-from tests.e2e.base.provider.log_formatter import E2EProviderFormatter
+from tests.e2e.base.utils.log_formatter import E2EProviderFormatter
 
 formatter = E2EProviderFormatter(logging.BASIC_FORMAT)
 stream_handler = logging.StreamHandler()
