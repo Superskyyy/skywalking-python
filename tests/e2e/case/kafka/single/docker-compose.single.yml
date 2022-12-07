@@ -61,7 +61,7 @@ services:
   consumer:
     extends:
       file: ../docker-compose.kafka.yml
-      service: provider
+      service: consumer
     command: [ "gunicorn", "services.consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       provider:

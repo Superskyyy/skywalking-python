@@ -66,6 +66,7 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
+
   oap:
     extends:
       file: ../../base/docker-compose.base.yml
