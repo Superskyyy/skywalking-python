@@ -44,9 +44,6 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_BROKER_ID=10
       - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      zookeeper:
-        condition: service_healthy
     healthcheck:
       test: [ "CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181" ]
       interval: 5s
@@ -64,9 +61,6 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_BROKER_ID=24
       - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      zookeeper:
-        condition: service_healthy
     healthcheck:
       test: [ "CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181" ]
       interval: 5s
@@ -81,11 +75,6 @@ services:
       SW_KAFKA_FETCHER_SERVERS: broker-a:9092,broker-b:9092
       SW_KAFKA_FETCHER_PARTITIONS: 2
       SW_KAFKA_FETCHER_PARTITIONS_FACTOR: 1
-    depends_on:
-      broker-a:
-        condition: service_healthy
-      broker-b:
-        condition: service_healthy
     ports:
       - "12800"
 
@@ -100,10 +89,6 @@ services:
       SW_AGENT_PROTOCOL: kafka
       SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS: broker-a:9092,broker-b:9092
 
-    depends_on:
-      oap:
-        condition: service_healthy
-
   consumer:
     extends:
       file: ../../../base/docker-compose.base.yml
@@ -114,9 +99,6 @@ services:
       SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS: broker-a:9092,broker-b:9092
     ports:
       - "9090"
-    depends_on:
-      provider:
-        condition: service_healthy
 
 networks:
   e2e:
