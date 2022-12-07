@@ -59,7 +59,8 @@ jobs:
           submodules: true
       - name: Check plugin doc
         run: |
-          make env
+          make poetry
+          poetry install --without lint
           make check-doc-gen
 
   changes:
@@ -234,8 +235,12 @@ jobs:
             path: tests/e2e/case/grpc/e2e.yaml
           - name: HTTP
             path: tests/e2e/case/http/e2e.yaml
-          - name: Kafka
-            path: tests/e2e/case/kafka/e2e.yaml
+          - name: Kafka-base
+            path: tests/e2e/case/kafka/base/e2e.yaml
+          - name: Kafka-gunicorn
+            path: tests/e2e/case/kafka/gunicorn/e2e.yaml
+          - name: Kafka-uwsgi
+            path: tests/e2e/case/kafka/uwsgi/e2e.yaml
           - name: profiling_threading
             path: tests/e2e/case/profiling/threading/e2e.yaml
           - name: profiling_greenlet
