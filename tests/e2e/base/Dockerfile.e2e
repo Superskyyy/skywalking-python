@@ -29,10 +29,10 @@ RUN cd /skywalking-python && apt-get update && apt-get install -y make && make i
 
 # Extra dependencies for e2e services
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc and-build-dependencies \
+    && apt-get install -y --no-install-recommends gcc \
     && rm -rf /var/lib/apt/lists/* \
     && pip install cryptography \
-    && apt-get purge -y --auto-remove gcc and-build-dependencies
+    && apt-get purge -y --auto-remove gcc
 RUN pip install fastapi uvicorn aiohttp flask gunicorn uwsgi
 
 # Entrypoint with agent attached
