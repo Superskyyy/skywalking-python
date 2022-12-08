@@ -24,14 +24,13 @@ services:
       service: oap
     ports:
       - "12800"
+
   provider:
     extends:
       file: ../../base/docker-compose.base.yml
       service: fastapi-provider
     ports:
       - "9090"
-    environment:
-      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
     depends_on:
       oap:
         condition: service_healthy
@@ -40,8 +39,6 @@ services:
     extends:
       file: ../../base/docker-compose.base.yml
       service: flask-consumer
-    environment:
-      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
     ports:
       - "9090"
     depends_on:
