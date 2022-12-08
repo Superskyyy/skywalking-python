@@ -35,4 +35,6 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove gcc build-essential
 
 # Entrypoint with agent attached
+WORKDIR /services
+
 Entrypoint ["sw-python", "run"]

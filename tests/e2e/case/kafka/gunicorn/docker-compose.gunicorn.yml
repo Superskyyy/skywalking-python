@@ -60,7 +60,7 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: fastapi-provider
-    command: [ "gunicorn", "services.fastapi_provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
+    command: [ "gunicorn", "fastapi_provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       oap:
         condition: service_healthy
@@ -71,7 +71,7 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: fastapi-consumer
-    command: [ "gunicorn", "services.fastapi_consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
+    command: [ "gunicorn", "fastapi_consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       provider:
         condition: service_healthy
