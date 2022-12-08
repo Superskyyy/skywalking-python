@@ -23,11 +23,6 @@ services:
     expose:
       - 11800 # gRPC
       - 12800 # HTTP
-    environment:
-      SW_KAFKA_FETCHER: default
-      SW_KAFKA_FETCHER_SERVERS: broker-a:9092,broker-b:9092
-      SW_KAFKA_FETCHER_PARTITIONS: 2
-      SW_KAFKA_FETCHER_PARTITIONS_FACTOR: 1
     networks:
       - e2e
     healthcheck: # python base image has no nc command
