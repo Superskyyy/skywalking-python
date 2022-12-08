@@ -31,5 +31,5 @@
       value: ""
     {{- end}}
   language: PYTHON
-  instanceuuid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "provider1" }}
+  instanceuuid: {{ hasPrefix .instanceuuid {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "consumer1_should_change_to_pid" }} }}
 {{- end}}

@@ -50,6 +50,7 @@ services:
         condition: service_healthy
     ports:
       - "12800"
+
   provider:
     extends:
       file: ../../../base/docker-compose.base.yml
