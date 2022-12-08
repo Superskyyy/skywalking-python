@@ -16,7 +16,7 @@
 # under the License.
 
 {{- contains . }}
-- id: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "provider1" }}
+- id: {{ hasPrefix .id {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "consumer1_should_change_to_pid" }} }}
   name: {{ notEmpty .name }}
   attributes:
     {{- contains .attributes }}
@@ -25,8 +25,8 @@
 #      value: linux
 #    - name: hostname
 #      value: {{ notEmpty .value }}
-#    - name: Process No.
-#      value: {{ notEmpty .value }}
+    - name: Process No.
+      value: {{ notEmpty .value }}
     - name: ipv4s
       value: ""
     {{- end}}
