@@ -226,7 +226,7 @@ jobs:
       always() && 
       ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     strategy:
       matrix:
         python-image-variant: [ "3.7-slim" ] #, "3.7-slim" ]
