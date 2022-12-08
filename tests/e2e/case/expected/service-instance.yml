@@ -16,7 +16,8 @@
 # under the License.
 
 {{- contains . }}
-- id: {{ hasPrefix .id "ZTJlLXNlcnZpY2UtcHJvdmlkZXI=.1_" }}
+# id is base64 encoded version of e2e-service-provider=._instance_id
+- id: {{ regexp .id "ZTJlLXNlcnZpY2UtcHJvdmlkZXI=\.1_.*" }}
   name: {{ notEmpty .name }}
   attributes:
     {{- contains .attributes }}
@@ -31,5 +32,5 @@
       value: ""
     {{- end}}
   language: PYTHON
-  instanceuuid: {{ hasPrefix .instanceuuid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI=.1_" }}
+  instanceuuid: {{ regexp .instanceuuid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI=\.1_.*" }}
 {{- end}}
