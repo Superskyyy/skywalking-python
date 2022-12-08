@@ -17,7 +17,7 @@
 
 {{- contains . }}
 # id is base64 encoded version of e2e-service-provider=._instance_id
-- id: {{ regexp .id "ZTJlLXNlcnZpY2UtcHJvdmlkZXI=\.1_.*" }}
+- id: {{ regexp .id "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
   name: {{ notEmpty .name }}
   attributes:
     {{- contains .attributes }}
@@ -32,5 +32,5 @@
       value: ""
     {{- end}}
   language: PYTHON
-  instanceuuid: {{ regexp .instanceuuid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI=\.1_.*" }}
+  instanceuuid: {{ regexp .instanceuuid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
 {{- end}}

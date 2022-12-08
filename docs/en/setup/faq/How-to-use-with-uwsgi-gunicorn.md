@@ -5,6 +5,11 @@ and [Gunicorn](https://gunicorn.org/#quickstart) are two dominant pre-forking we
 **Note**: After the v1.0.0 release, we have enhanced the sw-python CLI so that it will automatically handle many of the 
 pre-forking server behavior in Gunicorn and uWSGI. 
 
+Since pre-forking servers spawn multiple server processes, we consider each of the processes (workers) a new `service instance`, we
+take your configuration `SW_AGENT_INSTANCE` and append it's pid to generate a unique worker instance name. In this way we will see multiple 
+instances (server workers) under the same service in the SkyWalking UI dashboard. In fact, we do append `os.getpid()` for every Python agent
+instance since fork is frequently used in the Python ecosystem.
+
 You no longer need to manually specify @postfork and post_fork hooks other than running `sw-python run uwsgi/gunicorn args`. 
 
 Still, you do need to add the post_fork hooks if you are using the legacy setup by importing skywalking in your application code. 
