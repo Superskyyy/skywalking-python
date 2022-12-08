@@ -145,7 +145,7 @@ services:
       - KAFKA_BROKER_ID=10
       - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
-      test: [ "CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181" ]
+      test: [ "CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "zookeeper:2181" ]
       interval: 5s
       timeout: 60s
       retries: 120
@@ -162,7 +162,7 @@ services:
       - KAFKA_BROKER_ID=24
       - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
-      test: [ "CMD", "kafka-topics.sh", "--list", "--zookeeper", "zookeeper:2181" ]
+      test: [ "CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "zookeeper:2181" ]
       interval: 5s
       timeout: 60s
       retries: 120
