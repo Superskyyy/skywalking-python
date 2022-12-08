@@ -21,13 +21,13 @@ spans:
   parentspanid: {{ .parentspanid }}
   refs: []
   servicecode: e2e-service-consumer
-  serviceinstancename: consumer1
+  serviceinstancename: {{ regexp .serviceinstancename "consumer" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
   endpointname: /artist
   type: Entry
   peer: {{ notEmpty .peer }}
-  component: FastAPI
+  component: Flask
   iserror: false
   layer: Http
   tags:
@@ -47,13 +47,13 @@ spans:
   parentspanid: {{ .parentspanid }}
   refs: []
   servicecode: e2e-service-consumer
-  serviceinstancename: consumer1
+  serviceinstancename: {{ regexp .serviceinstancename "consumer" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
   endpointname: /artist
   type: Exit
   peer: provider:9090
-  component: AioHttp
+  component: Requests
   iserror: false
   layer: Http
   tags:
@@ -79,7 +79,7 @@ spans:
       type: CROSS_PROCESS
     {{- end }}
   servicecode: e2e-service-provider
-  serviceinstancename: provider1
+  serviceinstancename: {{ regexp .serviceinstancename "provider" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
   endpointname: /artist
