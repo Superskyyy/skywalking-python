@@ -16,7 +16,7 @@
 # under the License.
 
 {{- contains . }}
-- id: {{ hasPrefix .id {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "consumer1_should_change_to_pid" }} }}
+- id: {{ hasPrefix .id ZTJlLXNlcnZpY2UtcHJvdmlkZXI=.1_ }}
   name: {{ notEmpty .name }}
   attributes:
     {{- contains .attributes }}
@@ -31,5 +31,5 @@
       value: ""
     {{- end}}
   language: PYTHON
-  instanceuuid: {{ hasPrefix .instanceuuid {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "consumer1_should_change_to_pid" }} }}
+  instanceuuid: {{ hasPrefix .instanceuuid ZTJlLXNlcnZpY2UtcHJvdmlkZXI=.1_ }}
 {{- end}}
