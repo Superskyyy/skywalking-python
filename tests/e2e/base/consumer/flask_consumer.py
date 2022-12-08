@@ -18,6 +18,7 @@
 import time
 import random
 from flask import Flask, request
+import requests
 
 app = Flask(__name__)
 
@@ -27,6 +28,7 @@ def artist():
     try:
         time.sleep(random.random())
         payload = request.get_json()
+        requests.post('http://provider:9090/artist', data=payload)
         print(f'args: {payload}')
 
         return {'artist': 'song'}
