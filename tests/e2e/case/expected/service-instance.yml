@@ -21,7 +21,7 @@
   name: {{ notEmpty .name }}
   attributes:
     {{- contains .attributes }}
-# TODO: The following attributes implementation is missing
+# TODO The following attributes implementation is missing
 #    - name: OS Name
 #      value: linux
 #    - name: hostname
