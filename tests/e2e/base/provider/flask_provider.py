@@ -17,9 +17,9 @@
 import logging
 import time
 import random
-from flask import Flask, request
+from flask import Flask
 
-from tests.e2e.base.utils.log_formatter import E2EProviderFormatter
+from log_formatter import E2EProviderFormatter
 
 app = Flask(__name__)
 formatter = E2EProviderFormatter(logging.BASIC_FORMAT)
