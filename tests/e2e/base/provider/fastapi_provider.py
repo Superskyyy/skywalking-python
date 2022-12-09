@@ -27,6 +27,15 @@ import time
 
 import uvicorn
 from fastapi import FastAPI
+#
+#
+# from skywalking import agent, config
+#
+# config.init(service_name="providerabc", logging_level=logging.DEBUG, service_instance=f'test-{os.getpid()}',
+#             collector_address='localhost:11800', meter_reporter_active=True, pvm_meter_reporter_active=True)
+#
+# agent.start()
+
 
 from log_formatter import E2EProviderFormatter
 

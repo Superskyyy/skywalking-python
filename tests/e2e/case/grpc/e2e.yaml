@@ -29,8 +29,8 @@ setup:
       command: sudo apt-get install jq -y
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
-  interval: 3s      # Trigger the action every 3 seconds.
-  times: 5          # Don't omit this!
+  interval: 1s      # Trigger the action every 3 seconds.
+  times: 30          # Don't omit this!
   url: http://${consumer_host}:${consumer_9090}/artist
   method: POST       # Http trigger method.
   headers:
@@ -65,7 +65,6 @@ verify:
     # service instance pvm metrics
     # TODO upgrade agent to latest in showcase  --instance-name=provider1
     - query: |
-        echo provider-$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.pid' );
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization \
         --service-name=e2e-service-provider --instance-name=provider-$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.pid' ) \
         |yq e 'to_entries' -

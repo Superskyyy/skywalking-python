@@ -28,9 +28,11 @@ tasks:
 
   - name: skywalking-oap
 #    init: >
-#      wget https://archive.apache.org/dist/skywalking/9.2.0/apache-skywalking-apm-9.2.0.tar.gz
-#      tar -xvzf apache-skywalking-apm-9.2.0.tar.gz
-    command: cd apache-skywalking-apm-bin/bin && ./startup.sh
+#      wget https://archive.apache.org/dist/skywalking/9.3.0/apache-skywalking-apm-9.3.0.tar.gz
+#      tar -xvzf apache-skywalking-apm-9.3.0.tar.gz
+    command: > 
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/apache/skywalking-cli/master/scripts/install.sh)"
+      cd apache-skywalking-apm-bin/bin && ./startup.sh
   # - name: skywalking-python-demo-fastapi
   #   init: pwd
   #   command: pwdve
