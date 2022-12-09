@@ -221,10 +221,10 @@ jobs:
   e2e-tests:
     # execute E2E tests with SkyWalking-infra-e2e with a matrix of agent protocols
     name: E2E
-    needs: [ docker-e2e ]
+    # needs: [ docker-e2e ]
     if: |
       always() && 
-      ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
+      ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
