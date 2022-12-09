@@ -34,7 +34,10 @@
       expected: ../expected/service-instance.yml
 
     # service instance pvm metrics
-    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization --instance-name=provider1 --service-name=e2e-service-provider |yq e 'to_entries' -
+    - query: |
+        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization \
+        --service-name=e2e-service-provider --instance-name=provider-$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.pid' ) \
+        |yq e 'to_entries' -
       expected: ../expected/metrics-has-value.yml
 
     # trace segment list
