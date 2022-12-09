@@ -21,7 +21,7 @@ logs:
     placeholder: ISHOULDNOTEXIST
   - servicename: e2e-service-provider
     serviceid: {{ b64enc "e2e-service-provider" }}.1
-    serviceinstancename: {{ regexp .serviceinstancename "provider" }}
+    serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
     serviceinstanceid: {{ regexp .serviceinstanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
     endpointname: null
     endpointid: null
@@ -40,7 +40,7 @@ logs:
     {{- end }}
   - servicename: e2e-service-provider
     serviceid: {{ b64enc "e2e-service-provider" }}.1
-    serviceinstancename: {{ regexp .serviceinstancename "provider" }}
+    serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
     serviceinstanceid: {{ regexp .serviceinstanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
     endpointname: null
     endpointid: null
@@ -59,7 +59,7 @@ logs:
     {{- end }}
   - servicename: e2e-service-provider
     serviceid: {{ b64enc "e2e-service-provider" }}.1
-    serviceinstancename: {{ regexp .serviceinstancename "provider" }}
+    serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
     serviceinstanceid: {{ regexp .serviceinstanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
     endpointname: null
     endpointid: null

@@ -21,7 +21,7 @@ spans:
   parentspanid: {{ .parentspanid }}
   refs: []
   servicecode: e2e-service-consumer
-  serviceinstancename: {{ regexp .serviceinstancename "consumer" }}
+  serviceinstancename: {{ regexp .serviceinstancename "consumer.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
   endpointname: /artist
@@ -47,7 +47,7 @@ spans:
   parentspanid: {{ .parentspanid }}
   refs: []
   servicecode: e2e-service-consumer
-  serviceinstancename: {{ regexp .serviceinstancename "consumer" }}
+  serviceinstancename: {{ regexp .serviceinstancename "consumer.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
   endpointname: /artist
@@ -79,7 +79,7 @@ spans:
       type: CROSS_PROCESS
     {{- end }}
   servicecode: e2e-service-provider
-  serviceinstancename: {{ regexp .serviceinstancename "provider" }}
+  serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
   endpointname: /artist
