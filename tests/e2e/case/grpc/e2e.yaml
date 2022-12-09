@@ -26,7 +26,7 @@ setup:
     - name: install swctl
       command: bash tests/e2e/script/prepare/install.sh swctl
     - name: install jq
-      command: bash apt-get install jq -y
+      command: apt-get install jq -y
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
   interval: 3s      # Trigger the action every 3 seconds.
