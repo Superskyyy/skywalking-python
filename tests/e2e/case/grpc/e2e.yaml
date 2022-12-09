@@ -25,9 +25,8 @@ setup:
       command: bash tests/e2e/script/prepare/install.sh yq
     - name: install swctl
       command: bash tests/e2e/script/prepare/install.sh swctl
-    - name: get service_instance_pid 0->>> use in query instead
-      command: bash tests/e2e/script/prepare/get_service_instance_pid.sh
-
+    - name: install jq
+      command: bash apt-get install jq -y
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
   interval: 3s      # Trigger the action every 3 seconds.
