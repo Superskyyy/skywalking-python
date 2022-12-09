@@ -192,8 +192,7 @@ jobs:
     name: Build E2E Test Image
     needs: [ license-and-lint, changes ]
     if: |
-      always() && 
-      ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
+      (github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -223,8 +222,7 @@ jobs:
     name: E2E
     # needs: [ docker-e2e ]
     if: |
-      always() && 
-      ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python'))
+      (github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
