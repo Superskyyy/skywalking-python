@@ -16,6 +16,7 @@
 #
 
 import logging
+import os
 import traceback
 from queue import Queue, Empty
 from time import time
@@ -113,6 +114,7 @@ class GrpcProtocol(Protocol):
 
                 if logger_debug_enabled:
                     logger.debug('reporting segment %s', segment)
+                    logger.debug(f'os.pid = {os.getpid()}')
 
                 s = SegmentObject(
                     traceId=str(segment.related_traces[0]),

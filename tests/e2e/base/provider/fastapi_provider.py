@@ -21,6 +21,7 @@ consumer (FastAPI) -> consumer (AIOHTTP) -> provider (FastAPI + logging_with_exc
 We also cover the usage of logging interception in this module.
 """
 import logging
+import os
 import random
 import time
 
@@ -40,9 +41,13 @@ e2e_provider_logger.addHandler(stream_handler)
 app = FastAPI()
 
 
-@app.get('/artist')
+@app.get('/pid')
+async def get_pid():
+    return {'pid': os.getpid()}
+
+
 @app.post('/artist')
-async def application():
+async def artist():
     time.sleep(random.random())
     # Exception is reported with trackback depth of 5 (default)
     try:

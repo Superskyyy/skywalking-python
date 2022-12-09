@@ -17,6 +17,8 @@
 import logging
 import time
 import random
+
+import os
 from flask import Flask
 
 from log_formatter import E2EProviderFormatter
@@ -29,6 +31,11 @@ stream_handler.setFormatter(formatter)
 e2e_provider_logger = logging.getLogger('__name__')
 e2e_provider_logger.setLevel(logging.INFO)
 e2e_provider_logger.addHandler(stream_handler)
+
+
+@app.route('/pid', methods=['GET'])
+def pid():
+    return {'pid': os.getpid()}
 
 
 @app.route('/artist', methods=['POST'])

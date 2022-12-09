@@ -30,7 +30,7 @@ options = globals().copy()  # THIS MUST PRECEDE DIRECTLY BEFORE LIST OF CONFIG O
 
 # Core level configurations
 service_name: str = os.getenv('SW_AGENT_NAME') or 'Python Service Name'
-service_instance: str = os.getenv('SW_AGENT_INSTANCE') or str(uuid.uuid1()).replace('-', '')
+service_instance: str = f"{os.getenv('SW_AGENT_INSTANCE')}-{os.getpid()}" or str(uuid.uuid1()).replace('-', '')
 agent_namespace: str = os.getenv('SW_AGENT_NAMESPACE')
 collector_address: str = os.getenv('SW_AGENT_COLLECTOR_BACKEND_SERVICES') or '127.0.0.1:11800'
 kafka_bootstrap_servers: str = os.getenv('SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS') or 'localhost:9092'

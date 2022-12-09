@@ -25,6 +25,8 @@ setup:
       command: bash tests/e2e/script/prepare/install.sh yq
     - name: install swctl
       command: bash tests/e2e/script/prepare/install.sh swctl
+    - name: get service_instance_pid 0->>> use in query instead
+      command: bash tests/e2e/script/prepare/get_service_instance_pid.sh
 
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
@@ -62,8 +64,10 @@ verify:
       expected: ../expected/service-instance.yml
 
     # service instance pvm metrics
-    # TODO upgrade agent to latest in showcase  --instance-name=provider1 
-    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization --service-name=e2e-service-provider |yq e 'to_entries' -
+    # TODO upgrade agent to latest in showcase  --instance-name=provider1
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization \
+        --service-name=e2e-service-provider --instance-name=provider-$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.pid' ) \
+        |yq e 'to_entries' -
       expected: ../expected/metrics-has-value.yml
 
     # trace segment list
