@@ -60,6 +60,9 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: fastapi-provider
+    environment:
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
+      SW_AGENT_PROTOCOL: kafka
     depends_on:
       oap:
         condition: service_healthy
@@ -70,6 +73,9 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: flask-consumer
+    environment:
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
+      SW_AGENT_PROTOCOL: kafka
     depends_on:
       provider:
         condition: service_healthy

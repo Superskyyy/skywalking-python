@@ -30,7 +30,7 @@ options = globals().copy()  # THIS MUST PRECEDE DIRECTLY BEFORE LIST OF CONFIG O
 
 # Core level configurations
 service_name: str = os.getenv('SW_AGENT_NAME') or 'Python Service Name'
-service_instance: str = f"{os.getenv('SW_AGENT_INSTANCE')}-{os.getpid()}" or str(uuid.uuid1()).replace('-', '')
+service_instance: str = f"{os.getenv('SW_AGENT_INSTANCE')}" or str(uuid.uuid1()).replace('-', '')
 
 # fixme 加上fu'gaf
 agent_namespace: str = os.getenv('SW_AGENT_NAMESPACE')

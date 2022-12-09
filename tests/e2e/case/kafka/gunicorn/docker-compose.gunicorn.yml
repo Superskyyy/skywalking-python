@@ -60,6 +60,9 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: fastapi-provider
+    environment:
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
+      SW_AGENT_PROTOCOL: kafka
     command: [ "gunicorn", "fastapi_provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       oap:
@@ -71,6 +74,9 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: fastapi-consumer
+    environment:
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
+      SW_AGENT_PROTOCOL: kafka
     command: [ "gunicorn", "fastapi_consumer:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       provider:

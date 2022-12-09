@@ -5,7 +5,7 @@
   - Drop support for Python 3.6
   - Add support for Python 3.11 (Pending)
   - Add MeterReportService (gRPC, Kafka reporter) (default:disabled) (#231, #236, #241, #243)
-  - Add reporter for PVM runtime metrics (default:disabled) (#238, #247)
+  - Add reporter for PVM runtime metrics (default:disabled, gRPC and Kafka only, HTTP is not supported yet) (#238, #247)
   - Add Greenlet profiler (#246)
   - Add test and support for Python Slim base images (#249)
   - Sw-python CLI now automatically handles Gunicorn and uWSGI pre-forking behavior. (#256)
