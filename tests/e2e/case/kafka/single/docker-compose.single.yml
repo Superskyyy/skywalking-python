@@ -63,6 +63,7 @@ services:
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
       SW_AGENT_PROTOCOL: kafka
+      SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS: broker-a:9092,broker-b:9092
     depends_on:
       oap:
         condition: service_healthy
@@ -76,6 +77,7 @@ services:
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
       SW_AGENT_PROTOCOL: kafka
+      SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS: broker-a:9092,broker-b:9092
     depends_on:
       provider:
         condition: service_healthy
