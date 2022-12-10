@@ -26,11 +26,10 @@ setup:
     - name: install swctl
       command: bash tests/e2e/script/prepare/install.sh swctl
 
-
 verify:
   retry:
     count: 20
     interval: 3s
   cases:
     - includes:
-        - ../profiling-cases.yaml
+        - ../../profiling-cases.yaml

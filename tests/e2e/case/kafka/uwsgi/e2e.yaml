@@ -17,9 +17,9 @@
 
 setup:
   env: compose
-  file: docker-compose.uwsgi.yml
+  file: docker-compose.yml
   timeout: 20m
-  init-system-environment: ../../../script/env
+  init-system-environment: ../../script/env
   steps:
     - name: install yq
       command: bash tests/e2e/script/prepare/install.sh yq
@@ -28,8 +28,8 @@ setup:
 
 trigger:
   action: http      # The action of the trigger. support HTTP invoke.
-  interval: 3s      # Trigger the action every 3 seconds.
-  times: 5          # Don't omit this!
+  interval: 1s      # Trigger the action every 3 seconds.
+  times: 10         # Don't omit this!
   url: http://${consumer_host}:${consumer_9090}/artist-consumer
   method: POST       # Http trigger method.
   headers:
@@ -45,4 +45,8 @@ verify:
     interval: 5s
   cases:
     - includes:
-        - ../kafka-cases.yaml
+        - ../logging-cases.yaml
+        - ../metadata-cases.yaml
+        - ../metrics-cases.yaml
+        - ../pvm-cases.yaml
+        - ../tracing-cases.yaml
