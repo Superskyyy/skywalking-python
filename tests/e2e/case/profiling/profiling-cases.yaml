@@ -48,7 +48,7 @@
     # profiling list finished:
     - query: |
         curl -s -XPOST http://${provider_host}:${provider_9090}/artist-provider -d '{"song": "Hey Jude"}' -H "Content-Type: application/json" > /dev/null;
-        sleep 10;
+        sleep 30;
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist-provider
       expected: ../expected/profile-list-finished.yml
     # profiled segment list
