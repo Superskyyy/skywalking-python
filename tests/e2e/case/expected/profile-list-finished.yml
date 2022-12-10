@@ -27,7 +27,7 @@
     {{- contains .logs }}
     - id: {{ notEmpty .id }}
       instanceid: {{ regexp .instanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
-      operationtype: NOTIFIED 
+      operationtype: EXECUTION_FINISHED
       instancename: ""
       operationtime: {{ gt .operationtime 0 }}
     {{- end }}
