@@ -45,8 +45,8 @@ verify:
     interval: 5s
   cases:
     - includes:
-        - ../logging-cases.yaml
-        - ../metadata-cases.yaml
-        - ../metrics-cases.yaml
-        - ../pvm-cases.yaml
-        - ../tracing-cases.yaml
+        - ../../logging-cases.yaml
+        - ../../metadata-cases.yaml
+        - ../../metrics-cases.yaml
+        - ../../pvm-cases.yaml
+        - ../../tracing-cases.yaml
