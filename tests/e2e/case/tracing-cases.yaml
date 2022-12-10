@@ -18,7 +18,7 @@
   cases:
     # trace segment list
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls
-      expected: ../expected/traces-list.yml
+      expected: expected/traces-list.yml
 
     # trace detail
     - query: |
@@ -26,4 +26,4 @@
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls --service-name=e2e-service-consumer\
             | yq e '.traces | select(.[].endpointnames[0]=="/artist-consumer") | .[0].traceids[0]' -
         )
-      expected: ../expected/trace-artist-detail.yml
+      expected: expected/trace-artist-detail.yml
