@@ -55,7 +55,7 @@ async def get_pid():
     return {'pid': os.getpid()}
 
 
-@app.post('/artist')
+@app.post('/artist-provider')
 async def artist():
     time.sleep(random.random())
     # Exception is reported with trackback depth of 5 (default)

@@ -38,7 +38,7 @@ def pid():
     return {'pid': os.getpid()}
 
 
-@app.route('/artist', methods=['POST'])
+@app.route('/artist-provider', methods=['POST'])
 def artist():
     time.sleep(random.random())
     # Exception is reported with trackback depth of 5 (default)

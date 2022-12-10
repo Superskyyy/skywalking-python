@@ -24,10 +24,11 @@ spans:
   serviceinstancename: {{ regexp .serviceinstancename "consumer.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
-  endpointname: /artist
+  endpointname: /artist-consumer
   type: Entry
   peer: {{ notEmpty .peer }}
-  component: Flask
+  # component depends on the docker-compose test case provider consumer's framework
+  component: {{ regexp .component "Flask|FastAPI" }}
   iserror: false
   layer: Http
   tags:
@@ -50,7 +51,7 @@ spans:
   serviceinstancename: {{ regexp .serviceinstancename "consumer.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
-  endpointname: /artist
+  endpointname: /artist-consumer
   type: Exit
   peer: provider:9090
   component: Requests
@@ -82,10 +83,10 @@ spans:
   serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
-  endpointname: /artist
+  endpointname: /artist-provider
   type: Entry
   peer: {{ notEmpty .peer }}
-  component: FastAPI
+  component: {{ regexp .component "FastAPI|Flask" }}
   iserror: false
   layer: Http
   tags:
