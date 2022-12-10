@@ -54,7 +54,7 @@ spans:
   endpointname: /artist-provider
   type: Exit
   peer: provider:9090
-  component: Requests
+  component: {{ regexp .component "AioHttp|Requests" }}
   iserror: false
   layer: Http
   tags:
