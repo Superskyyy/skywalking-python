@@ -51,7 +51,7 @@ spans:
   serviceinstancename: {{ regexp .serviceinstancename "consumer.*" }}
   starttime: {{ gt .starttime 0 }}
   endtime: {{ gt .endtime 0 }}
-  endpointname: /artist-consumer
+  endpointname: /artist-provider
   type: Exit
   peer: provider:9090
   component: Requests
@@ -62,7 +62,7 @@ spans:
     - key: http.method
       value: POST
     - key: http.url
-      value: http://provider:9090/artist-consumer
+      value: http://provider:9090/artist-provider
     - key: http.status_code
       value: "200"
     {{- end }}
