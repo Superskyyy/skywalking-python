@@ -18,8 +18,9 @@
 
   cases:
     # trace segment list
+    # todo check will profiling be impacted by multiprocessing?
     - query: |
-        curl -s -XPOST http://${provider_host}:${provider_9090}/artist -d '{"enableProfiling":"false","name":"SkyWalking"}' -H "Content-Type: application/json" > /dev/null;
+        curl -s -XPOST http://${provider_host}:${provider_9090}/artist-provider -d '{"enableProfiling":"false","name":"SkyWalking"}' -H "Content-Type: application/json" > /dev/null;
         sleep 3;
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls --service-name=e2e-service-provider
       expected: ../expected/traces-list.yml
@@ -30,13 +31,13 @@
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql instance list --service-name=e2e-service-provider
       expected: ../expected/service-instance.yml
     # service endpoint
-    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --keyword=artist --service-name=e2e-service-provider
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --keyword=artist-provider --service-name=e2e-service-provider
       expected: ../expected/service-endpoint.yml
     # create task
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql \
           profiling trace create --service-name=e2e-service-provider \
-            --endpoint-name=/artist \
+            --endpoint-name=/artist-provider \
             --start-time=-1 \
             --duration=5 --min-duration-threshold=0 \
             --dump-period=10 --max-sampling-count=5
@@ -46,21 +47,21 @@
       expected: ../expected/profile-list-notified.yml
     # profiling list finished:
     - query: |
-        curl -s -XPOST http://${provider_host}:${provider_9090}/artist -d '{"song": "Hey Jude"}' -H "Content-Type: application/json" > /dev/null;
+        curl -s -XPOST http://${provider_host}:${provider_9090}/artist-provider -d '{"song": "Hey Jude"}' -H "Content-Type: application/json" > /dev/null;
         sleep 10;
-        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list -service-name=e2e-service-provider --endpoint-name=/artist
+        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list -service-name=e2e-service-provider --endpoint-name=/artist-provider
       expected: ../expected/profile-list-finished.yml
     # profiled segment list
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace segment-list --task-id=$( \
-          swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist | yq e '.[0].id' - \
+          swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist-provider | yq e '.[0].id' - \
         )
       expected: ../expected/profile-segment-list.yml
     # profiled segment detail
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace profiled-segment --segment-id=$( \
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace segment-list --task-id=$( \
-            swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist | yq e '.[0].id' - \
+            swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist-provider | yq e '.[0].id' - \
           ) | yq e '.[0].segmentid' - \
         )
       expected: ../expected/profile-segment-detail.yml
@@ -68,7 +69,7 @@
     - query: |
         segmentid=$( \
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace segment-list --task-id=$( \
-            swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist | yq e '.[0].id' - \
+            swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace list --service-name=e2e-service-provider --endpoint-name=/artist-provider | yq e '.[0].id' - \
           ) | yq e '.[0].segmentid' - \
         );
         start=$(swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql profiling trace profiled-segment --segment-id=$segmentid | yq e '.spans[] | select(.spanid == 0).starttime' -);
