@@ -27,7 +27,7 @@ from fastapi import Request
 app = FastAPI()
 
 
-@app.get('/artist-consumer')
+@app.post('/artist-consumer')
 async def application(request: Request):
     try:
         payload = await request.json()

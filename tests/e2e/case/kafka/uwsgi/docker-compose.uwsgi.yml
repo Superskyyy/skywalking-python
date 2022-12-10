@@ -64,7 +64,7 @@ services:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
       SW_AGENT_PROTOCOL: kafka
       SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS: broker-a:9092,broker-b:9092
-    command: [ "uwsgi", "--http", ":9090", "--wsgi-file", "flask_provider.py", "--enable-threads", "--processes", "3", "--master"]
+    command: [ "uwsgi", "--http", ":9090", "--wsgi-file", "flask_provider.py", "--callable", "app", "--enable-threads", "--processes", "3", "--master"]
     depends_on:
       oap:
         condition: service_healthy
@@ -79,7 +79,7 @@ services:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
       SW_AGENT_PROTOCOL: kafka
       SW_KAFKA_REPORTER_BOOTSTRAP_SERVERS: broker-a:9092,broker-b:9092
-    command: [ "uwsgi", "--http", ":9090", "--wsgi-file", "flask_consumer.py", "--enable-threads", "--processes", "3", "--master"]
+    command: [ "uwsgi", "--http", ":9090", "--wsgi-file", "flask_consumer.py", "--callable", "app", "--enable-threads", "--processes", "3", "--master"]
     depends_on:
       provider:
         condition: service_healthy
