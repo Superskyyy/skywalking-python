@@ -17,7 +17,7 @@
 - id: {{ notEmpty .id }}
   serviceid: {{ b64enc "e2e-service-provider" }}.1
   servicename: ""
-  endpointname: /artist
+  endpointname: /artist-provider
   starttime: {{ gt .starttime 0 }}
   duration: 5
   mindurationthreshold: 0

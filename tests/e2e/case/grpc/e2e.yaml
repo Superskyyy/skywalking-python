@@ -31,7 +31,7 @@ trigger:
   action: http      # The action of the trigger. support HTTP invoke.
   interval: 1s      # Trigger the action every 3 seconds.
   times: 30          # Don't omit this!
-  url: http://${consumer_host}:${consumer_9090}/artist
+  url: http://${consumer_host}:${consumer_9090}/artist-consumer
   method: POST       # Http trigger method.
   headers:
     "Content-Type": "application/json"
@@ -55,7 +55,7 @@ verify:
     - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql endpoint list --service-name=e2e-service-provider
       expected: ../expected/service-endpoint.yml
     # basic check: service endpoint metrics
-    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist --service-name=e2e-service-provider |yq e 'to_entries' -
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist-provider --service-name=e2e-service-provider |yq e 'to_entries' -
       expected: ../expected/metrics-has-value.yml
 
     # service instance list
@@ -78,7 +78,7 @@ verify:
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace $( \
           swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls --service-name=e2e-service-consumer\
-            | yq e '.traces | select(.[].endpointnames[0]=="/artist") | .[0].traceids[0]' -
+            | yq e '.traces | select(.[].endpointnames[0]=="/artist-consumer") | .[0].traceids[0]' -
         )
       expected: ../expected/trace-artist-detail.yml
 
@@ -90,6 +90,6 @@ verify:
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql logs list --service-name=e2e-service-provider --trace-id=$( \
             swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql trace ls \
-              | yq e '.traces | select(.[].endpointnames[0]=="/artist") | .[0].traceids[0]' -
+              | yq e '.traces | select(.[].endpointnames[0]=="/artist-provider") | .[0].traceids[0]' -
         )
       expected: ../expected/logs-list.yml

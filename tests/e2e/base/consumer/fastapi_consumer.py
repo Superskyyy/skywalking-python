@@ -32,7 +32,7 @@ async def application(request: Request):
     try:
         payload = await request.json()
         async with aiohttp.ClientSession() as session:
-            async with session.post('http://provider:9090/artist', data=payload) as response:
+            async with session.post('http://provider:9090/artist-provider', data=payload) as response:
                 return await response.json()
     except Exception:  # noqa
         return {'message': 'Error'}

@@ -28,7 +28,7 @@ def artist():
     try:
         time.sleep(random.random())
         payload = request.get_json()
-        requests.post('http://provider:9090/artist', data=payload)
+        requests.post('http://provider:9090/artist-provider', data=payload)
         print(f'args: {payload}')
 
         return {'artist': 'song'}
