@@ -26,7 +26,7 @@
   logs:
     {{- contains .logs }}
     - id: {{ notEmpty .id }}
-      instanceid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "provider1" }}
+      instanceid: {{ regexp .instanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
       operationtype: NOTIFIED 
       instancename: ""
       operationtime: {{ gt .operationtime 0 }}

@@ -27,7 +27,7 @@
     {{- contains .logs }}
     - id: {{ notEmpty .id }}
       # base64 encoded version of e2e-service-provider=._instance_id
-      instanceid: {{ regexp .id "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
+      instanceid: {{ regexp .instanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
       operationtype: NOTIFIED
       instancename: ""
       operationtime: {{ gt .operationtime 0 }}
