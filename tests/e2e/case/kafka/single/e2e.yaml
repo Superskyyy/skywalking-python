@@ -17,7 +17,7 @@
 
 setup:
   env: compose
-  file: docker-compose.grpc.single.yaml
+  file: docker-compose.kafka.single.yaml
   timeout: 20m
   init-system-environment: ../../../script/env
   steps:

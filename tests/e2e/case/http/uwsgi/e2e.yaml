@@ -17,7 +17,7 @@
 
 setup:
   env: compose
-  file: docker-compose.grpc.uwsgi.yaml
+  file: docker-compose.http.uwsgi.yaml
   timeout: 20m
   init-system-environment: ../../../script/env
   steps:
