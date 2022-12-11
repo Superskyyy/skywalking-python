@@ -33,6 +33,12 @@ services:
   fastapi-provider:
     # Previously built in CI
     image: apache/skywalking-python-agent:latest-e2e
+    build:
+      # todo check if this works
+      context: ../../..
+      dockerfile: Dockerfile.e2e
+      args:
+        BASE_PYTHON_IMAGE: 3.7-slim
     expose:
       - 9090
     networks:

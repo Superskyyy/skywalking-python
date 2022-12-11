@@ -23,7 +23,7 @@ import requests
 app = Flask(__name__)
 
 
-@app.route('/artist-consumer', methods=['POST'])
+@app.route('/artist-consumer', methods=['POST', 'GET'])
 def artist():
     try:
         time.sleep(random.random())

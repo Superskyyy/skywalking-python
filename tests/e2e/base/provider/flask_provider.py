@@ -57,7 +57,10 @@ def artist():
     # Debug is not reported according to default agent setting
     e2e_provider_logger.debug('E2E Provider Debug, this is not reported!')
 
-    return {'artist': 'Luis Fonsi'}
+    return {
+        'artist': 'Luis Fonsi',
+        'pid': os.getpid()
+    }
 
 
 if __name__ == '__main__':
