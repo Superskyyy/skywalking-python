@@ -22,11 +22,6 @@ services:
     extends:
       file: ../../../base/docker-compose.base.yml
       service: oap
-    depends_on:
-      broker-a:
-        condition: service_healthy
-      broker-b:
-        condition: service_healthy
     ports:
       - "12800"
 
