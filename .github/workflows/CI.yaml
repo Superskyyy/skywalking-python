@@ -231,10 +231,18 @@ jobs:
       matrix:
         python-image-variant: [ "3.7-slim" ] #, "3.7-slim" ]
         case:
-          - name: gRPC
-            path: tests/e2e/case/grpc/e2e.yaml
-          - name: HTTP
-            path: tests/e2e/case/http/e2e.yaml
+          - name: gRPC-single-process
+            path: tests/e2e/case/grpc/single/e2e.yaml
+          - name: gRPC-gunicorn
+            path: tests/e2e/case/grpc/gunicorn/e2e.yaml
+          - name: gRPC-uwsgi
+            path: tests/e2e/case/grpc/uwsgi/e2e.yaml
+          - name: HTTP-single-process
+            path: tests/e2e/case/http/single/e2e.yaml
+          - name: HTTP-gunicorn
+            path: tests/e2e/case/http/gunicorn/e2e.yaml
+          - name: HTTP-uwsgi
+            path: tests/e2e/case/http/uwsgi/e2e.yaml
           - name: Kafka-single-process
             path: tests/e2e/case/kafka/single/e2e.yaml
           - name: Kafka-gunicorn
