@@ -48,5 +48,4 @@ verify:
         - ../../logging-cases.yaml
         - ../../metadata-cases.yaml
         - ../../metrics-cases.yaml
-        - ../../pvm-cases.yaml
         - ../../tracing-cases.yaml

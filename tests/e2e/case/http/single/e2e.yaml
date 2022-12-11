@@ -17,7 +17,7 @@
 
 setup:
   env: compose
-  file: docker-compose.http.gunicorn.yaml
+  file: docker-compose.grpc.single.yaml
   timeout: 20m
   init-system-environment: ../../../script/env
   steps:
@@ -48,5 +48,4 @@ verify:
         - ../../logging-cases.yaml
         - ../../metadata-cases.yaml
         - ../../metrics-cases.yaml
-        - ../../pvm-cases.yaml
         - ../../tracing-cases.yaml
