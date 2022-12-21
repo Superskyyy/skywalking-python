@@ -23,8 +23,8 @@ logs:
     serviceid: {{ b64enc "e2e-service-provider" }}.1
     serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
     serviceinstanceid: {{ regexp .serviceinstanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
-    endpointname: null
-    endpointid: null
+    endpointname: /artist-provider
+    endpointid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "/artist-provider" }}
     traceid: {{ notEmpty .traceid }}
     timestamp: {{ gt .timestamp 0 }}
     contenttype: TEXT
@@ -42,8 +42,8 @@ logs:
     serviceid: {{ b64enc "e2e-service-provider" }}.1
     serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
     serviceinstanceid: {{ regexp .serviceinstanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
-    endpointname: null
-    endpointid: null
+    endpointname: /artist-provider
+    endpointid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "/artist-provider" }}
     traceid: {{ notEmpty .traceid }}
     timestamp: {{ gt .timestamp 0 }}
     contenttype: TEXT
@@ -61,8 +61,8 @@ logs:
     serviceid: {{ b64enc "e2e-service-provider" }}.1
     serviceinstancename: {{ regexp .serviceinstancename "provider.*" }}
     serviceinstanceid: {{ regexp .serviceinstanceid "ZTJlLXNlcnZpY2UtcHJvdmlkZXI.*" }}
-    endpointname: null
-    endpointid: null
+    endpointname: /artist-provider
+    endpointid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "/artist-provider" }}
     traceid: {{ notEmpty .traceid }}
     timestamp: {{ gt .timestamp 0 }}
     contenttype: TEXT
