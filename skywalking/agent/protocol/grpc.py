@@ -115,7 +115,6 @@ class GrpcProtocol(Protocol):
                 if logger_debug_enabled:
                     logger.debug('reporting segment %s', segment)
                     logger.debug(f'os.pid = {os.getpid()}')
-                    logger.critical(f'os instance = {config.service_instance}')
 
                 s = SegmentObject(
                     traceId=str(segment.related_traces[0]),

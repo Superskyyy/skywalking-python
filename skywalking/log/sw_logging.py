@@ -37,9 +37,8 @@ def install():
     log_reporter_level = logging.getLevelName(config.log_reporter_level)  # type: int
 
     def _sw_handle(self, record):
-        if record.name in ['skywalking', 'skywalking-cli', 'skywalking-loader', 'uvicorn.error', 'gunicorn.error']:  # Ignore SkyWalking internal loggers
+        if record.name in ['skywalking', 'skywalking-cli', 'skywalking-loader']:  # Ignore SkyWalking internal loggers
             return _handle(self, record)
-        print(f'os.pid = {os.getpid()} got record {record}')
 
         if record.levelno < log_reporter_level:
             return _handle(self, record)
@@ -47,7 +46,6 @@ def install():
         if not config.log_reporter_ignore_filter and not self.filter(record):  # ignore filtered logs
             return _handle(self, record)  # return handle to original if record is vetoed, just to be safe
 
-        # todo add end point metadata
         def build_log_tags() -> LogTags:
             core_tags = [
                 KeyStringValuePair(key='level', value=str(record.levelname)),

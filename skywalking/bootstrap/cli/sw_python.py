@@ -65,7 +65,6 @@ def start() -> None:
 def dispatch(args: argparse.Namespace) -> None:
     """ Dispatches parsed args to a worker """
     cli_option, actual_command = args.option, args.command
-    print(f'CLI option {cli_option} received, actual command {actual_command}')
     cli_logger.debug(f"SkyWalking Python agent with CLI option '{cli_option}' and command {actual_command}")
 
     # Dispatch actual user application command to runner

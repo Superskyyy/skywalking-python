@@ -18,7 +18,6 @@
 """ This version of sitecustomize will
 1. initialize the SkyWalking Python Agent.
 2. invoke an existing sitecustomize.py.
-
 Requires Python 3.7+ (os.register_at_fork)
 
 When executing commands with `sw-python run command`
@@ -124,7 +123,7 @@ if not (version_match and prefix_match):
                             'this is not safe and loader will not proceed. '
                             'Please make sure that sw-python CLI, skywalking agent and your '
                             'application are using the same Python executable, '
-                            'Rerun with debug flag, `sw-python -d run <your_command>` for '
+                            'Rerun with debug flag, `sw-python -d run <your_python_command>` for '
                             'some troubleshooting information.'
                             'use `which sw-python` to find out the invoked CLI location')
     os._exit(1)  # noqa: do not go further

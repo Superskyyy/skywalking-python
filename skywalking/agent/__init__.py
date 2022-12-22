@@ -238,12 +238,13 @@ def __fork_after_in_child():
 def start():
     global __started
 
-    # modify pid
+    # append pid-suffix to instance name
     config.service_instance = config.service_instance + '-' + str(os.getpid())
 
-    print(f'started?> {__started} at pid {os.getpid()}')
+    logger.debug(f'SkyWalking agent started at pid-{os.getpid()}')
     if __started:
-        print(f'its already started!, we have threads {threading.enumerate()}')
+        logger.warning('SkyWalking agent is already started in this process.') 
+        return
 
     __started = True
 

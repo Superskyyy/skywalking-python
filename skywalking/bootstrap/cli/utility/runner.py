@@ -31,8 +31,9 @@ def prefork_handler(command: List[str]) -> None:
     This handles the cases where pre-forking servers are EXPLICITLY used:
     - gunicorn
     - uwsgi
-    There could be cases where gunicorn/uwsgi is loaded by other scripts,
-    it is possible that the env variables (e.g. loading sitecustomize.py) are lost in such flow.
+    This handler only covers many plain usages, there could be cases where 
+    gunicorn/uwsgi is loaded by other scripts and the envvars used here 
+    are lost in such flow.
     """
     # todo: check --enable-threads, it must be set in env
     print(command)
