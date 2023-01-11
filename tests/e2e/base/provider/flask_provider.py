@@ -17,7 +17,7 @@
 import logging
 import time
 import random
-
+import requests
 import os
 from flask import Flask
 
@@ -40,6 +40,7 @@ def pid():
 
 @app.route('/artist-provider', methods=['POST'])
 def artist():
+    requests.get('https://www.google.com/')
     time.sleep(random.random())
     # Exception is reported with trackback depth of 5 (default)
     try:

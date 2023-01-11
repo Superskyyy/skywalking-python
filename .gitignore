@@ -32,3 +32,5 @@ dist/
 tests/**/requirements.txt
 .vscode/
 skywalking/protocol
+apache-skywalking-apm*
+demo
