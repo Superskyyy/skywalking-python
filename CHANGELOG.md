@@ -8,6 +8,7 @@
   - Add reporter for PVM runtime metrics (default:disabled, gRPC and Kafka only, HTTP is not supported yet) (#238, #247)
   - Add Greenlet profiler (#246)
   - Add test and support for Python Slim base images (#249)
+  - Add support for the tags of Virtual Cache for Redis (#263)
   - Sw-python CLI now automatically handles Gunicorn and uWSGI pre-forking behavior. (#256)
 
 - Plugins:
