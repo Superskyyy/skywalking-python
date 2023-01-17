@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: # may support pypy in the future
-        python-version: [ "3.7-slim", "3.10-slim" ]
+        python-version: [ "3.7", "3.10" ]
       fail-fast: false
     env:
       BASE_PYTHON_IMAGE: ${{ matrix.python-version }}
