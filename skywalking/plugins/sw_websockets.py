@@ -28,8 +28,8 @@ note = """
 Note: This instrumentation only traces client side connection handshake,
 the actual message exchange (send/recv) is not traced since injecting headers to socket message
 body is the only way to propagate the trace context, which requires customization of message structure
-and extreme care. (Feel free to add this feature by instrumenting the send/recv methods commented out in the code 
-by either injecting sw8 headers or propagate the trace context in a separate message) 
+and extreme care. (Feel free to add this feature by instrumenting the send/recv methods commented out in the code
+by either injecting sw8 headers or propagate the trace context in a separate message)
 """
 
 

@@ -20,7 +20,7 @@
 # get tests from both unit and plugin
 declare -a unit_tests=( $(ls -d tests/unit ) )
 
-declare -a plugin_tests=( $(ls -d tests/plugin/{data,http,web} | grep -v '__pycache__' ))
+declare -a plugin_tests=( $(ls -d tests/plugin/{http/sw_websockets,web/sw_fastapi} | grep -v '__pycache__' ))
 
 dest=( "${unit_tests[@]}" "${plugin_tests[@]}" )
 

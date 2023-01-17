@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import requests
 import websockets
 
 import asyncio
@@ -28,7 +27,7 @@ if __name__ == '__main__':
     @app.get('/ws')
     async def websocket_ping():
         async with websockets.connect('ws://localhost:9091/ws', extra_headers=None) as websocket:
-            await websocket.send("Ping")
+            await websocket.send('Ping')
 
             response = await websocket.recv()
             await asyncio.sleep(0.5)

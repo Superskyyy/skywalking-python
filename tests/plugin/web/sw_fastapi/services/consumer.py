@@ -14,19 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import time
-
 import requests
 import websockets
 
 import asyncio
-from skywalking import agent, config
-
-config.init(collector_address='localhost:11800', service_name='test-fastapi-consumer',
-            log_reporter_active=True, service_instance=f'test_instance-',
-            logging_level='CRITICAL')
-
-agent.start()
 
 if __name__ == '__main__':
     from fastapi import FastAPI
@@ -42,7 +33,7 @@ if __name__ == '__main__':
 
     async def websocket_ping():
         async with websockets.connect('ws://localhost:9091/ws', extra_headers=None) as websocket:
-            await websocket.send("Ping")
+            await websocket.send('Ping')
 
             response = await websocket.recv()
             await asyncio.sleep(0.5)

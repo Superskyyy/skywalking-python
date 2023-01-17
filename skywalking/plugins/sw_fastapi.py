@@ -84,18 +84,14 @@ def install():
 
         carrier = Carrier()
 
-        if scope['type'] == "websocket":
+        if scope['type'] == 'websocket':
             ws = WebSocket(scope, receive=receive, send=send)
             method = 'websocket.accept'
-
-            print(f'entering create span for websocket on message ')
-
             await create_span(self, method, scope, carrier, ws, send, receive)
 
-        elif scope["type"] == "http":
+        elif scope['type'] == 'http':
             req = Request(scope, receive=receive, send=send)
             method = req.method
-
             await create_span(self, method, scope, carrier, req, send, receive)
 
         else:

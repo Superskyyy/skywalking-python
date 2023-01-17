@@ -14,17 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import time
 
 from starlette.websockets import WebSocketDisconnect
 
-from skywalking import agent, config
-config.init(collector_address='localhost:11800', service_name='test-fastapi-provider',
-            log_reporter_active=True, service_instance=f'test_instance-',
-            logging_level='CRITICAL')
-
-agent.start()
 if __name__ == '__main__':
     from fastapi import FastAPI, WebSocket
     import uvicorn
