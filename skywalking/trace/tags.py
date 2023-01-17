@@ -42,6 +42,14 @@ class TagHttpStatusMsg(Tag):
     key = 'http.status_msg'
 
 
+class TagWebSocketURL(Tag):
+    key = 'websocket.url'
+
+
+class TagWebSocketOpCode(Tag):
+    key = 'websocket.opcode'
+
+
 class TagHttpParams(Tag):
     key = 'http.params'
 

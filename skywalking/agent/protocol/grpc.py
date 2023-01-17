@@ -37,7 +37,7 @@ from skywalking.protocol.language_agent.Meter_pb2 import MeterData
 from skywalking.protocol.profile.Profile_pb2 import ThreadSnapshot, ThreadStack
 from skywalking.trace.segment import Segment
 
-
+# fixme before release 1.0 periodical report metadata to prevent loss
 class GrpcProtocol(Protocol):
     def __init__(self):
         self.properties_sent = False

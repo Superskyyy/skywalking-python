@@ -15,27 +15,13 @@
 # limitations under the License.
 #
 
-import time
-
 from starlette.websockets import WebSocketDisconnect
 
-from skywalking import agent, config
-config.init(collector_address='localhost:11800', service_name='test-fastapi-provider',
-            log_reporter_active=True, service_instance=f'test_instance-',
-            logging_level='CRITICAL')
-
-agent.start()
 if __name__ == '__main__':
     from fastapi import FastAPI, WebSocket
     import uvicorn
 
     app = FastAPI()
-
-
-    @app.get('/users')
-    async def application():
-        time.sleep(0.5)
-        return {'song': 'Despacito', 'artist': 'Luis Fonsi'}
 
 
     @app.websocket('/ws')
@@ -52,5 +38,6 @@ if __name__ == '__main__':
         except WebSocketDisconnect:
             ...
         return 'ok'
+
 
     uvicorn.run(app, host='0.0.0.0', port=9091)
