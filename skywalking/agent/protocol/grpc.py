@@ -39,8 +39,6 @@ from skywalking.trace.segment import Segment
 
 
 class GrpcProtocol(Protocol):
-    # fixme before release 1.0 periodical report metadata to prevent loss
-
     def __init__(self):
         self.properties_sent = False
         self.state = None

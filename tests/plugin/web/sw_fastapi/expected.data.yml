@@ -17,7 +17,7 @@
 
 segmentItems:
   - serviceName: provider
-    segmentSize: 1
+    segmentSize: 2
     segments:
       - segmentId: not null
         spans:
@@ -47,6 +47,8 @@ segmentItems:
                 parentServiceInstance: not null
                 parentService: consumer
                 traceId: not null
+      - segmentId: not null
+        spans:
           - operationName: /ws
             parentSpanId: -1
             spanId: 0
@@ -68,7 +70,7 @@ segmentItems:
               - parentEndpoint: /ws
                 networkAddress: provider:9091
                 refType: CrossProcess
-                parentSpanId: 1
+                parentSpanId: 2
                 parentTraceSegmentId: not null
                 parentServiceInstance: not null
                 parentService: consumer
@@ -78,21 +80,6 @@ segmentItems:
     segments:
       - segmentId: not null
         spans:
-          - operationName: /ws
-            parentSpanId: 0
-            spanId: 1
-            spanLayer: Http
-            startTime: gt 0
-            endTime: gt 0
-            componentId: 7018
-            spanType: Exit
-            peer: provider:9091
-            skipAnalysis: false
-            tags:
-              - key: websocket.opcode
-                value: 'websocket.connect'
-              - key: websocket.url
-                value: ws://provider:9091/ws
           - operationName: /users
             parentSpanId: 0
             spanId: 1
@@ -110,6 +97,23 @@ segmentItems:
                 value: http://provider:9091/users
               - key: http.status_code
                 value: '200'
+          - operationName: /ws
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7018
+            spanType: Exit
+            peer: provider:9091
+            skipAnalysis: false
+            tags:
+              - key: http.method
+                value: 'websocket.connect'
+              - key: http.url
+                value: ws://provider:9091/ws
+              - key: http.status_msg
+                value: 'connection open'
           - operationName: /users
             parentSpanId: -1
             spanId: 0

@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     @app.get('/ws')
     async def websocket_ping():
-        async with websockets.connect('ws://localhost:9091/ws', extra_headers=None) as websocket:
+        async with websockets.connect('ws://provider:9091/ws', extra_headers=None) as websocket:
             await websocket.send('Ping')
 
             response = await websocket.recv()

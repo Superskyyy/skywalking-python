@@ -63,10 +63,12 @@ segmentItems:
             peer: provider:9091
             skipAnalysis: false
             tags:
-              - key: websocket.opcode
+              - key: http.method
                 value: 'websocket.connect'
-              - key: websocket.url
+              - key: http.url
                 value: ws://provider:9091/ws
+              - key: http.status_msg
+                value: 'connection open'
           - operationName: /ws
             parentSpanId: -1
             spanId: 0
@@ -81,7 +83,7 @@ segmentItems:
               - key: http.method
                 value: GET
               - key: http.url
-                value: http://0.0.0.0:9090/users
+                value: http://0.0.0.0:9090/ws
               - key: http.params
                 value: "test=[test1,test2]\ntest2=[test2]"
               - key: http.status_code

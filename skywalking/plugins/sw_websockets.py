@@ -16,7 +16,7 @@
 #
 from skywalking import Layer, Component
 from skywalking.trace.context import get_context
-from skywalking.trace.tags import TagWebSocketOpCode, TagWebSocketURL
+from skywalking.trace.tags import TagHttpMethod, TagHttpURL, TagHttpStatusMsg
 
 link_vector = ['https://websockets.readthedocs.io']
 support_matrix = {
@@ -24,8 +24,7 @@ support_matrix = {
         '>=3.7': ['10.3', '10.4']
     }
 }
-note = """
-Note: This instrumentation only traces client side connection handshake,
+note = """The websocket instrumentation only traces client side connection handshake,
 the actual message exchange (send/recv) is not traced since injecting headers to socket message
 body is the only way to propagate the trace context, which requires customization of message structure
 and extreme care. (Feel free to add this feature by instrumenting the send/recv methods commented out in the code
@@ -54,17 +53,26 @@ def install():
             for item in carrier:
                 self.extra_headers[item.key] = item.val
 
-            span.tag(TagWebSocketOpCode('websocket.connect'))
+            span.tag(TagHttpMethod('websocket.connect'))
 
             scheme = 'wss' if wsuri.secure else 'ws'
-            span.tag(TagWebSocketURL(f'{scheme}://{wsuri.host}:{wsuri.port}{wsuri.path}'))
+            span.tag(TagHttpURL(f'{scheme}://{wsuri.host}:{wsuri.port}{wsuri.path}'))
+            status_msg = 'connection open'
+            try:
+                await _protocol_handshake_client(self,
+                                                 wsuri=wsuri,
+                                                 origin=origin,
+                                                 available_extensions=available_extensions,
+                                                 available_subprotocols=available_subprotocols,
+                                                 extra_headers=extra_headers)
+            except Exception as e:
+                span.error_occurred = True
+                span.log(e)
+                status_msg = 'invalid handshake'
+                raise e
+            finally:
+                span.tag(TagHttpStatusMsg(status_msg))
 
-            await _protocol_handshake_client(self,
-                                             wsuri=wsuri,
-                                             origin=origin,
-                                             available_extensions=available_extensions,
-                                             available_subprotocols=available_subprotocols,
-                                             extra_headers=extra_headers)
 
     WebSocketClientProtocol.handshake = _sw_protocol_handshake_client
 

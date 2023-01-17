@@ -27,12 +27,12 @@ if __name__ == '__main__':
 
     @app.get('/users')
     async def application():
-        res = requests.get('http://localhost:9091/users', timeout=5)
+        res = requests.get('http://provider:9091/users', timeout=5)
         websocket_pong = await websocket_ping()
         return {'http': res.json(), 'websocket': websocket_pong}
 
     async def websocket_ping():
-        async with websockets.connect('ws://localhost:9091/ws', extra_headers=None) as websocket:
+        async with websockets.connect('ws://provider:9091/ws', extra_headers=None) as websocket:
             await websocket.send('Ping')
 
             response = await websocket.recv()

@@ -43,11 +43,13 @@ def install():
     def params_tostring(params):
         return '\n'.join([f"{k}=[{','.join(params.getlist(k))}]" for k, _ in params.items()])
 
-    async def create_span(self, method, scope, carrier, req, send, receive):
+    async def create_span(self, method, scope, req, send, receive):
+        carrier = Carrier()
+
         for item in carrier:
             if item.key.capitalize() in req.headers:
                 item.val = req.headers[item.key.capitalize()]
-        print(req.headers)
+
         span = NoopSpan(NoopContext()) if config.ignore_http_method_check(method) \
             else get_context().new_entry_span(op=dict(scope)['path'], carrier=carrier, inherit=Component.General)
 
@@ -82,17 +84,15 @@ def install():
 
     async def _sw_fast_api(self, scope: Scope, receive: Receive, send: Send):
 
-        carrier = Carrier()
-
         if scope['type'] == 'websocket':
             ws = WebSocket(scope, receive=receive, send=send)
             method = 'websocket.accept'
-            await create_span(self, method, scope, carrier, ws, send, receive)
+            await create_span(self, method, scope, ws, send, receive)
 
         elif scope['type'] == 'http':
             req = Request(scope, receive=receive, send=send)
             method = req.method
-            await create_span(self, method, scope, carrier, req, send, receive)
+            await create_span(self, method, scope, req, send, receive)
 
         else:
             await _original_fast_api(self, scope, receive, send)
