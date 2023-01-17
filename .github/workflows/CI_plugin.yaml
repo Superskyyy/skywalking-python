@@ -15,7 +15,6 @@ jobs:
   # Check if the plugin doc is generated correctly
   plugin-doc-check:
     name: Check Plugin Doc
-    needs: license-and-lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source codes
