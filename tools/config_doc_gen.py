@@ -56,11 +56,9 @@ def create_entry(comment: str, config_index: int) -> str:
     """
     Each configuration entry is matched with comment (blocks) by index
     Args:
-        comment:
-        config_index:
-
-    Returns:
-
+        comment: comment block
+        config_index: index of comment block in the list of comments
+    Returns: markdown table entry
     """
     def env_var_name(config_entry):
         return 'SW_AGENT_' + config_entry.upper()
@@ -72,7 +70,10 @@ def create_entry(comment: str, config_index: int) -> str:
     return f'| {configuration} | {env_var_name(configuration)} | {str(type_)} | {default_val} | {comment} |'
 
 
-def generate_markdown_table():
+def generate_markdown_table() -> None:
+    """
+    Goes through each configuration entry and its comment block and generates markdown tables
+    """
     comments = comments_from_file('skywalking/config.py')
 
     with open('docs/en/setup/Configuration.md', 'w') as plugin_doc:
