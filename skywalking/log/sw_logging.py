@@ -103,7 +103,7 @@ def install():
                 traceSegmentId=str(context.segment.segment_id),
                 spanId=active_span_id
             )
-            log_data.traceContext = trace_context
+            log_data.traceContext.CopyFrom(trace_context)
 
         if primary_endpoint_name:
             log_data.endpoint = primary_endpoint_name
