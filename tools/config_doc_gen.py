@@ -115,7 +115,7 @@ def config_env_var_verify():
         data = f.read().replace('\n', '')
         for each in options_with_default_value_and_type.keys():
             print(f'checking {each}')
-            if f'\'SW_AGENT_{each.upper()}\'' not in data:
+            if f"'SW_AGENT_{each.upper()}'" not in data:
                 raise Exception(f'Environment variable SW_AGENT_{each.upper()} is not found in config.py')
 
 
