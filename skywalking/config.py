@@ -198,11 +198,10 @@ def init(**kwargs) -> None:
     Args:
         **kwargs: Any of the configuration options listed
     """
-    __doc__ = 'init.__doc__.format(', '.join(options))'
     glob = globals()
     for key, val in kwargs.items():
         if key not in options:
-            raise KeyError(f'invalid config option {key}')
+            raise KeyError(f'Invalid configuration option {key}')
 
         glob[key] = val
 
