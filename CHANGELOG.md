@@ -43,7 +43,7 @@
   - New documentation on the newly added greenlet profiler and the original threading profiler (#250)
   - Overhaul documentation on development setup and testing (#249)
   - Add tables to state currently supported features of Python agent. (#271)
-  - New configuration documentation generator (some configs are renamed in this PR) 
+  - New configuration documentation generator (#273) 
 
 - Others:
   - Pin CI SkyWalking License Eye (#221)
@@ -54,7 +54,7 @@
   - Fix grpcio-tools generated message type (#253)
   - Switch plugin tests to use slim Python images (#268)
   - Add unit tests to sw_filters (#269)
-  - **BREAKING** SW_AGENT_PROFILE_ACTIVE | config.profile_active is renamed from profile to profiler (#?)
+  - **BREAKING** SW_AGENT_PROFILE_ACTIVE | config.profile_active is renamed from profile to profiler (#273)
 
 ### 0.8.0
 - Feature:
