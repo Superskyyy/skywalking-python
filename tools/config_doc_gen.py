@@ -91,6 +91,9 @@ def create_entry(comment: str, config_index: int) -> str:
     type_ = options_with_default_value_and_type[configuration][1]
     default_val = options_with_default_value_and_type[configuration][0]
 
+    # special case for randomly generated default value
+    if configuration == 'service_instance':
+        default_val = "str(uuid.uuid1()).replace('-', '')"
     return f'| {configuration} | {env_var_name(configuration)} | {str(type_)} | {default_val} | {comment} |'
 
 
@@ -117,13 +120,10 @@ def config_env_var_verify():
     A naive checker to verify if all configuration entries have corresponding environment
     (prevents common typo but not all)
     """
-    from skywalking import config
-    print(config.aioid)
     with open('skywalking/config.py', 'r') as config_file:
         data = config_file.read().replace('\n', '')
         for each in options_with_default_value_and_type.keys():
-            print(f'checking {each}')
-            if f'\'SW_AGENT_{each.upper()}\'' not in data:
+            if f"'SW_AGENT_{each.upper()}'" not in data:
                 raise Exception(f'Environment variable SW_AGENT_{each.upper()} is not found in config.py')
 
 
