@@ -47,7 +47,7 @@ options = globals().copy()
 # The name of the Python service
 service_name: str = os.getenv('SW_AGENT_SERVICE_NAME') or 'Python Service Name'
 # The name of the Python service instance
-service_instance: str = os.getenv('SW_AGENT_SERVICE1_INSTANCE') or str(uuid.uuid1()).replace('-', '')
+service_instance: str = os.getenv('SW_AGENT_SERVICE_INSTANCE') or str(uuid.uuid1()).replace('-', '')
 # The agent will report service instance properties every
 # `factor * heartbeat period` seconds default: 10*30 = 300 seconds
 service_instance_property_report_factor = int(os.getenv('SW_AGENT_SERVICE_INSTANCE_PROPERTY_REPORT_FACTOR', '10'))
