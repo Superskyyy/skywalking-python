@@ -167,7 +167,7 @@ def __init_threading():
         __log_report_thread = Thread(name='LogReportThread', target=__report_log, daemon=True)
         __log_report_thread.start()
 
-    if config.profile_active:
+    if config.profiler_active:
         __snapshot_queue = Queue(maxsize=config.profile_snapshot_transport_buffer_size)
 
         __query_profile_thread = Thread(name='QueryProfileCommandThread', target=__query_profile_command, daemon=True)
@@ -205,7 +205,7 @@ def __fini():
         __protocol.report_log(__log_queue, False)
         __log_queue.join()
 
-    if config.profile_active:
+    if config.profiler_active:
         __protocol.send_snapshot(__snapshot_queue, False)
         __snapshot_queue.join()
 

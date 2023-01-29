@@ -77,6 +77,7 @@ def create_entry(comment: str, config_index: int) -> str:
         config_index: index of comment block in the list of comments
     Returns: markdown table entry
     """
+
     def env_var_name(config_entry):
         return 'SW_AGENT_' + config_entry.upper()
 
@@ -105,5 +106,19 @@ def generate_markdown_table() -> None:
                 plugin_doc.write(f'{table_entry}\n')
 
 
+def config_env_var_verify():
+    """
+    A naive checker to verify if all configuration entries have corresponding environment
+    (prevents common typo but not all)
+    """
+    with open('skywalking/config.py', 'r') as f:
+        data = f.read().replace('\n', '')
+        for each in options_with_default_value_and_type.keys():
+            print(f'checking {each}')
+            if f'\'SW_AGENT_{each.upper()}\'' not in data:
+                raise Exception(f'Environment variable SW_AGENT_{each.upper()} is not found in config.py')
+
+
 if __name__ == '__main__':
     generate_markdown_table()
+    config_env_var_verify()
