@@ -15,9 +15,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
+"""
+A simple doc generator for configuration options
+"""
 from skywalking.config import options_with_default_value_and_type
 
-doc_head = """# Supported Agent Configuration Options
+DOC_HEAD = """# Supported Agent Configuration Options
 
 Below is the full list of supported configurations you can set to
 customize the agent behavior, please read the descriptions for what they can achieve.
@@ -34,24 +37,27 @@ export SW_AGENT_YourConfiguration=YourValue
 ```
 
 """
-table_head = """### {}
+TABLE_HEAD = """### {}
 | Configuration | Environment Variable | Type | Default Value | Description |
 | :------------ | :------------ | :------------ | :------------ | :------------ |
 """
 
 
 def comments_from_file(file_path):
+    """
+    Get comments from config.py
+    """
     comments = []
     analyze = False
     comment_block_begin = False
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
+    with open(file_path, 'r') as config_file:
+        lines = config_file.readlines()
         lines = [line.rstrip() for line in lines]
         for line in lines:
             if line.startswith('# THIS MUST PRECEDE DIRECTLY BEFORE LIST OF CONFIG OPTIONS!'):
                 analyze = True
                 continue
-            elif line.startswith('# THIS MUST FOLLOW DIRECTLY AFTER LIST OF CONFIG OPTIONS!'):
+            if line.startswith('# THIS MUST FOLLOW DIRECTLY AFTER LIST OF CONFIG OPTIONS!'):
                 break
             if analyze and line.startswith('#'):
                 if line.startswith('# BEGIN'):
@@ -95,11 +101,11 @@ def generate_markdown_table() -> None:
     comments = comments_from_file('skywalking/config.py')
 
     with open('docs/en/setup/Configuration.md', 'w') as plugin_doc:
-        plugin_doc.write(doc_head)
+        plugin_doc.write(DOC_HEAD)
         offset = 0
         for config_index, comment in enumerate(comments):
             if comment.startswith('# BEGIN'):
-                plugin_doc.write(table_head.format(comment.lstrip('# ')))
+                plugin_doc.write(TABLE_HEAD.format(comment.lstrip('# ')))
                 offset += 1
             else:
                 table_entry = create_entry(comment, config_index - offset)
@@ -111,8 +117,10 @@ def config_env_var_verify():
     A naive checker to verify if all configuration entries have corresponding environment
     (prevents common typo but not all)
     """
-    with open('skywalking/config.py', 'r') as f:
-        data = f.read().replace('\n', '')
+    from skywalking import config
+    print(config.aioid)
+    with open('skywalking/config.py', 'r') as config_file:
+        data = config_file.read().replace('\n', '')
         for each in options_with_default_value_and_type.keys():
             print(f'checking {each}')
             if f'\'SW_AGENT_{each.upper()}\'' not in data:
