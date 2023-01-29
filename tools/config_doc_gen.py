@@ -117,7 +117,6 @@ def config_env_var_verify():
     A naive checker to verify if all configuration entries have corresponding environment
     (prevents common typo but not all)
     """
-    from skywalking import config
     with open('skywalking/config.py', 'r') as config_file:
         data = config_file.read().replace('\n', '')
         for each in options_with_default_value_and_type.keys():
