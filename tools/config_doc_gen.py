@@ -118,7 +118,6 @@ def config_env_var_verify():
     (prevents common typo but not all)
     """
     from skywalking import config
-    print(config.aioid)
     with open('skywalking/config.py', 'r') as config_file:
         data = config_file.read().replace('\n', '')
         for each in options_with_default_value_and_type.keys():
