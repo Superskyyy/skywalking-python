@@ -50,7 +50,7 @@ Sometimes you don't actually need the agent to monitor anything in a child proce
 
 If you do not need the agent to get loaded for application child processes, you can turn off the behavior by setting an environment variable.
 
-`SW_PYTHON_BOOTSTRAP_PROPAGATE` to `False`
+`SW_AGENT_SW_PYTHON_BOOTSTRAP_PROPAGATE` to `False`
 
 Note the auto bootstrap depends on the environment inherited by child processes, 
 thus prepending a new sitecustomize path to or removing the loader path from the `PYTHONPATH` could prevent the agent from loading in a child process. 
