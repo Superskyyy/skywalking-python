@@ -37,7 +37,6 @@ services:
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: collector:19876
       SW_AGENT_LOGGING_LEVEL: DEBUG
-      # Agent test tool does not support profiling, TODO: address in e2e ref: #155
       SW_AGENT_PROFILER_ACTIVE: 'False'
     networks:
       - beyond
