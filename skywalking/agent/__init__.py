@@ -61,7 +61,7 @@ def __report():
 
     while not __finished.is_set():
         try:
-            __protocol.report(__queue)  # is blocking actually, blocks for max config.QUEUE_TIMEOUT seconds
+            __protocol.report(__queue)  # is blocking actually, blocks for max config.queue_timeout seconds
             wait = base
         except Exception as exc:
             logger.error(str(exc))
@@ -117,7 +117,7 @@ def __report_meter():
 
     while not __finished.is_set():
         try:
-            __protocol.report_meter(__meter_queue)  # is blocking actually, blocks for max config.QUEUE_TIMEOUT seconds
+            __protocol.report_meter(__meter_queue)  # is blocking actually, blocks for max config.queue_timeout seconds
             wait = base
         except Exception as exc:
             logger.error(str(exc))
