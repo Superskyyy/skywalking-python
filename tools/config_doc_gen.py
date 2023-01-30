@@ -124,7 +124,8 @@ def config_env_var_verify():
         data = config_file.read().replace('\n', '')
         for each in options_with_default_value_and_type.keys():
             if f"'SW_AGENT_{each.upper()}'" not in data:
-                raise Exception(f'Environment variable SW_AGENT_{each.upper()} is not found in config.py')
+                raise Exception(f'Environment variable SW_AGENT_{each.upper()} is not found in config.py\n'
+                                f'This means you have a mismatch of config.py variable and env var name')
 
 
 if __name__ == '__main__':
