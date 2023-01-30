@@ -34,8 +34,6 @@ import uuid
 
 from typing import List, Pattern
 
-QUEUE_TIMEOUT: int = 1
-# TODO ADD THESE 3 to tables and check why they are special?
 RE_IGNORE_PATH: Pattern = re.compile('^$')
 RE_HTTP_IGNORE_METHOD: Pattern = RE_IGNORE_PATH
 
@@ -57,6 +55,9 @@ service_instance_property_report_factor = int(os.getenv('SW_AGENT_SERVICE_INSTAN
 experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
 # The agent will exchange heartbeat message with SkyWalking OAP backend every `period` seconds
 heartbeat_period: int = int(os.getenv('SW_AGENT_HEARTBEAT_PERIOD', '30'))
+# DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
+# Do not modify unless you have evaluated its impact given your service load. 
+queue_timeout: int = int(os.getenv('SW_AGENT_QUEUE_TIMEOUT', '1'))
 # The agent namespace of the Python service
 namespace: str = os.getenv('SW_AGENT_NAMESPACE', '')
 # The backend OAP server address
