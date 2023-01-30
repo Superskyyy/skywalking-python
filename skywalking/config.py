@@ -42,57 +42,66 @@ options = globals().copy()
 # THIS MUST PRECEDE DIRECTLY BEFORE LIST OF CONFIG OPTIONS!
 
 # BEGIN: Agent Core Configuration Options
-# The name of the Python service
-service_name: str = os.getenv('SW_AGENT_SERVICE_NAME') or 'Python Service Name'
-# The name of the Python service instance
-service_instance: str = os.getenv('SW_AGENT_SERVICE_INSTANCE') or str(uuid.uuid1()).replace('-', '')
-# The agent will report service instance properties every
-# `factor * heartbeat period` seconds default: 10*30 = 300 seconds
-service_instance_property_report_factor = int(os.getenv('SW_AGENT_SERVICE_INSTANCE_PROPERTY_REPORT_FACTOR', '10'))
-# The agent will try to restart itself in any os.fork()-ed child process. Important note: it's not suitable for
-# large numbered, short-lived processes such as multiprocessing.Pool, as each one will introduce overhead and create
-# numerous instances in SkyWalking dashboard in format of `service_instance-child-<pid>`
-experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
-# The agent will exchange heartbeat message with SkyWalking OAP backend every `period` seconds
-heartbeat_period: int = int(os.getenv('SW_AGENT_HEARTBEAT_PERIOD', '30'))
-# DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
-# Do not modify unless you have evaluated its impact given your service load. 
-queue_timeout: int = int(os.getenv('SW_AGENT_QUEUE_TIMEOUT', '1'))
-# The agent namespace of the Python service
-namespace: str = os.getenv('SW_AGENT_NAMESPACE', '')
-# The backend OAP server address
+# The backend OAP server address, 11800 is default OAP gRPC port, 12800 is HTTP, Kafka ignores this option 
+# and uses kafka_bootstrap_servers option. **This option should be changed accordingly with selected protocol**
 collector_address: str = os.getenv('SW_AGENT_COLLECTOR_ADDRESS') or '127.0.0.1:11800'
-# A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. It is in the form
-# host1:port1,host2:port2,...
+# The protocol to communicate with the backend OAP, `http`, `grpc` or `kafka`, **we highly suggest using `grpc` in
+# production as it's well optimized than `http`**. The `kafka` protocol provides an alternative way to submit data to
+# the backend.
+protocol: str = (os.getenv('SW_AGENT_PROTOCOL') or 'grpc').lower()
+# The name of your awesome Python service
+service_name: str = os.getenv('SW_AGENT_SERVICE_NAME') or 'Python Service Name'
+# The name of this particular awesome Python service instance
+service_instance: str = os.getenv('SW_AGENT_SERVICE_INSTANCE') or str(uuid.uuid1()).replace('-', '')
+# The agent namespace of the Python service (available as tag)
+namespace: str = os.getenv('SW_AGENT_NAMESPACE', '')
+# A list of host/port pairs to use for establishing the initial connection to your Kafka cluster. 
+# It is in the form of host1:port1,host2:port2,... (used for Kafka reporter protocol)
 kafka_bootstrap_servers: str = os.getenv('SW_AGENT_KAFKA_BOOTSTRAP_SERVERS') or 'localhost:9092'
-# Specifying Kafka topic name for service instance reporting and registering.
+# Specifying Kafka topic name for service instance reporting and registering, this should be in sync with OAP
 kafka_topic_management: str = os.getenv('SW_AGENT_KAFKA_TOPIC_MANAGEMENT') or 'skywalking-managements'
-# Specifying Kafka topic name for Tracing data.
+# Specifying Kafka topic name for Tracing data, this should be in sync with OAP
 kafka_topic_segment: str = os.getenv('SW_AGENT_KAFKA_TOPIC_SEGMENT') or 'skywalking-segments'
-# Specifying Kafka topic name for Log data.
+# Specifying Kafka topic name for Log data, this should be in sync with OAP
 kafka_topic_log: str = os.getenv('SW_AGENT_KAFKA_TOPIC_LOG') or 'skywalking-logs'
-# Specifying Kafka topic name for Meter data.
+# Specifying Kafka topic name for Meter data, this should be in sync with OAP
 kafka_topic_meter: str = os.getenv('SW_AGENT_KAFKA_TOPIC_METER') or 'skywalking-meters'
 # The configs to init KafkaProducer, supports the basic arguments (whose type is either `str`, `bool`, or `int`) listed 
 # [here](https://kafka-python.readthedocs.io/en/master/apidoc/KafkaProducer.html#kafka.KafkaProducer)
 # This config only works from environment variables, value should be passed by SW_AGENT_KAFKA_REPORTER_CONFIG_<KEY_NAME> 
 kafka_reporter_config_key: str = os.getenv('SW_AGENT_KAFKA_REPORTER_CONFIG_<KEY_NAME>', '')
-# Use TLS for communication with server (no cert required)
+# Use TLS for communication with SkyWalking OAP (no cert required)
 force_tls: bool = os.getenv('SW_AGENT_FORCE_TLS', '').lower() == 'true'
-# The protocol to communicate with the backend OAP, `http`, `grpc` or `kafka`, **we highly suggest using `grpc` in
-# production as it's well optimized than `http`**. The `kafka` protocol provides an alternative way to submit data to
-# the backend.
-protocol: str = (os.getenv('SW_AGENT_PROTOCOL') or 'grpc').lower()
 # The authentication token to verify that the agent is trusted by the backend OAP, as for how to configure the
 # backend, refer to [the yaml](https://github.com/apache/skywalking/blob/4f0f39ffccdc9b41049903cc540b8904f7c9728e/oap
 # -server/server-bootstrap/src/main/resources/application.yml#L155-L158).
 authentication: str = os.getenv('SW_AGENT_AUTHENTICATION', '')
-# The logging level, could be one of `CRITICAL`, `FATAL`, `ERROR`, `WARN`(`WARNING`), `INFO`, `DEBUG`
+# The level of agent self-logs, could be one of `CRITICAL`, `FATAL`, `ERROR`, `WARN`(`WARNING`), `INFO`, `DEBUG`
 logging_level: str = os.getenv('SW_AGENT_LOGGING_LEVEL') or 'INFO'
-# The name patterns in CSV pattern, plugins whose name matches one of the pattern won't be installed
-disable_plugins: List[str] = (os.getenv('SW_AGENT_DISABLE_PLUGINS') or '').split(',')
+
+# BEGIN: Agent Core Danger Zone
+# The agent will exchange heartbeat message with SkyWalking OAP backend every `period` seconds
+heartbeat_period: int = int(os.getenv('SW_AGENT_HEARTBEAT_PERIOD', '30'))
+# The agent will report service instance properties every
+# `factor * heartbeat period` seconds default: 10*30 = 300 seconds (TODO)
+service_instance_property_report_factor = int(os.getenv('SW_AGENT_SERVICE_INSTANCE_PROPERTY_REPORT_FACTOR', '10'))
+# The agent will try to restart itself in any os.fork()-ed child process. Important note: it's not suitable for
+# large numbered, short-lived processes such as multiprocessing.Pool, as each one will introduce overhead and create
+# numerous instances in SkyWalking dashboard in format of `service_instance-child-<pid>` (TODO)
+experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
+# DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
+# Do not modify unless you have evaluated its impact given your service load. 
+queue_timeout: int = int(os.getenv('SW_AGENT_QUEUE_TIMEOUT', '1'))
+
+# BEGIN: SW_PYTHON Auto Instrumentation CLI
+# Special: can only be passed via environment. This config controls the child process agent bootstrap behavior in
+# `sw-python` CLI, if set to `False`, a valid child process will not boot up a SkyWalking Agent. Please refer to the [
+# CLI Guide](CLI.md) for details.
+sw_python_bootstrap_propagate = os.getenv('SW_AGENT_SW_PYTHON_BOOTSTRAP_PROPAGATE', '').lower() == 'true'
+
+# BEGIN: Trace Reporter Configurations
 # The maximum queue backlog size for sending the segment data to backend, segments beyond this are silently dropped
-max_buffer_size: int = int(os.getenv('SW_AGENT_MAX_BUFFER_SIZE', '10000'))
+trace_reporter_max_buffer_size: int = int(os.getenv('SW_AGENT_TRACE_REPORTER_MAX_BUFFER_SIZE', '10000'))
 # You can setup multiple URL path patterns, The endpoints match these patterns wouldn't be traced. the current
 # matching rules follow Ant Path match style , like /path/*, /path/**, /path/?.
 trace_ignore_path: str = os.getenv('SW_AGENT_TRACE_IGNORE_PATH') or ''
@@ -104,14 +113,8 @@ correlation_element_max_number: int = int(os.getenv('SW_AGENT_CORRELATION_ELEMEN
 # Max value length of correlation context element.
 correlation_value_max_length: int = int(os.getenv('SW_AGENT_CORRELATION_VALUE_MAX_LENGTH') or '128')
 
-# BEGIN: SW_PYTHON Auto Instrumentation CLI
-# Special: can only be passed via environment. This config controls the child process agent bootstrap behavior in
-# `sw-python` CLI, if set to `False`, a valid child process will not boot up a SkyWalking Agent. Please refer to the [
-# CLI Guide](CLI.md) for details.
-sw_python_bootstrap_propagate = os.getenv('SW_AGENT_SW_PYTHON_BOOTSTRAP_PROPAGATE', '').lower() == 'true'
-
-# BEGIN: Profiling configurations
-# If `True`, Python agent will enable profile when user create a new profile task. Otherwise disable profile.
+# BEGIN: Profiling Configurations
+# If `True`, Python agent will enable profiler when user create a new profiling task. Otherwise disables the capability.
 profiler_active: bool = os.getenv('SW_AGENT_PROFILER_ACTIVE', '').lower() != 'false'
 # The number of seconds between two profile task query.
 get_profile_task_interval: int = int(os.getenv('SW_AGENT_GET_PROFILE_TASK_INTERVAL') or '20')
@@ -124,10 +127,10 @@ profile_dump_max_stack_depth: int = int(os.getenv('SW_AGENT_PROFILE_DUMP_MAX_STA
 # The number of snapshot transport to backend buffer size
 profile_snapshot_transport_buffer_size: int = int(os.getenv('SW_AGENT_PROFILE_SNAPSHOT_TRANSPORT_BUFFER_SIZE') or '50')
 
-# BEGIN: Log reporter configurations
+# BEGIN: Log Reporter Configurations
 # If `True`, Python agent will report collected logs to the OAP or Satellite. Otherwise, it disables the feature.
 log_reporter_active: bool = os.getenv('SW_AGENT_LOG_REPORTER_ACTIVE', '').lower() != 'false'
-# If `True`, Python agent will filter out HTTP basic auth information from log records. Otherwise, it disables the
+# If `True`, Python agent will filter out HTTP basic auth information from log records. By default, it disables the
 # feature due to potential performance impact brought by regular expression
 log_reporter_safe_mode: bool = os.getenv('SW_AGENT_LOG_REPORTER_SAFE_MODE', '').lower() == 'true'
 # The maximum queue backlog size for sending log data to backend, logs beyond this are silently dropped.
@@ -148,7 +151,7 @@ log_reporter_layout: str = os.getenv('SW_AGENT_LOG_REPORTER_LAYOUT') or \
 # https://docs.python.org/3/library/traceback.html#traceback.print_tb) for more explanations.
 cause_exception_depth: int = int(os.getenv('SW_AGENT_CAUSE_EXCEPTION_DEPTH') or '10')
 
-# BEGIN: Meter reporter configurations
+# BEGIN: Meter Reporter Configurations
 # If `True`, Python agent will report collected meters to the OAP or Satellite. Otherwise, it disables the feature.
 meter_reporter_active: bool = os.getenv('SW_AGENT_METER_REPORTER_ACTIVE', '').lower() != 'false'
 # The maximum queue backlog size for sending meter data to backend, meters beyond this are silently dropped.
@@ -159,7 +162,14 @@ meter_reporter_period: int = int(os.getenv('SW_AGENT_METER_REPORTER_PERIOD') or 
 # Otherwise, it disables the feature.
 pvm_meter_reporter_active: bool = os.getenv('SW_AGENT_PVM_METER_REPORTER_ACTIVE', '').lower() != 'false'
 
-# BEGIN: Plugin specific configurations
+# BEGIN: Plugin Related configurations
+# The name patterns in comma-separated pattern, plugins whose name matches one of the pattern won't be installed
+disable_plugins: List[str] = (os.getenv('SW_AGENT_DISABLE_PLUGINS') or '').split(',')
+# When `COLLECT_HTTP_PARAMS` is enabled, how many characters to keep and send to the OAP backend, use negative
+# values to keep and send the complete parameters, NB. this config item is added for the sake of performance.
+http_params_length_threshold: int = int(os.getenv('SW_AGENT_HTTP_PARAMS_LENGTH_THRESHOLD') or '1024')
+# Comma-delimited list of http methods to ignore (GET, POST, HEAD, OPTIONS, etc...)
+http_ignore_method: str = os.getenv('SW_AGENT_HTTP_IGNORE_METHOD', '').upper()
 # The maximum length of the collected parameter, parameters longer than the specified length will be truncated,
 # length 0 turns off parameter tracing
 sql_parameters_length: int = int(os.getenv('SW_AGENT_SQL_PARAMETERS_LENGTH') or '0')
@@ -169,11 +179,6 @@ pymongo_trace_parameters: bool = os.getenv('SW_AGENT_PYMONGO_TRACE_PARAMETERS', 
 pymongo_parameters_max_length: int = int(os.getenv('SW_AGENT_PYMONGO_PARAMETERS_MAX_LENGTH') or '512')
 # If true, trace all the DSL(Domain Specific Language) in ElasticSearch access, default is false
 elasticsearch_trace_dsl: bool = os.getenv('SW_AGENT_ELASTICSEARCH_TRACE_DSL', '').lower() == 'true'
-# When `COLLECT_HTTP_PARAMS` is enabled, how many characters to keep and send to the OAP backend, use negative
-# values to keep and send the complete parameters, NB. this config item is added for the sake of performance.
-http_params_length_threshold: int = int(os.getenv('SW_AGENT_HTTP_PARAMS_LENGTH_THRESHOLD') or '1024')
-# Comma-delimited list of http methods to ignore (GET, POST, HEAD, OPTIONS, etc...)
-http_ignore_method: str = os.getenv('SW_AGENT_HTTP_IGNORE_METHOD', '').upper()
 # This config item controls that whether the Flask plugin should collect the parameters of the request.
 flask_collect_http_params: bool = os.getenv('SW_AGENT_FLASK_COLLECT_HTTP_PARAMS', '').lower() == 'true'
 # This config item controls that whether the Sanic plugin should collect the parameters of the request.
