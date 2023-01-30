@@ -35,7 +35,7 @@ import uuid
 from typing import List, Pattern
 
 QUEUE_TIMEOUT: int = 1
-
+# TODO ADD THESE 3 to tables and check why they are special?
 RE_IGNORE_PATH: Pattern = re.compile('^$')
 RE_HTTP_IGNORE_METHOD: Pattern = RE_IGNORE_PATH
 
@@ -72,6 +72,10 @@ kafka_topic_segment: str = os.getenv('SW_AGENT_KAFKA_TOPIC_SEGMENT') or 'skywalk
 kafka_topic_log: str = os.getenv('SW_AGENT_KAFKA_TOPIC_LOG') or 'skywalking-logs'
 # Specifying Kafka topic name for Meter data.
 kafka_topic_meter: str = os.getenv('SW_AGENT_KAFKA_TOPIC_METER') or 'skywalking-meters'
+# The configs to init KafkaProducer, supports the basic arguments (whose type is either `str`, `bool`, or `int`) listed 
+# [here](https://kafka-python.readthedocs.io/en/master/apidoc/KafkaProducer.html#kafka.KafkaProducer)
+# This config only works from environment variables, value should be passed by SW_AGENT_KAFKA_REPORTER_CONFIG_<KEY_NAME> 
+kafka_reporter_config_key: str = os.getenv('SW_AGENT_KAFKA_REPORTER_CONFIG_<KEY_NAME>', '')
 # Use TLS for communication with server (no cert required)
 force_tls: bool = os.getenv('SW_AGENT_FORCE_TLS', '').lower() == 'true'
 # The protocol to communicate with the backend OAP, `http`, `grpc` or `kafka`, **we highly suggest using `grpc` in
