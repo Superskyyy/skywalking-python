@@ -37,33 +37,40 @@ from skywalking.protocol.profile.Profile_pb2_grpc import ProfileTaskStub
 
 class GrpcServiceManagementClient(ServiceManagementClient):
     def __init__(self, channel: grpc.Channel):
+        super().__init__()
+        print(self.sent_properties_counter)
+
         self.service_stub = ManagementServiceStub(channel)
 
+    def fork_after_in_child(self):
+        ...
+
     def send_instance_props(self):
-        # TODO: other properties periodically | matching behavior of java agent
-        properties = [
-            KeyStringValuePair(key='language', value='python'),
-            KeyStringValuePair(key='Process No.', value=str(os.getpid())),
-        ]
-        if config.agent_namespace:
-            properties.append(KeyStringValuePair(key='namespace', value=config.agent_namespace))
+        # if config.namespace:
+        #     properties.append(KeyStringValuePair(key='namespace', value=config.namespace))
+
+        # fixme if instance change, we need to reevaluate the properties
+        # otherwise we can cache everything
         self.service_stub.reportInstanceProperties(InstanceProperties(
             service=config.service_name,
             serviceInstance=config.service_instance,
-            properties=properties,
+            properties=self.instance_properties_proto,
         ))
 
     def send_heart_beat(self):
+        self.refresh_instance_props()
+
+        self.service_stub.keepAlive(InstancePingPkg(
+            service=config.service_name,
+            serviceInstance=config.service_instance,
+        ))
+
         if logger_debug_enabled:
             logger.debug(
                 'service heart beats, [%s], [%s]',
                 config.service_name,
                 config.service_instance,
             )
-        self.service_stub.keepAlive(InstancePingPkg(
-            service=config.service_name,
-            serviceInstance=config.service_instance,
-        ))
 
 
 class GrpcTraceSegmentReportService(TraceSegmentReportService):
@@ -105,9 +112,9 @@ class GrpcProfileTaskChannelService(ProfileTaskChannelService):
         )
 
         commands = self.profile_stub.getProfileTaskCommands(query)
-        command_service.receive_command(commands)
+        command_service.receive_copmmand(commands)
 
-    def send(self, generator):
+    def report(self, generator):
         self.profile_stub.collectSnapshot(generator)
 
     def finish(self, task: ProfileTask):

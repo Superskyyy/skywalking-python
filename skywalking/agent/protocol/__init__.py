@@ -19,38 +19,44 @@ from abc import ABC, abstractmethod
 from queue import Queue
 
 
-class BaseProtocol(ABC):
+class Protocol(ABC):
     @abstractmethod
     def heartbeat(self):
         raise NotImplementedError()
 
     @abstractmethod
-    def report(self, queue: Queue, block: bool = True):
+    def report_segment(self, queue: Queue, block: bool = True):
         raise NotImplementedError()
 
     @abstractmethod
     def report_log(self, queue: Queue, block: bool = True):
         raise NotImplementedError()
 
+    @abstractmethod
+    def report_meter(self, queue: Queue, block: bool = True):
+        raise NotImplementedError()
 
-class Protocol(BaseProtocol):
+    @abstractmethod
+    def report_snapshot(self, queue: Queue, block: bool = True):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def query_profile_commands(self):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def notify_profile_task_finish(self, task):
+        raise NotImplementedError()
+
     def fork_before(self):
-        pass
+        raise NotImplementedError()
 
     def fork_after_in_parent(self):
-        pass
+        raise NotImplementedError()
 
+    @abstractmethod
     def fork_after_in_child(self):
-        pass
-
-    def report_meter(self, queue: Queue, block: bool = True):
-        pass
-
-    def query_profile_commands(self):
-        pass
-
-    def send_snapshot(self, queue: Queue, block: bool = True):
-        pass
-
-    def notify_profile_task_finish(self, task):
-        pass
+        """
+        Must be implemented in each protocol to handle fork behavior
+        """
+        raise NotImplementedError()

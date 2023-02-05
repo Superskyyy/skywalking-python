@@ -27,6 +27,8 @@ from skywalking.loggings import logger, logger_debug_enabled
 
 class HttpServiceManagementClient(ServiceManagementClient):
     def __init__(self):
+        super().__init__()
+
         proto = 'https://' if config.force_tls else 'http://'
         self.url_instance_props = f"{proto}{config.collector_address.rstrip('/')}/v3/management/reportProperties"
         self.url_heart_beat = f"{proto}{config.collector_address.rstrip('/')}/v3/management/keepAlive"
@@ -37,21 +39,20 @@ class HttpServiceManagementClient(ServiceManagementClient):
         self.session = requests.Session()
 
     def send_instance_props(self):
-        properties = [
-            {'key': 'language', 'value': 'python'},
-            {'key': 'Process No.', 'value': str(os.getpid())},
-        ]
-        if config.agent_namespace:
-            properties.append({'key': 'namespace', 'value': config.agent_namespace})
+
+        if config.namespace:
+            properties.append({'key': 'namespace', 'value': config.namespace})
         res = self.session.post(self.url_instance_props, json={
             'service': config.service_name,
             'serviceInstance': config.service_instance,
-            'properties': properties,
+            'properties': self.instance_properties,
         })
         if logger_debug_enabled:
             logger.debug('heartbeat response: %s', res)
 
     def send_heart_beat(self):
+        self.refresh_instance_props()
+
         if logger_debug_enabled:
             logger.debug(
                 'service heart beats, [%s], [%s]',

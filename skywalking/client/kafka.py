@@ -58,6 +58,8 @@ __init_kafka_configs()
 
 class KafkaServiceManagementClient(ServiceManagementClient):
     def __init__(self):
+        super().__init__()
+
         if logger_debug_enabled:
             logger.debug('kafka reporter configs: %s', kafka_configs)
         self.producer = KafkaProducer(**kafka_configs)
@@ -71,12 +73,12 @@ class KafkaServiceManagementClient(ServiceManagementClient):
             KeyStringValuePair(key='language', value='python'),
             KeyStringValuePair(key='Process No.', value=str(os.getpid())),
         ]
-        if config.agent_namespace:
-            properties.append(KeyStringValuePair(key='namespace', value=config.agent_namespace))
+        if config.namespace:
+            properties.append(KeyStringValuePair(key='namespace', value=config.namespace))
         instance = InstanceProperties(
             service=config.service_name,
             serviceInstance=config.service_instance,
-            properties=properties,
+            properties=self.instance_properties_proto,
         )
 
         key = bytes(self.topic_key_register + instance.serviceInstance, encoding='utf-8')
@@ -84,6 +86,8 @@ class KafkaServiceManagementClient(ServiceManagementClient):
         self.producer.send(topic=self.topic, key=key, value=value)
 
     def send_heart_beat(self):
+        self.refresh_instance_props()
+
         if logger_debug_enabled:
             logger.debug(
                 'service heart beats, [%s], [%s]',

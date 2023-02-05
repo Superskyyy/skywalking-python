@@ -16,6 +16,7 @@
 #
 
 import logging
+import os
 
 from skywalking import config
 
@@ -25,7 +26,7 @@ logger_debug_enabled = False
 def getLogger(name=None):  # noqa
     logger = logging.getLogger(name)
     ch = logging.StreamHandler()
-    formatter = logging.Formatter('%(name)s [%(threadName)s] [%(levelname)s] %(message)s')
+    formatter = logging.Formatter('%(name)s <%(process)d> [%(threadName)s] [%(levelname)s] %(message)s')
     ch.setFormatter(formatter)
     logger.addHandler(ch)
     logger.propagate = False
@@ -33,7 +34,7 @@ def getLogger(name=None):  # noqa
     return logger
 
 
-logger = getLogger('skywalking')
+logger = getLogger(f'skywalking')
 
 
 def init():

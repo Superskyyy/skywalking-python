@@ -43,7 +43,7 @@ class HttpProtocol(Protocol):
             self.properties_sent = True
         self.service_management.send_heart_beat()
 
-    def report(self, queue: Queue, block: bool = True):
+    def report_segment(self, queue: Queue, block: bool = True):
         start = None
 
         def generator():
@@ -102,3 +102,9 @@ class HttpProtocol(Protocol):
             self.log_reporter.report(generator=generator())
         except Exception:
             pass
+
+    def report_meter(self, queue: Queue, block: bool = True):
+        ...
+
+    def report_snapshot(self, queue: Queue, block: bool = True):
+        ...

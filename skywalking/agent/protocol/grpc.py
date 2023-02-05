@@ -16,6 +16,7 @@
 #
 
 import logging
+import threading
 import traceback
 from queue import Queue, Empty
 from time import time
@@ -60,6 +61,9 @@ class GrpcProtocol(Protocol):
         self.log_reporter = GrpcLogDataReportService(self.channel)
         self.meter_reporter = GrpcMeterReportService(self.channel)
 
+    def fork_after_in_child(self):
+        ...
+
     def _cb(self, state):
         if logger_debug_enabled:
             logger.debug('grpc channel connectivity changed, [%s -> %s]', self.state, state)
@@ -90,7 +94,7 @@ class GrpcProtocol(Protocol):
         self.channel.unsubscribe(self._cb)
         self.channel.subscribe(self._cb, try_to_connect=True)
 
-    def report(self, queue: Queue, block: bool = True):
+    def report_segment(self, queue: Queue, block: bool = True):
         start = None
 
         def generator():
@@ -113,6 +117,7 @@ class GrpcProtocol(Protocol):
 
                 if logger_debug_enabled:
                     logger.debug('reporting segment %s', segment)
+                    logger.debug(f'traceid grpc {segment.related_traces[0]}')
 
                 s = SegmentObject(
                     traceId=str(segment.related_traces[0]),
@@ -181,13 +186,15 @@ class GrpcProtocol(Protocol):
                 queue.task_done()
 
                 if logger_debug_enabled:
-                    logger.debug('Reporting Log')
+                    import os
+                    logger.debug(f'Reporting Log in pid  {os.getpid()}')
 
                 yield log_data
 
         try:
             self.log_reporter.report(generator())
         except grpc.RpcError:
+
             self.on_error()
             raise
 
@@ -206,24 +213,34 @@ class GrpcProtocol(Protocol):
                         timeout -= int(time() - start)
                         if timeout <= 0:  # this is to make sure we exit eventually instead of being fed continuously
                             return
+                    # for thread in threading.enumerate():
+                    #     print(thread.name)
+                    print(f'ident= {threading.current_thread().getName()}')
+                    print(f'block = {block}, timeout = {timeout}')
+                    print(f'queue size is {queue.qsize()}')
                     meter_data = queue.get(block=block, timeout=timeout)  # type: MeterData
+                    print(f'meter data is {meter_data}')
                 except Empty:
+                    print('empty return')
                     return
 
                 queue.task_done()
 
                 if logger_debug_enabled:
+                    print(f'ident= {threading.current_thread().getName()}')
                     logger.debug('Reporting Meter')
-
                 yield meter_data
 
         try:
-            self.meter_reporter.report(generator())
+            print('here')
+            print(list(generator()))
+            # self.meter_reporter.report(generator())
+            print('done')
         except grpc.RpcError:
             self.on_error()
             raise
 
-    def send_snapshot(self, queue: Queue, block: bool = True):
+    def report_snapshot(self, queue: Queue, block: bool = True):
         start = None
 
         def generator():
@@ -255,7 +272,7 @@ class GrpcProtocol(Protocol):
                 yield transform_snapshot
 
         try:
-            self.profile_channel.send(generator())
+            self.profile_channel.report(generator())
         except grpc.RpcError:
             self.on_error()
             raise

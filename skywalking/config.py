@@ -18,9 +18,9 @@
 This module holds all the configuration options for the agent. The options are loaded from both environment variables and
 through code level, default values are provided for each option.
 
-The environment variables must be named as `SW_AGENT_<option_variable>`.
+The environment variables must be named as `SW_AGENT_<option_variable>`
 
-To contributors: When adding an new configuration option, please preceed the option with a comment block like this:
+To contributors: When adding an new configuration option, please precede the option with a comment block like this:
 # This option does bla bla
 # could be multiple lines
 

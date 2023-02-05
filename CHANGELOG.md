@@ -44,6 +44,7 @@
   - Overhaul documentation on development setup and testing (#249)
   - Add tables to state currently supported features of Python agent. (#271)
   - New configuration documentation generator (#273) 
+  - Introduce SkyWalkingAgent singleton class to encapsulate agent lifecycle events and better support forking (#?)
 
 - Others:
   - Pin CI SkyWalking License Eye (#221)
