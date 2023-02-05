@@ -15,8 +15,6 @@
 # limitations under the License.
 #
 import json
-import os
-
 import requests
 from google.protobuf import json_format
 
@@ -39,9 +37,6 @@ class HttpServiceManagementClient(ServiceManagementClient):
         self.session = requests.Session()
 
     def send_instance_props(self):
-
-        if config.namespace:
-            properties.append({'key': 'namespace', 'value': config.namespace})
         res = self.session.post(self.url_instance_props, json={
             'service': config.service_name,
             'serviceInstance': config.service_instance,

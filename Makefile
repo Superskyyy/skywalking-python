@@ -132,11 +132,3 @@ release: clean lint license
 	-tar -zcvf skywalking-python-src-$(VERSION).tgz --exclude .venv *
 	gpg --batch --yes --armor --detach-sig skywalking-python-src-$(VERSION).tgz
 	shasum -a 512 skywalking-python-src-$(VERSION).tgz > skywalking-python-src-$(VERSION).tgz.sha512
-
-# SkyWalking backend and UI
-.PHONY: sw
-sw:
-	docker compose -f tests/manual/docker-compose.yaml up -d
-
-swstop:
-	docker compose -f tests/manual/docker-compose.yaml down

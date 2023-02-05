@@ -17,7 +17,6 @@
 
 import atexit
 import os
-import threading
 from queue import Queue, Full
 from threading import Thread, Event
 from typing import TYPE_CHECKING, Optional
@@ -107,10 +106,8 @@ class SkyWalkingAgent(Singleton):
         # and queue is not there yet, so it will crash
         # plugins.install()
 
-
         # Start reporter threads and register queues
         self.__init_threading()
-
 
     @report_with_backoff(init_wait=config.heartbeat_period)
     def __heartbeat(self):
@@ -159,7 +156,7 @@ class SkyWalkingAgent(Singleton):
         __heartbeat_thread = Thread(name='HeartbeatThread', target=self.__heartbeat, daemon=True)
         __heartbeat_thread.start()
 
-        self.__segment_queue = Queue(maxsize=config.max_buffer_size)
+        self.__segment_queue = Queue(maxsize=config.trace_reporter_max_buffer_size)
         __segment_report_thread = Thread(name='SegmentReportThread', target=self.__report_segment, daemon=True)
         __segment_report_thread.start()
 
@@ -184,7 +181,7 @@ class SkyWalkingAgent(Singleton):
             __log_report_thread = Thread(name='LogReportThread', target=self.__report_log, daemon=True)
             __log_report_thread.start()
 
-        if config.profile_active:
+        if config.profiler_active:
             # Now only profiler receives commands from OAP
             __command_dispatch_thread = Thread(name='CommandDispatchThread', target=self.__command_dispatch,
                                                daemon=True)

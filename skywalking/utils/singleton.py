@@ -24,7 +24,7 @@ class Singleton(object):
     Classes that inherit from this class will be singletons.
     """
     def __new__(cls, *args, **kwds):
-        it = cls.__dict__.get("__it__")
+        it = cls.__dict__.get('__it__')
         if it is not None:
             return it
         cls.__it__ = it = object.__new__(cls)

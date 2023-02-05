@@ -32,7 +32,7 @@ any documentation to reflect changes here, just make sure to run `make doc-gen` 
 import os
 import re
 import uuid
-
+from loggings import logger
 from typing import List, Pattern
 
 RE_IGNORE_PATH: Pattern = re.compile('^$')
@@ -218,6 +218,23 @@ def init(**kwargs) -> None:
         glob[key] = val
 
 
+def finalize_feature() -> None:
+    """
+    Examine reporter configuration and warn users about the incompatibility of protocol vs features
+    """
+    global profiler_active, meter_reporter_active
+
+    if protocol == 'http' and (profiler_active or meter_reporter_active):
+        profiler_active = False
+        meter_reporter_active = False
+        logger.warning('HTTP protocol does not support meter reporter and profiler. Please use gRPC protocol if you '
+                       'would like to use both features.')
+    elif protocol == 'kafka' and profiler_active:
+        profiler_active = False
+        logger.warning('Kafka protocol does not support profiler. Please use gRPC protocol if you '
+                       'would like to use this feature.')
+
+
 def finalize_name() -> None:
     """
     This function concatenates the serviceName according to
@@ -263,5 +280,6 @@ def finalize() -> None:
     """
     invokes finalizers
     """
+    finalize_feature()
     finalize_regex()
     finalize_name()

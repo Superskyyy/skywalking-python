@@ -16,7 +16,6 @@
 #
 
 import logging
-import os
 
 from skywalking import config
 
@@ -34,7 +33,7 @@ def getLogger(name=None):  # noqa
     return logger
 
 
-logger = getLogger(f'skywalking')
+logger = getLogger('skywalking')
 
 
 def init():

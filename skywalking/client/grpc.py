@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-import os
 import grpc
 
 from skywalking import config
@@ -25,7 +24,6 @@ from skywalking.command import command_service
 from skywalking.loggings import logger, logger_debug_enabled
 from skywalking.profile import profile_task_execution_service
 from skywalking.profile.profile_task import ProfileTask
-from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
 from skywalking.protocol.language_agent.Tracing_pb2_grpc import TraceSegmentReportServiceStub
 from skywalking.protocol.logging.Logging_pb2_grpc import LogReportServiceStub
 from skywalking.protocol.management.Management_pb2 import InstancePingPkg, InstanceProperties

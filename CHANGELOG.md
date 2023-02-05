@@ -57,7 +57,6 @@
   - Fix grpcio-tools generated message type (#253)
   - Switch plugin tests to use slim Python images (#268)
   - Add unit tests to sw_filters (#269)
-  - **BREAKING** SW_AGENT_PROFILE_ACTIVE | config.profile_active is renamed from profile to profiler (#273)
 
 ### 0.8.0
 - Feature:
