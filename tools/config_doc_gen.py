@@ -15,17 +15,20 @@
 # specific language governing permissions and limitations
 # under the License.
 
+"""
+A simple doc generator for configuration options
+"""
 from skywalking.config import options_with_default_value_and_type
 
-doc_head = """# Supported Agent Configuration Options
+DOC_HEAD = """# Supported Agent Configuration Options
 
 Below is the full list of supported configurations you can set to
-customize the agent behavior, please read the descriptions for what they can achieve.
+customize the agent behavior, please take some time to read the descriptions for what they can achieve.
 
 > Usage: (Pass in intrusive setup)
 ```
 from skywalking import config, agent
-config.init(configuration=YourValue))
+config.init(YourConfiguration=YourValue))
 agent.start()
 ```
 > Usage: (Pass by environment variables)
@@ -34,24 +37,27 @@ export SW_AGENT_YourConfiguration=YourValue
 ```
 
 """
-table_head = """### {}
+TABLE_HEAD = """### {}
 | Configuration | Environment Variable | Type | Default Value | Description |
 | :------------ | :------------ | :------------ | :------------ | :------------ |
 """
 
 
 def comments_from_file(file_path):
+    """
+    Get comments from config.py
+    """
     comments = []
     analyze = False
     comment_block_begin = False
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
+    with open(file_path, 'r') as config_file:
+        lines = config_file.readlines()
         lines = [line.rstrip() for line in lines]
         for line in lines:
             if line.startswith('# THIS MUST PRECEDE DIRECTLY BEFORE LIST OF CONFIG OPTIONS!'):
                 analyze = True
                 continue
-            elif line.startswith('# THIS MUST FOLLOW DIRECTLY AFTER LIST OF CONFIG OPTIONS!'):
+            if line.startswith('# THIS MUST FOLLOW DIRECTLY AFTER LIST OF CONFIG OPTIONS!'):
                 break
             if analyze and line.startswith('#'):
                 if line.startswith('# BEGIN'):
@@ -59,7 +65,7 @@ def comments_from_file(file_path):
                     comment_block_begin = False
                     continue
                 if comment_block_begin:
-                    comments[-1] += line.lstrip('#')
+                    comments[-1] += line.lstrip('#') if not comments[-1].endswith('/') else line.lstrip('# ')
                     continue
                 comment_block_begin = True
                 comments.append(line.lstrip('# '))
@@ -77,6 +83,7 @@ def create_entry(comment: str, config_index: int) -> str:
         config_index: index of comment block in the list of comments
     Returns: markdown table entry
     """
+
     def env_var_name(config_entry):
         return 'SW_AGENT_' + config_entry.upper()
 
@@ -84,6 +91,7 @@ def create_entry(comment: str, config_index: int) -> str:
     type_ = options_with_default_value_and_type[configuration][1]
     default_val = options_with_default_value_and_type[configuration][0]
 
+    # special case for randomly generated default value
     if configuration == 'service_instance':
         default_val = "str(uuid.uuid1()).replace('-', '')"
     return f'| {configuration} | {env_var_name(configuration)} | {str(type_)} | {default_val} | {comment} |'
@@ -96,16 +104,31 @@ def generate_markdown_table() -> None:
     comments = comments_from_file('skywalking/config.py')
 
     with open('docs/en/setup/Configuration.md', 'w') as plugin_doc:
-        plugin_doc.write(doc_head)
+        plugin_doc.write(DOC_HEAD)
         offset = 0
         for config_index, comment in enumerate(comments):
             if comment.startswith('# BEGIN'):
-                plugin_doc.write(table_head.format(comment.lstrip('# ')))
+                # remove `#BEGIN: `
+                plugin_doc.write(TABLE_HEAD.format(comment[8:]))
                 offset += 1
             else:
                 table_entry = create_entry(comment, config_index - offset)
                 plugin_doc.write(f'{table_entry}\n')
 
 
+def config_env_var_verify():
+    """
+    A naive checker to verify if all configuration entries have corresponding environment
+    (prevents common typo but not all)
+    """
+    with open('skywalking/config.py', 'r') as config_file:
+        data = config_file.read().replace('\n', '')
+        for each in options_with_default_value_and_type.keys():
+            if f"'SW_AGENT_{each.upper()}'" not in data:
+                raise Exception(f'Environment variable SW_AGENT_{each.upper()} is not found in config.py\n'
+                                f'This means you have a mismatch of config.py variable and env var name')
+
+
 if __name__ == '__main__':
     generate_markdown_table()
+    config_env_var_verify()

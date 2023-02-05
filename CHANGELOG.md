@@ -2,16 +2,16 @@
 
 ### 1.0.0
 
-- Important Note and breaking changes:
-  - Python 3.6 is no longer supported and may not function properly
-  - A number of configuration options (mostly environment variables) are renamed in this release to follow the convention of
-  'SW_AGENT' prefixes, please check the latest official documentation 
-  https://skywalking.apache.org/docs/skywalking-python/v0.8.0/en/setup/configuration/
+- **Important Note and Breaking Changes:**
+  - Python 3.6 is no longer supported and may not function properly.
+  - A number of configuration options (mostly environment variables) are renamed to follow the convention of
+  'SW_AGENT' prefixes, please check with the latest official documentation before upgrading. (#273)
+  
+  https://skywalking.apache.org/docs/skywalking-python/v1.0.0/en/setup/configuration/
   - All agent core capabilities are now covered by test cases and enabled by default (Trace, Log, PVM runtime metrics, Profiler)
 
 
 - Feature:
-  - Drop support for Python 3.6
   - Add MeterReportService (gRPC, Kafka reporter) (default:enabled) (#231, #236, #241, #243)
   - Add reporter for PVM runtime metrics (default:enabled) (#238, #247)
   - Add Greenlet profiler (#246)
@@ -36,6 +36,9 @@
   - Add primary endpoint in tracing context and endpoint info to log reporter (#261)
   - Enforce tag class type conversion (#262)
   - Fix sw_logging (log reporter) potentially throw exception leading to traceback confusion (#267)
+  - Avoid reporting meaningless tracecontext with logs when there's no active span, UI will now show empty traceID (#272)
+  - Fix exception handler in profile_context (#273)
+  - Add namespace suffix to service name (#275)
 
 - Docs:
   - New documentation on how to test locally (#222)
@@ -44,7 +47,6 @@
   - Overhaul documentation on development setup and testing (#249)
   - Add tables to state currently supported features of Python agent. (#271)
   - New configuration documentation generator (#273) 
-  - Introduce SkyWalkingAgent singleton class to encapsulate agent lifecycle events and better support forking (#?)
 
 - Others:
   - Pin CI SkyWalking License Eye (#221)
