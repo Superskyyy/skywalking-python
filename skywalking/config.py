@@ -85,11 +85,11 @@ logging_level: str = os.getenv('SW_AGENT_LOGGING_LEVEL', 'INFO')
 # The agent will exchange heartbeat message with SkyWalking OAP backend every `period` seconds
 heartbeat_period: int = int(os.getenv('SW_AGENT_HEARTBEAT_PERIOD', '30'))
 # The agent will report service instance properties every
-# `factor * heartbeat period` seconds default: 10*30 = 300 seconds (TODO)
+# `factor * heartbeat period` seconds default: 10*30 = 300 seconds
 service_instance_property_report_factor = int(os.getenv('SW_AGENT_SERVICE_INSTANCE_PROPERTY_REPORT_FACTOR', '10'))
-# The agent will try to restart itself in any os.fork()-ed child process. Important note: it's not suitable for
+# The agent will try to restart itself in any os.fork()-ed child process. Important Note: it's not suitable for
 # large numbered, short-lived processes such as multiprocessing.Pool, as each one will introduce overhead and create
-# numerous instances in SkyWalking dashboard in format of `service_instance-child-<pid>` (TODO)
+# numerous instances in SkyWalking dashboard in format of `service_instance-child-<pid>`
 experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
 # DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
 # Do not modify unless you have evaluated its impact given your service load.

@@ -36,15 +36,14 @@ from skywalking.protocol.profile.Profile_pb2_grpc import ProfileTaskStub
 class GrpcServiceManagementClient(ServiceManagementClient):
     def __init__(self, channel: grpc.Channel):
         super().__init__()
-        print(self.sent_properties_counter)
-
+        self.instance_properties = self.get_instance_properties_proto()
         self.service_stub = ManagementServiceStub(channel)
 
     def send_instance_props(self):
         self.service_stub.reportInstanceProperties(InstanceProperties(
             service=config.service_name,
             serviceInstance=config.service_instance,
-            properties=self.instance_properties_proto,
+            properties=self.instance_properties,
         ))
 
     def send_heart_beat(self):

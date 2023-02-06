@@ -246,7 +246,6 @@ class SkyWalkingAgent(Singleton):
         # self.__protocol.fork_after_in_parent()
 
     def __fork_after_in_child(self):
-        print('entered forek')
         # self.__protocol.fork_after_in_child()
         self.start()
 

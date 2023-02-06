@@ -16,7 +16,6 @@
 #
 
 import logging
-import threading
 import traceback
 from queue import Queue, Empty
 from time import time
@@ -114,7 +113,6 @@ class GrpcProtocol(Protocol):
 
                 if logger_debug_enabled:
                     logger.debug('reporting segment %s', segment)
-                    logger.debug(f'traceid grpc {segment.related_traces[0]}')
 
                 s = SegmentObject(
                     traceId=str(segment.related_traces[0]),
@@ -183,15 +181,13 @@ class GrpcProtocol(Protocol):
                 queue.task_done()
 
                 if logger_debug_enabled:
-                    import os
-                    logger.debug(f'Reporting Log in pid  {os.getpid()}')
+                    logger.debug('Reporting Log')
 
                 yield log_data
 
         try:
             self.log_reporter.report(generator())
         except grpc.RpcError:
-
             self.on_error()
             raise
 
@@ -210,29 +206,18 @@ class GrpcProtocol(Protocol):
                         timeout -= int(time() - start)
                         if timeout <= 0:  # this is to make sure we exit eventually instead of being fed continuously
                             return
-                    # for thread in threading.enumerate():
-                    #     print(thread.name)
-                    print(f'ident= {threading.current_thread().getName()}')
-                    print(f'block = {block}, timeout = {timeout}')
-                    print(f'queue size is {queue.qsize()}')
                     meter_data = queue.get(block=block, timeout=timeout)  # type: MeterData
-                    print(f'meter data is {meter_data}')
                 except Empty:
-                    print('empty return')
                     return
 
                 queue.task_done()
 
                 if logger_debug_enabled:
-                    print(f'ident= {threading.current_thread().getName()}')
                     logger.debug('Reporting Meter')
                 yield meter_data
 
         try:
-            print('here')
-            print(list(generator()))
-            # self.meter_reporter.report(generator())
-            print('done')
+            self.meter_reporter.report(generator())
         except grpc.RpcError:
             self.on_error()
             raise

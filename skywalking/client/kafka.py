@@ -59,6 +59,7 @@ __init_kafka_configs()
 class KafkaServiceManagementClient(ServiceManagementClient):
     def __init__(self):
         super().__init__()
+        self.instance_properties = self.get_instance_properties_proto()
 
         if logger_debug_enabled:
             logger.debug('kafka reporter configs: %s', kafka_configs)
@@ -72,7 +73,7 @@ class KafkaServiceManagementClient(ServiceManagementClient):
         instance = InstanceProperties(
             service=config.service_name,
             serviceInstance=config.service_instance,
-            properties=self.instance_properties_proto,
+            properties=self.instance_properties,
         )
 
         key = bytes(self.topic_key_register + instance.serviceInstance, encoding='utf-8')

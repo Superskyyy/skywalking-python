@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import functools
 import os
 import platform
 import socket
@@ -22,12 +21,15 @@ from abc import ABC, abstractmethod
 from typing import List
 
 from skywalking import config
-from skywalking.config import service_instance_property_report_factor
 from skywalking.loggings import logger
 from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
 
 
 class ServiceManagementClient(ABC):
+    """
+    Used to register service and instance to OAP.
+    """
+
     def __init__(self):
         self.sent_properties_counter = 0
 
@@ -41,14 +43,14 @@ class ServiceManagementClient(ABC):
     def refresh_instance_props(self) -> None:
         """
         Periodically refresh the instance properties to prevent loss on OAP TTL records expiration.
+        Default: 30 * 10 seconds
         """
         self.sent_properties_counter += 1
-        if self.sent_properties_counter % service_instance_property_report_factor == 0:
+        if self.sent_properties_counter % config.service_instance_property_report_factor == 0:
             self.send_instance_props()
 
-    @property
-    @functools.lru_cache()
-    def instance_properties(self) -> List[dict]:
+    @staticmethod
+    def get_instance_properties() -> List[dict]:
         """
         Get current running Python interpreter's system properties.
         Returns: [{'key': str, 'value': str}, ...]
@@ -77,14 +79,12 @@ class ServiceManagementClient(ABC):
 
         return properties
 
-    @property
-    @functools.lru_cache()
-    def instance_properties_proto(self) -> List[KeyStringValuePair]:
+    def get_instance_properties_proto(self) -> List[KeyStringValuePair]:
         """
         Converts to protobuf format.
         Returns: [KeyStringValuePair, ...]
         """
-        return [KeyStringValuePair(key=prop['key'], value=prop['value']) for prop in self.instance_properties]
+        return [KeyStringValuePair(key=prop['key'], value=prop['value']) for prop in self.get_instance_properties()]
 
     def send_heart_beat(self) -> None:
         """

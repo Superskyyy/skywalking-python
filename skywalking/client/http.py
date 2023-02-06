@@ -26,6 +26,7 @@ from skywalking.loggings import logger, logger_debug_enabled
 class HttpServiceManagementClient(ServiceManagementClient):
     def __init__(self):
         super().__init__()
+        self.instance_properties = self.get_instance_properties()
 
         proto = 'https://' if config.force_tls else 'http://'
         self.url_instance_props = f"{proto}{config.collector_address.rstrip('/')}/v3/management/reportProperties"
