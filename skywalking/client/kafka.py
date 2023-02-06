@@ -23,7 +23,6 @@ from kafka import KafkaProducer
 from skywalking import config
 from skywalking.client import MeterReportService, ServiceManagementClient, TraceSegmentReportService, LogDataReportService
 from skywalking.loggings import logger, logger_debug_enabled
-from skywalking.protocol.common.Common_pb2 import KeyStringValuePair
 from skywalking.protocol.language_agent.Meter_pb2 import MeterDataCollection
 from skywalking.protocol.management.Management_pb2 import InstancePingPkg, InstanceProperties
 

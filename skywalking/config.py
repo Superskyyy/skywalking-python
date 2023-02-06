@@ -32,7 +32,7 @@ any documentation to reflect changes here, just make sure to run `make doc-gen` 
 import os
 import re
 import uuid
-from loggings import logger
+from skywalking.loggings import logger
 from typing import List, Pattern
 
 RE_IGNORE_PATH: Pattern = re.compile('^$')
@@ -230,7 +230,7 @@ def finalize_feature() -> None:
         logger.warning('HTTP protocol does not support meter reporter and profiler. Please use gRPC protocol if you '
                        'would like to use both features.')
     elif protocol == 'kafka' and profiler_active:
-        profiler_active = Falsep
+        profiler_active = False
         logger.warning('Kafka protocol does not support profiler. Please use gRPC protocol if you '
                        'would like to use this feature.')
 
