@@ -41,7 +41,7 @@ if TYPE_CHECKING:
 
 def report_with_backoff(init_wait):
     """
-    An exponential backoff with jitter for retrying functions.
+    An exponential backoff for retrying reporters.
     """
 
     def backoff_decorator(func):
@@ -67,7 +67,7 @@ def report_with_backoff(init_wait):
 class SkyWalkingAgent(Singleton):
     """
     The main singleton class and entrypoint of SkyWalking Python Agent.
-    Upon fork(), original instance will be replaced by a new one by
+    Upon fork(), original instance rebuild everything (queues, threads, instrumentation) by
     calling the fork handlers in the class instance.
     """
     __started: bool = False  # shared by all instances
@@ -83,7 +83,7 @@ class SkyWalkingAgent(Singleton):
 
     def __bootstrap(self):
         # when forking, already instrumented modules must not be instrumented again
-        # otherwise it will cause double instrumentation
+        # otherwise it will cause double instrumentation! (we should provide an un-instrument method)
         if config.protocol == 'grpc':
             from skywalking.agent.protocol.grpc import GrpcProtocol
             self.__protocol = GrpcProtocol()
@@ -100,47 +100,8 @@ class SkyWalkingAgent(Singleton):
         self.__meter_queue: Optional[Queue] = None
         self.__snapshot_queue: Optional[Queue] = None
 
-        # # Here we install all lib plugins
-        # fixme if install here when fork, the plugins will be installed twice
-        # log is already instrumtned so inside plugin install something will call logger
-        # and queue is not there yet, so it will crash
-        # plugins.install()
-
         # Start reporter threads and register queues
         self.__init_threading()
-
-    @report_with_backoff(init_wait=config.heartbeat_period)
-    def __heartbeat(self):
-        self.__protocol.heartbeat()
-
-    @report_with_backoff(init_wait=0)
-    def __report_segment(self):
-        if not self.__segment_queue.empty():
-            self.__protocol.report_segment(self.__segment_queue)
-
-    @report_with_backoff(init_wait=0)
-    def __report_log(self):
-        if not self.__log_queue.empty():
-            self.__protocol.report_log(self.__log_queue)
-
-    @report_with_backoff(init_wait=config.meter_reporter_period)
-    def __report_meter(self):
-        if not self.__meter_queue.empty():
-            self.__protocol.report_meter(self.__meter_queue)
-
-    @report_with_backoff(init_wait=0.5)
-    def __send_profile_snapshot(self):
-        if not self.__snapshot_queue.empty():
-            self.__protocol.report_snapshot(self.__snapshot_queue)
-
-    @report_with_backoff(init_wait=config.get_profile_task_interval)
-    def __query_profile_command(self):
-        self.__protocol.query_profile_commands()
-
-    @staticmethod
-    def __command_dispatch():
-        # command dispatch will stuck when there are no commands
-        command_service.dispatch()
 
     def __init_threading(self) -> None:
         """
@@ -197,56 +158,30 @@ class SkyWalkingAgent(Singleton):
                                            daemon=True)
             __send_profile_thread.start()
 
-    def __fini(self):
-        """
-        This method is called when the agent is shutting down.
-        Clean up all the queues and threads.
-        """
-        self.__protocol.report_segment(self.__segment_queue, False)
-        self.__segment_queue.join()
-
-        if config.log_reporter_active:
-            self.__protocol.report_log(self.__log_queue, False)
-            self.__log_queue.join()
-
-        if config.profiler_active:
-            self.__protocol.report_snapshot(self.__snapshot_queue, False)
-            self.__snapshot_queue.join()
-
-        if config.meter_reporter_active:
-            self.__protocol.report_meter(self.__meter_queue, False)
-            self.__meter_queue.join()
-
-        self._finished.set()
-
-    def __fork_before(self):
+    def __fork_before(self) -> None:
         """
         This handles explicit fork() calls. The child process will not have a running thread, so we need to
         revive all of them. The parent process will continue to run as normal.
 
         This does not affect pre-forking server support, which are handled separately.
         """
-        logger.warning('fork support is currently experimental, please report issues if you encounter any')
-        if config.protocol != 'http':
-            logger.warning(f'fork() not currently supported with {config.protocol} protocol')
-
         # possible deadlock would be introduced if some queue is in use when fork() is called and
         # therefore child process will inherit a locked queue. To avoid this and have side benefit
         # of a clean queue in child process (prevent duplicated reporting), we simply restart the agent and
         # reinitialize all queues and threads.
+        logger.warning('SkyWalking Python agent fork support is currently experimental, '
+                       'please report issues if you encounter any')
 
-        # TODO: handle __queue and self.__finished correctly (locks, mutexes, etc...), need to lock before fork and
-        #  unlock after if possible, or ensure they are not locked in threads (end threads and restart after fork?)
-        # reference: https://github.com/Delgan/loguru/issues/231
+    def __fork_after_in_parent(self) -> None:
+        """
+        Something to do after fork() in parent process
+        """
         ...
-        # self.__protocol.fork_before()
 
-    def __fork_after_in_parent(self):
-        ...
-        # self.__protocol.fork_after_in_parent()
-
-    def __fork_after_in_child(self):
-        # self.__protocol.fork_after_in_child()
+    def __fork_after_in_child(self) -> None:
+        """
+        Simply restart the agent after we detect a fork() call
+        """
         self.start()
 
     def start(self) -> None:
@@ -258,28 +193,32 @@ class SkyWalkingAgent(Singleton):
         When os.fork(), the service instance should be changed to a new one by appending pid.
         """
         # export grpc fork support env
-        os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
-        # os.environ['GRPC_VERBOSITY'] = 'DEBUG'
-        # epoll
-        os.environ['GRPC_POLL_STRATEGY'] = 'poll'
+        # This is required for grpcio to work with fork()
+        # https://github.com/grpc/grpc/blob/master/doc/fork_support.md
+        if config.protocol == 'grpc':
+            os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
+            os.environ['GRPC_POLL_STRATEGY'] = 'poll'
+
         if not self.__started:
-            print('twice??')
+            # if not already started, start the agent
             self.__started = True
             # Install logging plugins
-            if config.log_reporter_active:  # todo - Add support for printing traceID/ context in logs
+            # TODO - Add support for printing traceID/ context in logs
+            if config.log_reporter_active:
                 from skywalking import log
                 log.install()
-            # Here we install all lib plugins
+            # Here we install all other lib plugins on first time start (parent process)
             plugins.install()
         elif self.__started and os.getpid() == self.started_pid:
+            # if already started, and this is the same process, raise an error
             raise RuntimeError('SkyWalking Python agent has already been started in this process')
         else:
-            print('entered here fork')
-            # TODO: this is for experimental change, default config will never reach here
+            # otherwise we assume a fork() happened, give it a new service instance name
+            logger.info('New process detected, re-initializing SkyWalking Python agent')
+            # Note: this is for experimental change, default config should never reach here
             # Fork support is controlled by config.agent_fork_support :default: False
             # Important: This does not impact pre-forking server support (uwsgi, gunicorn, etc...)
-            # This is only for explicit long-running fork() calls,
-            # not suitable for frequent multiprocessing-pool usage
+            # This is only for explicit long-running fork() calls.
             config.service_instance = f'{config.service_instance}-child-{os.getpid()}'
 
         self.started_pid = os.getpid()
@@ -304,15 +243,69 @@ class SkyWalkingAgent(Singleton):
         atexit.register(self.__fini)
 
         if config.experimental_fork_support:
-            # default is False
             if hasattr(os, 'register_at_fork'):
                 os.register_at_fork(before=self.__fork_before, after_in_parent=self.__fork_after_in_parent,
                                     after_in_child=self.__fork_after_in_child)
+
+    def __fini(self):
+        """
+        This method is called when the agent is shutting down.
+        Clean up all the queues and threads.
+        """
+        self.__protocol.report_segment(self.__segment_queue, False)
+        self.__segment_queue.join()
+
+        if config.log_reporter_active:
+            self.__protocol.report_log(self.__log_queue, False)
+            self.__log_queue.join()
+
+        if config.profiler_active:
+            self.__protocol.report_snapshot(self.__snapshot_queue, False)
+            self.__snapshot_queue.join()
+
+        if config.meter_reporter_active:
+            self.__protocol.report_meter(self.__meter_queue, False)
+            self.__meter_queue.join()
+
+        self._finished.set()
 
     def stop(self):
         atexit.unregister(self.__fini)
         self.__fini()
         self.__started = False
+
+    @report_with_backoff(init_wait=config.heartbeat_period)
+    def __heartbeat(self):
+        self.__protocol.heartbeat()
+
+    @report_with_backoff(init_wait=0)
+    def __report_segment(self):
+        if not self.__segment_queue.empty():
+            self.__protocol.report_segment(self.__segment_queue)
+
+    @report_with_backoff(init_wait=0)
+    def __report_log(self):
+        if not self.__log_queue.empty():
+            self.__protocol.report_log(self.__log_queue)
+
+    @report_with_backoff(init_wait=config.meter_reporter_period)
+    def __report_meter(self):
+        if not self.__meter_queue.empty():
+            self.__protocol.report_meter(self.__meter_queue)
+
+    @report_with_backoff(init_wait=0.5)
+    def __send_profile_snapshot(self):
+        if not self.__snapshot_queue.empty():
+            self.__protocol.report_snapshot(self.__snapshot_queue)
+
+    @report_with_backoff(init_wait=config.get_profile_task_interval)
+    def __query_profile_command(self):
+        self.__protocol.query_profile_commands()
+
+    @staticmethod
+    def __command_dispatch():
+        # command dispatch will stuck when there are no commands
+        command_service.dispatch()
 
     def is_segment_queue_full(self):
         return self.__segment_queue.full()

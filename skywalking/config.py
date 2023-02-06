@@ -88,8 +88,8 @@ heartbeat_period: int = int(os.getenv('SW_AGENT_HEARTBEAT_PERIOD', '30'))
 # `factor * heartbeat period` seconds default: 10*30 = 300 seconds
 service_instance_property_report_factor = int(os.getenv('SW_AGENT_SERVICE_INSTANCE_PROPERTY_REPORT_FACTOR', '10'))
 # The agent will try to restart itself in any os.fork()-ed child process. Important Note: it's not suitable for
-# large numbered, short-lived processes such as multiprocessing.Pool, as each one will introduce overhead and create
-# numerous instances in SkyWalking dashboard in format of `service_instance-child-<pid>`
+# short-lived processes as each one will introduce overhead and create a new instance in SkyWalking dashboard
+# in format of `service_instance-child-<pid>`
 experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
 # DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
 # Do not modify unless you have evaluated its impact given your service load.
@@ -230,7 +230,7 @@ def finalize_feature() -> None:
         logger.warning('HTTP protocol does not support meter reporter and profiler. Please use gRPC protocol if you '
                        'would like to use both features.')
     elif protocol == 'kafka' and profiler_active:
-        profiler_active = False
+        profiler_active = Falsep
         logger.warning('Kafka protocol does not support profiler. Please use gRPC protocol if you '
                        'would like to use this feature.')
 
