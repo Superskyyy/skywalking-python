@@ -40,15 +40,7 @@ class GrpcServiceManagementClient(ServiceManagementClient):
 
         self.service_stub = ManagementServiceStub(channel)
 
-    def fork_after_in_child(self):
-        ...
-
     def send_instance_props(self):
-        # if config.namespace:
-        #     properties.append(KeyStringValuePair(key='namespace', value=config.namespace))
-
-        # fixme if instance change, we need to reevaluate the properties
-        # otherwise we can cache everything
         self.service_stub.reportInstanceProperties(InstanceProperties(
             service=config.service_name,
             serviceInstance=config.service_instance,

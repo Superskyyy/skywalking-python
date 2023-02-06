@@ -33,10 +33,6 @@ class HttpProtocol(Protocol):
         self.traces_reporter = HttpTraceSegmentReportService()
         self.log_reporter = HttpLogDataReportService()
 
-    def fork_after_in_child(self):
-        self.service_management.fork_after_in_child()
-        self.traces_reporter.fork_after_in_child()
-
     def heartbeat(self):
         if not self.properties_sent:
             self.service_management.send_instance_props()
@@ -103,8 +99,16 @@ class HttpProtocol(Protocol):
         except Exception:
             pass
 
+    # TODO: implement profiling for kafka
+    # meter support requires OAP side HTTP handler to be implemented
     def report_meter(self, queue: Queue, block: bool = True):
         ...
 
     def report_snapshot(self, queue: Queue, block: bool = True):
+        ...
+
+    def query_profile_commands(self):
+        ...
+
+    def notify_profile_task_finish(self, task):
         ...

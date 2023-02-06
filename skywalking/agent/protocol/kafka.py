@@ -163,5 +163,12 @@ class KafkaProtocol(Protocol):
 
         self.meter_reporter.report(generator=generator())
 
+    # TODO: implement profiling for kafka
     def report_snapshot(self, queue: Queue, block: bool = True):
+        ...
+
+    def query_profile_commands(self):
+        ...
+
+    def notify_profile_task_finish(self, task):
         ...

@@ -47,16 +47,3 @@ class Protocol(ABC):
     @abstractmethod
     def notify_profile_task_finish(self, task):
         raise NotImplementedError()
-
-    def fork_before(self):
-        raise NotImplementedError()
-
-    def fork_after_in_parent(self):
-        raise NotImplementedError()
-
-    @abstractmethod
-    def fork_after_in_child(self):
-        """
-        Must be implemented in each protocol to handle fork behavior
-        """
-        raise NotImplementedError()

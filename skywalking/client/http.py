@@ -32,10 +32,6 @@ class HttpServiceManagementClient(ServiceManagementClient):
         self.url_heart_beat = f"{proto}{config.collector_address.rstrip('/')}/v3/management/keepAlive"
         self.session = requests.Session()
 
-    def fork_after_in_child(self):
-        self.session.close()
-        self.session = requests.Session()
-
     def send_instance_props(self):
         res = self.session.post(self.url_instance_props, json={
             'service': config.service_name,
@@ -66,10 +62,6 @@ class HttpTraceSegmentReportService(TraceSegmentReportService):
     def __init__(self):
         proto = 'https://' if config.force_tls else 'http://'
         self.url_report = f"{proto}{config.collector_address.rstrip('/')}/v3/segment"
-        self.session = requests.Session()
-
-    def fork_after_in_child(self):
-        self.session.close()
         self.session = requests.Session()
 
     def report(self, generator):
@@ -121,10 +113,6 @@ class HttpLogDataReportService(LogDataReportService):
     def __init__(self):
         proto = 'https://' if config.force_tls else 'http://'
         self.url_report = f"{proto}{config.collector_address.rstrip('/')}/v3/logs"
-        self.session = requests.Session()
-
-    def fork_after_in_child(self):
-        self.session.close()
         self.session = requests.Session()
 
     def report(self, generator):

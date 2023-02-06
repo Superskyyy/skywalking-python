@@ -61,9 +61,6 @@ class GrpcProtocol(Protocol):
         self.log_reporter = GrpcLogDataReportService(self.channel)
         self.meter_reporter = GrpcMeterReportService(self.channel)
 
-    def fork_after_in_child(self):
-        ...
-
     def _cb(self, state):
         if logger_debug_enabled:
             logger.debug('grpc channel connectivity changed, [%s -> %s]', self.state, state)

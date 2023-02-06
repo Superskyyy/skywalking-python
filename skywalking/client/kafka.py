@@ -69,12 +69,6 @@ class KafkaServiceManagementClient(ServiceManagementClient):
         self.send_instance_props()
 
     def send_instance_props(self):
-        properties = [
-            KeyStringValuePair(key='language', value='python'),
-            KeyStringValuePair(key='Process No.', value=str(os.getpid())),
-        ]
-        if config.namespace:
-            properties.append(KeyStringValuePair(key='namespace', value=config.namespace))
         instance = InstanceProperties(
             service=config.service_name,
             serviceInstance=config.service_instance,
