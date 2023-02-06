@@ -21,20 +21,18 @@
   attributes:
     {{- contains .attributes }}
     - name: OS Name
-      value: posix
+      value: "posix"
     - name: Process No.
       value: {{ notEmpty .value }}
     - name: hostname
-      value: { { notEmpty .value } }
-    - name: ipv4s
-      value: ""
+      value: {{ notEmpty .value }}
     - name: python_implementation
       value: "CPython"
     - name: python_version
       value: {{ notEmpty .value }}
     - name: ipv4s
       value: {{ notEmpty .value }}
-    {{- end}}
+      {{- end }}
   language: PYTHON
   instanceuuid: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "provider1" }}
 {{- end}}

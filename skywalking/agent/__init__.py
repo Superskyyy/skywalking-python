@@ -236,7 +236,7 @@ class SkyWalkingAgent(Singleton):
         loggings.init()
         config.finalize()
         profile.init()
-        meter.init()
+        meter.init(force=True)  # force re-init after fork()
 
         self.__bootstrap()  # calls init_threading
 

@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 from abc import ABC, abstractmethod
 from enum import Enum
+from typing import Optional
+
 from skywalking.protocol.language_agent.Meter_pb2 import Label
 import skywalking.meter as meter
 
@@ -79,12 +80,8 @@ class MeterId():
 
 
 class BaseMeter(ABC):
-    meter_service = None
 
     def __init__(self, name: str, tags=None):
-        if BaseMeter.meter_service is None:
-            BaseMeter.meter_service = meter._meter_service
-
         self.meterId = MeterId(name, self.get_type(), tags)
 
     def get_name(self):
@@ -110,6 +107,7 @@ class BaseMeter(ABC):
         def __init__(self, name: str, tags=None):
             # Derived Builder should instantiate its corresponding meter here.
             # self.meter = BaseMeter(name, tags)
+            self.meter: Optional[BaseMeter] = None
             pass
 
         def tag(self, name: str, value):
@@ -118,5 +116,8 @@ class BaseMeter(ABC):
 
         def build(self):
             self.meter.meterId.get_tags().sort()
-            BaseMeter.meter_service.register(self.meter)
+            # Below is to prevent referring to the same BaseMeter object
+            # after fork, otherwise everything will be messed up.
+            __meter_service = meter._meter_service
+            __meter_service.register(self.meter)
             return self.meter

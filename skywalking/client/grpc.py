@@ -101,7 +101,7 @@ class GrpcProfileTaskChannelService(ProfileTaskChannelService):
         )
 
         commands = self.profile_stub.getProfileTaskCommands(query)
-        command_service.receive_copmmand(commands)
+        command_service.receive_command(commands)
 
     def report(self, generator):
         self.profile_stub.collectSnapshot(generator)

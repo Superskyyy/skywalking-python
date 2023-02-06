@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import time
 from concurrent.futures import ThreadPoolExecutor
 from threading import Thread
@@ -23,11 +22,13 @@ from skywalking.agent import agent
 from skywalking.meter.meter import BaseMeter
 from skywalking.utils.time import current_milli_time
 from skywalking.config import meter_reporter_period
+from skywalking.loggings import logger
 
 
 class MeterService(Thread):
     def __init__(self):
-        super().__init__(name='meterservice', daemon=True)
+        super().__init__(name='meterService', daemon=True)
+        logger.debug('Started meter service')
         self.meter_map = {}
 
     def register(self, meter: BaseMeter):
