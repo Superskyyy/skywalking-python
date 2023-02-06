@@ -19,7 +19,7 @@ from flask import Flask
 from skywalking import agent, config
 import requests
 
-config.init(collector_address='localhost:11800', protocol='kafka', service_name='great-app-consumer-http',
+config.init(collector_address='localhost:11800', protocol='grpc', service_name='great-app-consumer-grpc',
             kafka_bootstrap_servers='localhost:9094',  # If you use kafka, set this
             service_instance='instance-01',
             experimental_fork_support=True, logging_level='DEBUG', log_reporter_active=True,

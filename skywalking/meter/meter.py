@@ -80,8 +80,13 @@ class MeterId():
 
 
 class BaseMeter(ABC):
+    meter_service = None
 
     def __init__(self, name: str, tags=None):
+        # Should always override to use the correct meter service.
+        # Otherwise, forked process will inherit the original
+        # meter_service in parent. We want a new one in child.
+        BaseMeter.meter_service = meter._meter_service
         self.meterId = MeterId(name, self.get_type(), tags)
 
     def get_name(self):
@@ -116,8 +121,5 @@ class BaseMeter(ABC):
 
         def build(self):
             self.meter.meterId.get_tags().sort()
-            # Below is to prevent referring to the same BaseMeter object
-            # after fork, otherwise everything will be messed up.
-            __meter_service = meter._meter_service
-            __meter_service.register(self.meter)
+            BaseMeter.meter_service.register(self.meter)
             return self.meter

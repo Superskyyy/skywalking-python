@@ -170,7 +170,7 @@ class SkyWalkingAgent(Singleton):
         # of a clean queue in child process (prevent duplicated reporting), we simply restart the agent and
         # reinitialize all queues and threads.
         logger.warning('SkyWalking Python agent fork support is currently experimental, '
-                       'please report issues if you encounter any')
+                       'please report issues if you encounter any.')
 
     def __fork_after_in_parent(self) -> None:
         """
