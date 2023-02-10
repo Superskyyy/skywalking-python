@@ -25,9 +25,5 @@ BIN_DIR=$2
 set -ex
 
 if ! command -v swctl &> /dev/null; then
-  mkdir -p $BASE_DIR/swctl && cd $BASE_DIR/swctl
-  curl -kLo skywalking-cli.tar.gz https://github.com/apache/skywalking-cli/archive/${SW_CTL_COMMIT}.tar.gz
-  tar -zxf skywalking-cli.tar.gz --strip=1
-  utype=$(uname | awk '{print tolower($0)}')
-  make $utype-amd64 && mv bin/swctl-*-$utype-amd64 $BIN_DIR/swctl
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/apache/skywalking-cli/${SW_CTL_COMMIT}/scripts/install.sh)"
 fi
