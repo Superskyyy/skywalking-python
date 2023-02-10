@@ -15,19 +15,21 @@
 # limitations under the License.
 #
 
-_meter_service = None
 
-
-def init(force: bool = False):
+class Singleton(object):
     """
-    If the meter service is not initialized, initialize it.
-    if force, we are in a fork(), we force re-initialization
+    This is to ensure a single process can only have one instance of agent.
+    Written by Guido van Rossum to implement a singleton pattern.
+    https://www.python.org/download/releases/2.2/descrintro/#__new__
+    Classes that inherit from this class will be singletons.
     """
-    from skywalking.meter.meter_service import MeterService
+    def __new__(cls, *args, **kwds):
+        it = cls.__dict__.get('__it__')
+        if it is not None:
+            return it
+        cls.__it__ = it = object.__new__(cls)
+        it.init(*args, **kwds)
+        return it
 
-    global _meter_service
-    if _meter_service and not force:
-        return
-
-    _meter_service = MeterService()
-    _meter_service.start()
+    def init(self, *args, **kwds):
+        pass

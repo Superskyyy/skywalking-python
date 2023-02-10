@@ -91,9 +91,9 @@ heartbeat_period: int = int(os.getenv('SW_AGENT_HEARTBEAT_PERIOD', '30'))
 collector_properties_report_period_factor = int(os.getenv('SW_AGENT_COLLECTOR_PROPERTIES_REPORT_PERIOD_FACTOR', '10'))
 # A custom JSON string to be reported as service instance properties, e.g. `{"key": "value"}`
 instance_properties_json: str = os.getenv('SW_INSTANCE_PROPERTIES_JSON', '')
-# The agent will try to restart itself in any os.fork()-ed child process. Important Note: it's not suitable for
-# short-lived processes as each one will introduce overhead and create a new instance in SkyWalking dashboard
-# in format of `service_instance-child-<pid>` (TODO)
+# **Experimental** The agent will try to restart itself in any os.fork()-ed child process.
+# Important Note: it's not suitable for short-lived processes as each one will introduce overhead
+# and create a new instance in SkyWalking dashboard in format of `service_instance-child-<pid>`
 experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
 # DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
 # Do not modify unless you have evaluated its impact given your service load.
