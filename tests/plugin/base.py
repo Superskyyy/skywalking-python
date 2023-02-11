@@ -59,6 +59,14 @@ class TestPluginBase:
                 print('diff list: ')
 
                 sys.stdout.writelines(diff_list)
+
+                print('expected')
+
+                sys.stdout.writelines(yaml.dump(yaml.load(expected_data, Loader=Loader)).splitlines(keepends=True))
+                print('actual')
+
+                sys.stdout.writelines(actual_data.splitlines(keepends=True))
+
             assert response.status_code == 200
 
             return response
