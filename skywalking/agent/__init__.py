@@ -16,6 +16,8 @@
 #
 
 import atexit
+import functools
+import os
 from queue import Queue, Full
 from threading import Thread, Event
 from typing import TYPE_CHECKING
@@ -41,88 +43,63 @@ __heartbeat_thread = __report_thread = __log_report_thread = __query_profile_thr
     = __send_profile_thread = __queue = __log_queue = __snapshot_queue = __meter_queue = __finished = None
 
 
-def __heartbeat():
-    wait = base = 30
+def report_with_backoff(init_wait):
+    """
+    An exponential backoff for retrying reporters.
+    """
 
-    while not __finished.is_set():
-        try:
-            __protocol.heartbeat()
-            wait = base  # reset to base wait time on success
-        except Exception as exc:
-            logger.error(str(exc))
-            wait = min(60, wait * 2 or 1)  # double wait time with each consecutive error up to a maximum
+    def backoff_decorator(func):
+        @functools.wraps(func)
+        def backoff_wrapper(self, *args, **kwargs):
+            wait = base = init_wait
+            while not self._finished.is_set():
+                try:
+                    func(self, *args, **kwargs)
+                    wait = base  # reset to base wait time on success
+                except Exception:  # noqa
+                    wait = min(60, wait * 2 or 1)  # double wait time with each consecutive error up to a maximum
+                    logger.exception(f'Exception in reporter in pid {os.getpid()}, retry in {wait} seconds')
 
-        __finished.wait(wait)
+                self._finished.wait(wait)
+            logger.info('finished reporter thread')
 
+        return backoff_wrapper
 
-def __report():
-    wait = base = 0
-
-    while not __finished.is_set():
-        try:
-            __protocol.report_segment(__queue)  # is blocking actually, blocks for max config.queue_timeout seconds
-            wait = base
-        except Exception as exc:
-            logger.error(str(exc))
-            wait = min(60, wait * 2 or 1)
-
-        __finished.wait(wait)
+    return backoff_decorator
 
 
-def __report_log():
-    wait = base = 0
-
-    while not __finished.is_set():
-        try:
-            __protocol.report_log(__log_queue)
-            wait = base
-        except Exception as exc:
-            logger.error(str(exc))
-            wait = min(60, wait * 2 or 1)
-
-        __finished.wait(wait)
+@report_with_backoff(init_wait=config.heartbeat_period)
+def __heartbeat(self):
+    self.__protocol.heartbeat()
 
 
-def __send_profile_snapshot():
-    wait = base = 0.5
-
-    while not __finished.is_set():
-        try:
-            __protocol.report_snapshot(__snapshot_queue)
-            wait = base
-        except Exception as exc:
-            logger.error(str(exc))
-            wait = min(60, wait * 2 or 1)
-
-        __finished.wait(wait)
+@report_with_backoff(init_wait=0)
+def __report_segment(self):
+    if not self.__segment_queue.empty():
+        self.__protocol.report_segment(self.__segment_queue)
 
 
-def __query_profile_command():
-    wait = base = config.get_profile_task_interval
-
-    while not __finished.is_set():
-        try:
-            __protocol.query_profile_commands()
-            wait = base
-        except Exception as exc:
-            logger.error(str(exc))
-            wait = min(60, wait * 2 or 1)
-
-        __finished.wait(wait)
+@report_with_backoff(init_wait=0)
+def __report_log(self):
+    if not self.__log_queue.empty():
+        self.__protocol.report_log(self.__log_queue)
 
 
-def __report_meter():
-    wait = base = 1
+@report_with_backoff(init_wait=config.meter_reporter_period)
+def __report_meter(self):
+    if not self.__meter_queue.empty():
+        self.__protocol.report_meter(self.__meter_queue)
 
-    while not __finished.is_set():
-        try:
-            __protocol.report_meter(__meter_queue)  # is blocking actually, blocks for max config.queue_timeout seconds
-            wait = base
-        except Exception as exc:
-            logger.error(str(exc))
-            wait = min(60, wait * 2 or 1)
 
-        __finished.wait(wait)
+@report_with_backoff(init_wait=0.5)
+def __send_profile_snapshot(self):
+    if not self.__snapshot_queue.empty():
+        self.__protocol.report_snapshot(self.__snapshot_queue)
+
+
+@report_with_backoff(init_wait=config.get_profile_task_interval)
+def __query_profile_command(self):
+    self.__protocol.query_profile_commands()
 
 
 def __command_dispatch():
@@ -137,7 +114,7 @@ def __init_threading():
     __queue = Queue(maxsize=config.trace_reporter_max_buffer_size)
     __finished = Event()
     __heartbeat_thread = Thread(name='HeartbeatThread', target=__heartbeat, daemon=True)
-    __report_thread = Thread(name='ReportThread', target=__report, daemon=True)
+    __report_thread = Thread(name='ReportThread', target=__report_segment, daemon=True)
     __command_dispatch_thread = Thread(name='CommandDispatchThread', target=__command_dispatch, daemon=True)
 
     __heartbeat_thread.start()
@@ -159,7 +136,6 @@ def __init_threading():
             CPUUsageDataSource().registry()
             GCDataSource().registry()
             ThreadDataSource().registry()
-
 
     if config.log_reporter_active:
         __log_queue = Queue(maxsize=config.log_reporter_max_buffer_size)
