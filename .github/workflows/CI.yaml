@@ -184,7 +184,7 @@ jobs:
       - name: Run unit tests
         run: |
           make env
-          poetry run pytest -v ${{ matrix.test-path }}
+          poetry run pytest -x -v ${{ matrix.test-path }}
 
   docker-e2e:
     # build docker image for E2E tests, single Python version for now.
