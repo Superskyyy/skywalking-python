@@ -50,7 +50,7 @@ def report_with_backoff(init_wait):
 
     def backoff_decorator(func):
         @functools.wraps(func)
-        def backoff_wrapper(self, *args, **kwargs):
+        def backoff_wrapper(*args, **kwargs):
             wait = base = init_wait
             while not __finished.is_set():
                 try:
