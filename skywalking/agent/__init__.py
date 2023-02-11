@@ -52,15 +52,15 @@ def report_with_backoff(init_wait):
         @functools.wraps(func)
         def backoff_wrapper(self, *args, **kwargs):
             wait = base = init_wait
-            while not self._finished.is_set():
+            while not __finished.is_set():
                 try:
-                    func(self, *args, **kwargs)
+                    func(*args, **kwargs)
                     wait = base  # reset to base wait time on success
                 except Exception:  # noqa
                     wait = min(60, wait * 2 or 1)  # double wait time with each consecutive error up to a maximum
                     logger.exception(f'Exception in reporter in pid {os.getpid()}, retry in {wait} seconds')
 
-                self._finished.wait(wait)
+                __finished.wait(wait)
             logger.info('finished reporter thread')
 
         return backoff_wrapper
@@ -69,37 +69,37 @@ def report_with_backoff(init_wait):
 
 
 @report_with_backoff(init_wait=config.heartbeat_period)
-def __heartbeat(self):
-    self.__protocol.heartbeat()
+def __heartbeat():
+    __protocol.heartbeat()
 
 
 @report_with_backoff(init_wait=0)
-def __report_segment(self):
-    if not self.__segment_queue.empty():
-        self.__protocol.report_segment(self.__segment_queue)
+def __report_segment():
+    if not __queue.empty():
+        __protocol.report_segment(__queue)
 
 
 @report_with_backoff(init_wait=0)
-def __report_log(self):
-    if not self.__log_queue.empty():
-        self.__protocol.report_log(self.__log_queue)
+def __report_log():
+    if not __log_queue.empty():
+        __protocol.report_log(__log_queue)
 
 
 @report_with_backoff(init_wait=config.meter_reporter_period)
-def __report_meter(self):
-    if not self.__meter_queue.empty():
-        self.__protocol.report_meter(self.__meter_queue)
+def __report_meter():
+    if not __meter_queue.empty():
+        __protocol.report_meter(__meter_queue)
 
 
 @report_with_backoff(init_wait=0.5)
-def __send_profile_snapshot(self):
-    if not self.__snapshot_queue.empty():
-        self.__protocol.report_snapshot(self.__snapshot_queue)
+def __send_profile_snapshot():
+    if not __snapshot_queue.empty():
+        __protocol.report_snapshot(__snapshot_queue)
 
 
 @report_with_backoff(init_wait=config.get_profile_task_interval)
-def __query_profile_command(self):
-    self.__protocol.query_profile_commands()
+def __query_profile_command():
+    __protocol.query_profile_commands()
 
 
 def __command_dispatch():
