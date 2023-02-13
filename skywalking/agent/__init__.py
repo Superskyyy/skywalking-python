@@ -195,9 +195,9 @@ class SkyWalkingAgent(Singleton):
         # export grpc fork support env
         # This is required for grpcio to work with fork()
         # https://github.com/grpc/grpc/blob/master/doc/fork_support.md
-        if config.protocol == 'grpc':
-            os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
-
+        # if config.protocol == 'grpc':
+        #     os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
+        # print(os.getpid())
         if not self.__started:
             # if not already started, start the agent
             self.__started = True
