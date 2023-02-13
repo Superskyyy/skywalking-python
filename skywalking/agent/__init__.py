@@ -197,7 +197,6 @@ class SkyWalkingAgent(Singleton):
         # https://github.com/grpc/grpc/blob/master/doc/fork_support.md
         if config.protocol == 'grpc':
             os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
-            os.environ['GRPC_POLL_STRATEGY'] = 'poll'
 
         if not self.__started:
             # if not already started, start the agent
