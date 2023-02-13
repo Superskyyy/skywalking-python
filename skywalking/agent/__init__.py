@@ -192,12 +192,14 @@ class SkyWalkingAgent(Singleton):
 
         When os.fork(), the service instance should be changed to a new one by appending pid.
         """
-        # export grpc fork support env
         # This is required for grpcio to work with fork()
         # https://github.com/grpc/grpc/blob/master/doc/fork_support.md
-        # if config.protocol == 'grpc':
-        #     os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
-        # print(os.getpid())
+        # This is not available in Python 3.7 due to hanging issue
+        # https://github.com/grpc/grpc/issues/18075
+        if config.protocol == 'grpc' and config.experimental_fork_support:
+            os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
+            os.environ['GRPC_POLL_STRATEGY'] = 'poll'
+
         if not self.__started:
             # if not already started, start the agent
             self.__started = True
