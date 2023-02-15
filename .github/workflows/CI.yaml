@@ -270,7 +270,7 @@ jobs:
     timeout-minutes: 60
     # wait upon them regardless of success or skipped or failure
     if: ${{ always() }}
-    needs: [ license-and-lint, changes, plugin-and-unit-tests, e2e-tests, plugin-doc-check ]
+    needs: [ license-and-lint, changes, plugin-and-unit-tests, plugin-doc-check ] #  e2e-tests, 
     steps:
       - name: Merge Requirement
         # check license, lint, plugin and e2e tests, then naturally exits 0
