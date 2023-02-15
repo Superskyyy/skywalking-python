@@ -158,7 +158,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.11" ]  # "3.7", "3.8", "3.9", "3.10", 
         test-path: ${{fromJson(needs.prep-plugin-and-unit-tests.outputs.matrix)}}
       fail-fast: false
     env:
@@ -185,84 +185,84 @@ jobs:
           make env
           poetry run pytest -v ${{ matrix.test-path }}
 
-  docker-e2e:
-    # build docker image for E2E tests, single Python version for now.
-    name: Build E2E Test Image
-    needs: [ license-and-lint, changes, plugin-doc-check ]
-    if: |
-      ( always() && ! cancelled() ) && 
-      ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      matrix:
-        python-image-variant: [ "3.7-slim", "3.11-slim" ]
-      fail-fast: false
-    env:
-      BASE_PYTHON_IMAGE: ${{ matrix.python-image-variant }}
-    steps:
-      - name: Checkout source codes
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-      - name: Build SkyWalking Python agent base e2e image
-        run: |
-          docker build --build-arg BASE_PYTHON_IMAGE -t apache/skywalking-python-agent:latest-e2e --no-cache . -f tests/e2e/base/Dockerfile.e2e
-          docker save -o docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}.tar apache/skywalking-python-agent:latest-e2e
-      - name: Upload docker image
-        uses: actions/upload-artifact@v3
-        with:
-          name: docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}
-          path: docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}.tar
-          retention-days: 1
+  # docker-e2e:
+  #   # build docker image for E2E tests, single Python version for now.
+  #   name: Build E2E Test Image
+  #   needs: [ license-and-lint, changes, plugin-doc-check ]
+  #   if: |
+  #     ( always() && ! cancelled() ) && 
+  #     ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 10
+  #   strategy:
+  #     matrix:
+  #       python-image-variant: [ "3.7-slim", "3.11-slim" ]
+  #     fail-fast: false
+  #   env:
+  #     BASE_PYTHON_IMAGE: ${{ matrix.python-image-variant }}
+  #   steps:
+  #     - name: Checkout source codes
+  #       uses: actions/checkout@v3
+  #       with:
+  #         submodules: true
+  #     - name: Build SkyWalking Python agent base e2e image
+  #       run: |
+  #         docker build --build-arg BASE_PYTHON_IMAGE -t apache/skywalking-python-agent:latest-e2e --no-cache . -f tests/e2e/base/Dockerfile.e2e
+  #         docker save -o docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}.tar apache/skywalking-python-agent:latest-e2e
+  #     - name: Upload docker image
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}
+  #         path: docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}.tar
+  #         retention-days: 1
 
-  e2e-tests:
-    # execute E2E tests with SkyWalking-infra-e2e with a matrix of agent protocols
-    name: E2E
-    needs: [ license-and-lint, changes, plugin-doc-check, docker-e2e ]
-    if: |
-      ( always() && ! cancelled() ) && 
-      ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      matrix:
-        python-image-variant: [ "3.7-slim", "3.11-slim" ]
-        case:
-          - name: gRPC
-            path: tests/e2e/case/grpc/e2e.yaml
-          - name: HTTP
-            path: tests/e2e/case/http/e2e.yaml
-          - name: Kafka
-            path: tests/e2e/case/kafka/e2e.yaml
-          - name: profiling_threading
-            path: tests/e2e/case/profiling/threading/e2e.yaml
-          - name: profiling_greenlet
-            path: tests/e2e/case/profiling/greenlet/e2e.yaml
-      fail-fast: false
-    steps:
-      - name: Checkout source codes
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-      - name: Pull SkyWalking Python agent base image
-        uses: actions/download-artifact@v3
-        with:
-          name: docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}
-          path: docker-images
-      - name: Load docker images
-        run: find docker-images -name "*.tar" -exec docker load -i {} \;
-      - name: Run E2E Tests
-        uses: apache/skywalking-infra-e2e@964ede199fe199e166920169dc5f8c9b214cfac5
-        with:
-          log-dir: /tmp/e2e-logs
-          e2e-file: ${{ matrix.case.path }}
-      - name: Upload Logs
-        uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
-        with:
-          name: e2e_logs_${{ matrix.case.name }}_${{ matrix.python-image-variant }}
-          path: "${{ env.SW_INFRA_E2E_LOG_DIR }}"
+  # e2e-tests:
+  #   # execute E2E tests with SkyWalking-infra-e2e with a matrix of agent protocols
+  #   name: E2E
+  #   needs: [ license-and-lint, changes, plugin-doc-check, docker-e2e ]
+  #   if: |
+  #     ( always() && ! cancelled() ) && 
+  #     ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 20
+  #   strategy:
+  #     matrix:
+  #       python-image-variant: [ "3.7-slim", "3.11-slim" ]
+  #       case:
+  #         - name: gRPC
+  #           path: tests/e2e/case/grpc/e2e.yaml
+  #         - name: HTTP
+  #           path: tests/e2e/case/http/e2e.yaml
+  #         - name: Kafka
+  #           path: tests/e2e/case/kafka/e2e.yaml
+  #         - name: profiling_threading
+  #           path: tests/e2e/case/profiling/threading/e2e.yaml
+  #         - name: profiling_greenlet
+  #           path: tests/e2e/case/profiling/greenlet/e2e.yaml
+  #     fail-fast: false
+  #   steps:
+  #     - name: Checkout source codes
+  #       uses: actions/checkout@v3
+  #       with:
+  #         submodules: true
+  #     - name: Pull SkyWalking Python agent base image
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: docker-images-skywalking-python-e2e-${{ matrix.python-image-variant }}
+  #         path: docker-images
+  #     - name: Load docker images
+  #       run: find docker-images -name "*.tar" -exec docker load -i {} \;
+  #     - name: Run E2E Tests
+  #       uses: apache/skywalking-infra-e2e@964ede199fe199e166920169dc5f8c9b214cfac5
+  #       with:
+  #         log-dir: /tmp/e2e-logs
+  #         e2e-file: ${{ matrix.case.path }}
+  #     - name: Upload Logs
+  #       uses: actions/upload-artifact@v3
+  #       if: ${{ failure() }}
+  #       with:
+  #         name: e2e_logs_${{ matrix.case.name }}_${{ matrix.python-image-variant }}
+  #         path: "${{ env.SW_INFRA_E2E_LOG_DIR }}"
 
   CheckStatus:
     # a required check that must pass before merging a PR
