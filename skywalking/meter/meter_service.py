@@ -21,6 +21,7 @@ from skywalking import config
 from skywalking.agent import agent
 from skywalking.meter.meter import BaseMeter
 from skywalking.utils.time import current_milli_time
+from skywalking.loggings import logger
 
 
 class MeterService(Thread):
