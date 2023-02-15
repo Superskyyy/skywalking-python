@@ -16,6 +16,8 @@ from uwsgidecorators import postfork
 
 @postfork
 def init_tracing():
+    # Important: The import of skywalking should be inside the postfork function
+    from skywalking import agent, config
     config.init(agent_collector_backend_services='127.0.0.1:11800', agent_name='your awesome service')
 
     agent.start()
