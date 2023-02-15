@@ -213,7 +213,7 @@ def init(**kwargs) -> None:
     """
     Used to initialize the configuration of the SkyWalking Python Agent.
     Refer to the official online documentation
-    https://skywalking.apache.org/docs/skywalking-python/next/en/setup/configurations/
+    https://skywalking.apache.org/docs/skywalking-python/next/en/setup/configuration/
     for more information on the configuration options.
 
     Args:

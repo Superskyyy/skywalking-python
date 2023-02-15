@@ -173,7 +173,7 @@ class SkyWalkingAgent(Singleton):
                        'please report issues if you encounter any.')
 
     @staticmethod  # for now
-    def __fork_after_in_parent(self) -> None:
+    def __fork_after_in_parent() -> None:
         """
         Something to do after fork() in parent process
         """
@@ -184,6 +184,7 @@ class SkyWalkingAgent(Singleton):
         Simply restart the agent after we detect a fork() call
         """
         self.start()
+        logger.info('SkyWalking Python agent spawned in child after fork() call.')
 
     def start(self) -> None:
         """

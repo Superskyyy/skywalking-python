@@ -36,6 +36,9 @@ from where you can use `pip` to install:
 # Install the latest version, using the default gRPC protocol to report data to OAP
 pip install "apache-skywalking"
 
+# Install support for every protocol (gRPC, HTTP, Kafka)
+pip install "apache-skywalking[all]"
+
 # Install the latest version, using the http protocol to report data to OAP
 pip install "apache-skywalking[http]"
 
