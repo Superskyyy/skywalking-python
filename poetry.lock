@@ -3639,4 +3639,4 @@ kafka = ["kafka-python"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.7, <3.11"
-content-hash = "1d42154067478257d0ac1a7c065cd03e81219992808471f6b04cd45d53cc6f3f"
+content-hash = "b7a473e551e75a52dc16fcbf17e54b42f5515f4f78d909d0d1ee4762c92bdff4"

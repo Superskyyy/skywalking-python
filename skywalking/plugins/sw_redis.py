@@ -55,8 +55,8 @@ def install():
             key = ''
         elif len(args) > 1:
             cmd, key = args[0], args[1]
-        else: # just to be safe
-            cmd, key = ''
+        else:  # just to be safe
+            cmd = key = ''
 
         if cmd in OPERATIONS_WRITE:
             op = 'write'
