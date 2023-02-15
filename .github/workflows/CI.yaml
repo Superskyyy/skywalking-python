@@ -67,7 +67,6 @@ jobs:
     # set outputs for other jobs to access for if conditions
     name: Check Changes
     runs-on: ubuntu-latest
-    needs: [ license-and-lint, plugin-doc-check ]
     # To prevent error when there's no base branch
     if: github.event_name != 'schedule'
     timeout-minutes: 10
