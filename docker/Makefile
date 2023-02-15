@@ -29,7 +29,7 @@ py3.7-slim: BASE_PYTHON_IMAGE = python:3.7-slim
 py3.8-slim: BASE_PYTHON_IMAGE = python:3.8-slim
 py3.9-slim: BASE_PYTHON_IMAGE = python:3.9-slim
 py3.10-slim: BASE_PYTHON_IMAGE = python:3.10-slim
-py3.11: BASE_PYTHON_IMAGE = python:3.11
+py3.11-slim: BASE_PYTHON_IMAGE = python:3.11-slim
 
 PUSH_TARGETS := $(TARGETS:%=push-%)
 
