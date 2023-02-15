@@ -22,7 +22,7 @@ from skywalking.trace.tags import TagCacheType, TagCacheOp, TagCacheCmd, TagCach
 link_vector = ['https://github.com/andymccurdy/redis-py/']
 support_matrix = {
     'redis': {
-        '>=3.7': ['3.5']
+        '>=3.7': ['3.5.*', '4.5.1']
     }
 }
 note = """Known incompatibility: Redis lib 4.0+ args length is no longer correct"""
@@ -49,7 +49,14 @@ def install():
 
     def _sw_send_command(this: Connection, *args, **kwargs):
         peer = f'{this.host}:{this.port}'
-        cmd, key = args[0], args[1]
+
+        if len(args) == 1:
+            cmd = args[0]
+            key = ''
+        elif len(args) > 1:
+            cmd, key = args[0], args[1]
+        else: # just to be safe
+            cmd, key = ''
 
         if cmd in OPERATIONS_WRITE:
             op = 'write'
