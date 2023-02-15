@@ -16,10 +16,7 @@ from uwsgidecorators import postfork
 
 @postfork
 def init_tracing():
-    # Note: it's highly recommended to only import skywalking modules within the @postfork method,
-    # as gRPC/protobuf dependency import actions may not work properly unless being imported exactly once in each new process
-    from skywalking import agent, config
-    config.init(collector_address='127.0.0.1:11800', service_name='your awesome service')
+    config.init(collector_address='127.0.0.1:11800', agent_name='your awesome service')
 
     agent.start()
 

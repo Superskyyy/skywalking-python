@@ -14,30 +14,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from typing import Callable
 
-import logging
+import pytest
+import requests
 
-from skywalking import config
-
-logger_debug_enabled = False
-
-
-def getLogger(name=None):  # noqa
-    logger = logging.getLogger(name)
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter('%(name)s [pid:%(process)d] [%(threadName)s] [%(levelname)s] %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.propagate = False
-
-    return logger
+from skywalking.plugins.sw_httpx import support_matrix
+from tests.orchestrator import get_test_vector
+from tests.plugin.base import TestPluginBase
 
 
-logger = getLogger('skywalking')
+@pytest.fixture
+def prepare():
+    # type: () -> Callable
+    return lambda *_: requests.post('http://0.0.0.0:9090/users', timeout=5)
 
 
-def init():
-    global logger_debug_enabled
-    logging.addLevelName(logging.CRITICAL + 10, 'OFF')
-    logger.setLevel(logging.getLevelName(config.agent_logging_level))
-    logger_debug_enabled = logger.isEnabledFor(logging.DEBUG)
+class TestPlugin(TestPluginBase):
+    @pytest.mark.parametrize('version', get_test_vector(lib_name='httpx', support_matrix=support_matrix))
+    def test_plugin(self, docker_compose, version):
+        self.validate()

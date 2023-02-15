@@ -21,8 +21,6 @@ from skywalking import config
 from skywalking.agent import agent
 from skywalking.meter.meter import BaseMeter
 from skywalking.utils.time import current_milli_time
-from skywalking.config import meter_reporter_period
-from skywalking.loggings import logger
 
 
 class MeterService(Thread):
@@ -41,8 +39,8 @@ class MeterService(Thread):
 
         def archive(meterdata):
             meterdata = meterdata.transform()
-            meterdata.service = config.service_name
-            meterdata.serviceInstance = config.service_instance
+            meterdata.service = config.agent_name
+            meterdata.serviceInstance = config.agent_instance_name
             meterdata.timestamp = current_milli_time()
             agent.archive_meter(meterdata)
 
@@ -51,5 +49,5 @@ class MeterService(Thread):
 
     def run(self):
         while True:
-            time.sleep(meter_reporter_period)
+            time.sleep(config.agent_meter_reporter_period)
             self.send()
