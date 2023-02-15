@@ -6,7 +6,7 @@ You can install the SkyWalking Python agent via various ways described next.
 
 > **Already installed? Check out easy ways to start the agent in your application**
 
-> [Non-intrusive](CLI.md) | [Intrusive <minimal>](Intrusive.md) | [Containerization](Container.md) 
+> [Non-intrusive <Recommended>](CLI.md) | [Intrusive <minimal>](Intrusive.md) | [Containerization](Container.md) 
 
 > **All available configurations are listed [here](Configuration.md)**
 

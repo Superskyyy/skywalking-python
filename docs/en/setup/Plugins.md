@@ -50,6 +50,7 @@ or a limitation of SkyWalking auto-instrumentation (welcome to contribute!)
 - The celery server running with "celery -A ..." should be run with the HTTP protocol
 as it uses multiprocessing by default which is not compatible with the gRPC protocol implementation
 in SkyWalking currently. Celery clients can use whatever protocol they want.
+- Known incompatibility: Redis lib 4.0+ args length is no longer correct
 - The websocket instrumentation only traces client side connection handshake,
 the actual message exchange (send/recv) is not traced since injecting headers to socket message
 body is the only way to propagate the trace context, which requires customization of message structure
