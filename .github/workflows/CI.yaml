@@ -197,7 +197,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        python-image-variant: [ "3.7", "3.7-slim" ]
+        python-image-variant: [ "3.7", "3.8-slim", "3.9-slim", "3.10-slim", "3.11-slim" ]
       fail-fast: false
     env:
       BASE_PYTHON_IMAGE: ${{ matrix.python-image-variant }}
@@ -228,7 +228,7 @@ jobs:
     timeout-minutes: 20
     strategy:
       matrix:
-        python-image-variant: [ "3.7", "3.7-slim" ]
+        python-image-variant: [ "3.7", "3.8-slim", "3.9-slim", "3.10-slim", "3.11-slim" ]
         case:
           - name: gRPC
             path: tests/e2e/case/grpc/e2e.yaml
