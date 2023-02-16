@@ -25,9 +25,9 @@ on:
   schedule:
     - cron: '0 18 * * *'
 
-concurrency:
-  group: CI-plugin-e2e-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+#concurrency:
+#  group: CI-plugin-e2e-${{ github.event.pull_request.number || github.ref }}
+#  cancel-in-progress: true
 
 jobs:
   license-and-lint:

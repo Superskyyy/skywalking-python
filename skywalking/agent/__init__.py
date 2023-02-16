@@ -200,19 +200,19 @@ class SkyWalkingAgent(Singleton):
             # since 3.6 is EOL, we will not officially support it
             logger.warning('SkyWalking Python agent does not support Python 3.6 and below, '
                            'please upgrade to Python 3.7 or above.')
-        if python_version[0] == 3 and python_version[1] > 10:
-            logger.warning('SkyWalking Python agent does not support Python 3.11 and above, '
-                           'though it is likely to work properly, official support is not offered yet.')
-        # This is required for grpcio to work with fork()
+        # Below is required for grpcio to work with fork()
         # https://github.com/grpc/grpc/blob/master/doc/fork_support.md
-        # This is not available in Python 3.7 due to hanging issue
+        # This is not available in Python 3.7 due to frequent hanging issue
+        # It doesn't mean other Python versions will not hang, but chances seem low
         # https://github.com/grpc/grpc/issues/18075
+        os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
+        os.environ['GRPC_POLL_STRATEGY'] = 'epoll1'
         if config.agent_protocol == 'grpc' and config.agent_experimental_fork_support:
             python_version: tuple = sys.version_info[:2]
             if python_version[0] == 3 and python_version[1] == 7:
-                raise RuntimeError('gRPC fork support is not safe on Python 3.7 and can cause hanging. '
+                raise RuntimeError('gRPC fork support is not safe on Python 3.7 and can cause subprocess hanging. '
                                    'See: https://github.com/grpc/grpc/issues/18075.'
-                                   'Please either upgrade to Python 3.8+ (recommended), '
+                                   'Please either upgrade to Python 3.8+ (though hanging could still happen but rare), '
                                    'or use HTTP/Kafka protocol, or disable experimental fork support.')
 
             os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
