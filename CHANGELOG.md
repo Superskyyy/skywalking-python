@@ -12,7 +12,7 @@
 
 
 - Feature:
-  - Add support for Python 3.11 (#?)
+  - Add support for Python 3.11 (#285)
   - Add MeterReportService (gRPC, Kafka reporter) (default:enabled) (#231, #236, #241, #243)
   - Add reporter for PVM runtime metrics (default:enabled) (#238, #247)
   - Add Greenlet profiler (#246)
