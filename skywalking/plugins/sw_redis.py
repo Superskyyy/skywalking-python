@@ -25,7 +25,7 @@ support_matrix = {
         '>=3.7': ['3.5.*', '4.5.1']
     }
 }
-note = """Known incompatibility: Redis lib 4.0+ args length is no longer correct"""
+note = """"""
 
 OPERATIONS_WRITE = {'GETSET', 'SET', 'SETBIT', 'SETEX ', 'SETNX ', 'SETRANGE', 'STRLEN ', 'MSET', 'MSETNX ', 'PSETEX',
                     'INCR ', 'INCRBY ', 'INCRBYFLOAT', 'DECR ', 'DECRBY ', 'APPEND ', 'HMSET', 'HSET', 'HSETNX ',
