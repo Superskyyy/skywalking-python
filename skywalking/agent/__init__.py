@@ -194,8 +194,7 @@ class SkyWalkingAgent(Singleton):
 
         When os.fork(), the service instance should be changed to a new one by appending pid.
         """
-        python_version: tuple = sys.version_info[:2]
-        if python_version[0] < 3 and python_version[1] < 7:
+        if sys.version_info < (3, 7):
             # agent may or may not work for Python 3.6 and below
             # since 3.6 is EOL, we will not officially support it
             logger.warning('SkyWalking Python agent does not support Python 3.6 and below, '
@@ -206,8 +205,8 @@ class SkyWalkingAgent(Singleton):
         # It doesn't mean other Python versions will not hang, but chances seem low
         # https://github.com/grpc/grpc/issues/18075
         if config.agent_protocol == 'grpc' and config.agent_experimental_fork_support:
-            python_version: tuple = sys.version_info[:2]
-            if python_version[0] == 3 and python_version[1] == 7:
+            python_major_version: tuple = sys.version_info[:2]
+            if python_major_version == (3, 7):
                 raise RuntimeError('gRPC fork support is not safe on Python 3.7 and can cause subprocess hanging. '
                                    'See: https://github.com/grpc/grpc/issues/18075.'
                                    'Please either upgrade to Python 3.8+ (though hanging could still happen but rare), '
