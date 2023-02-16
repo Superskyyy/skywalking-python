@@ -205,8 +205,6 @@ class SkyWalkingAgent(Singleton):
         # This is not available in Python 3.7 due to frequent hanging issue
         # It doesn't mean other Python versions will not hang, but chances seem low
         # https://github.com/grpc/grpc/issues/18075
-        os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
-        # os.environ['GRPC_POLL_STRATEGY'] = 'poll'
         if config.agent_protocol == 'grpc' and config.agent_experimental_fork_support:
             python_version: tuple = sys.version_info[:2]
             if python_version[0] == 3 and python_version[1] == 7:
