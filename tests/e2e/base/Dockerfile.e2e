@@ -38,4 +38,4 @@ RUN apt-get update \
 WORKDIR /services
 
 # -p for prefork support
-Entrypoint ["sw-python", "run", "-p", "-d"]
+Entrypoint ["sw-python", "-p", "-d", "run"]
