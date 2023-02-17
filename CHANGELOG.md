@@ -21,6 +21,7 @@
   - Add a new configuration `kafka_namespace` to prefix the kafka topic names (#277)
   - Add log reporter support for loguru (#276)
   - Add **experimental** support for explicit os.fork(), restarts agent in new process for Python 3.8+ (#286)
+  - Add **experimental** sw-python CLI flag -p/--prefork to enable non-intrusive uWSGI and Gunicorn postfork support (#288)
 
 - Plugins:
   - Add aioredis, aiormq, amqp, asyncpg, aio-pika, kombu RMQ plugins (#230 Missing test coverage) 
