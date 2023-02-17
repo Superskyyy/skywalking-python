@@ -160,6 +160,8 @@ else:
                 # We use the already injected uwsgi postfork hook to start the agent (bootstrap/hooks/uwsgi_hook.py)
                 ...
             if prefork_server_detected == 'gunicorn':
+                # We need to enable experimental fork support for Gunicorn
+                config.agent_experimental_fork_support = True
                 # Luckily Gunicorn is based on os.fork and can be safely forked with experimental fork support
                 agent.start()
         else:  # Either there's some prefix like supervisor, or it simply doesn't use uwsgi/gunicorn

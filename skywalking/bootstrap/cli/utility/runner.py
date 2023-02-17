@@ -42,7 +42,6 @@ def prefork_handler(command: List[str]) -> None:
                         'agent will automatically start the SkyWalking Python Agent'
                         'in all child (worker) processes and the master.')
         os.environ['prefork'] = 'gunicorn'
-        # os.environ['GUNICORN_CMD_ARGS'] = '--config python:gunicorn_conf'
     elif command[0] == 'uwsgi':
         cli_logger.info('We noticed you are using uWSGI, '
                         'agent will automatically add the following '
