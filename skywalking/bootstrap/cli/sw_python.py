@@ -48,6 +48,12 @@ def start() -> None:
 
     parser.add_argument('-d', '--debug', help='Print CLI debug logs to stdout', action='store_true')
 
+    parser.add_argument('-p', '--prefork', help='[Experimental] This flag turns on auto detection of '
+                                                'uwsgi and gunicorn, '
+                                                'then automatically starts Python agent in each worker process. '
+                                                '(TL DR: You don\'t need to add manual '
+                                                '@postfork hook to your app anymore)',
+                        action='store_true')
     # To handle cases with flags and positional args in user commands
     args = parser.parse_args()  # type: argparse.Namespace
 
@@ -73,4 +79,4 @@ def dispatch(args: argparse.Namespace) -> None:
     cli_logger.debug(f"SkyWalking Python agent with CLI option '{cli_option}' and command {actual_command}")
 
     # Dispatch actual user application command to runner
-    _options[cli_option].execute(actual_command)
+    _options[cli_option].execute(command=actual_command, experimental_check_prefork=args.prefork)

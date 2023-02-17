@@ -105,6 +105,11 @@ agent_queue_timeout: int = int(os.getenv('SW_AGENT_QUEUE_TIMEOUT', '1'))
 # `sw-python` CLI, if set to `False`, a valid child process will not boot up a SkyWalking Agent. Please refer to the
 # [CLI Guide](CLI.md) for details.
 agent_sw_python_bootstrap_propagate = os.getenv('SW_AGENT_SW_PYTHON_BOOTSTRAP_PROPAGATE', '').lower() == 'true'
+# Special: can only be passed via environment. This config controls the CLI and agent logging debug mode, if set to
+# `True`, the CLI and agent will print out debug logs. Please refer to the [CLI Guide](CLI.md) for details.
+# Important: this config will set agent logging level to `DEBUG` as well, do not use it in production otherwise it will
+# flood your logs. This normally shouldn't be pass as a simple flag -d will be the same.
+agent_sw_python_cli_debug_enabled = os.getenv('SW_AGENT_SW_PYTHON_CLI_DEBUG_ENABLED', '').lower() == 'true'
 
 # BEGIN: Trace Reporter Configurations
 # The maximum queue backlog size for sending the segment data to backend, segments beyond this are silently dropped
