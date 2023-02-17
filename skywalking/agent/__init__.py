@@ -190,7 +190,7 @@ class SkyWalkingAgent(Singleton):
         # Fork support is controlled by config.agent_fork_support :default: False
         # Important: This does not impact pre-forking server support (uwsgi, gunicorn, etc...)
         # This is only for explicit long-running fork() calls.
-        config.agent_instance_name = f'{config.agent_instance_name}-child-{os.getpid()}'
+        config.agent_instance_name = f'{config.agent_instance_name}-child({os.getpid()})'
         self.start()
         logger.info('SkyWalking Python agent spawned in child after fork() call.')
 

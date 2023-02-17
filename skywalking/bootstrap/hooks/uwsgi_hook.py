@@ -53,7 +53,7 @@ def setup_skywalking():
     Logger information after start() since it will be after config.finalize() to generate new configs
     (e.g. the new agent_instance_name with the new PID)
     """
-    config.agent_instance_name = '{config.agent_instance_name}-child-{os.getpid()}'
+    config.agent_instance_name = f'{config.agent_instance_name}-child({os.getpid()})'
 
     agent.start()
     # append pid-suffix to instance name

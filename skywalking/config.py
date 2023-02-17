@@ -94,7 +94,7 @@ agent_collector_properties_report_period_factor = int(
 agent_instance_properties_json: str = os.getenv('SW_AGENT_INSTANCE_PROPERTIES_JSON', '')
 # The agent will try to restart itself in any os.fork()-ed child process. Important Note: it's not suitable for
 # short-lived processes as each one will introduce overhead and create a new instance in SkyWalking dashboard
-# in format of `service_instance-child-<pid>` (TODO)
+# in format of `service_instance-child(pid)` (TODO)
 agent_experimental_fork_support: bool = os.getenv('SW_AGENT_EXPERIMENTAL_FORK_SUPPORT', '').lower() == 'true'
 # DANGEROUS - This option controls the interval of each bulk report from telemetry data queues
 # Do not modify unless you have evaluated its impact given your service load.

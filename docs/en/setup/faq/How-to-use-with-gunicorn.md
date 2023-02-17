@@ -29,7 +29,7 @@ sw-python run -p gunicorn gunicorn_consumer_prefork:app --workers 2 --worker-cla
 By specifying the -p or --prefork option in sw-python CLI, the `agent_experimental_fork_support` agent option will be turned on automatically. 
 
 Startup flow:
-sw-python -> gunicorn -> master process (agent starts) -> fork -> worker process (agent starts due to os.register_at_fork)
+sw-python -> gunicorn -> master process (agent starts) -> fork -> worker process (agent restarts due to os.register_at_fork)
 
 The master process will get its own agent, although it won't report any trace, since obviously it doesn't take requests, 
 it still reports metrics that is useful for debugging
@@ -37,6 +37,9 @@ it still reports metrics that is useful for debugging
 > A runnable example can be found in the demo folder of skywalking-python GitHub repository
 
 ## Manual Approach (only use when sw-python doesn't work)
+
+**Limitation**: Using normal postfork hook will not add observability to the master process, you could also define a prefork hook to
+start an agent in the master process, with a instance name like `instance-name-master(<pid>)`
 
 The following is just an example, since Gunicorn's automatic injection approach is likely to work in many situations.
 
@@ -55,8 +58,8 @@ def post_fork(server, worker):
     # append pid-suffix to instance name
     # This must be done to distinguish instances if you give your instance customized names 
     # (highly recommended to identify workers)
-    # Notice the -child-pid part is required.
-    agent_instance_name = f'<some_good_name>-child-{os.getpid()}'
+    # Notice the -child(pid) part is required to tell the difference of each worker.
+    agent_instance_name = f'<some_good_name>-child({os.getpid()})'
 
     config.init(agent_collector_backend_services='127.0.0.1:11800', 
                 agent_name='your awesome service', agent_instance_name=agent_instance_name)

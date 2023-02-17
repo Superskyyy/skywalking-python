@@ -44,9 +44,12 @@ app = FastAPI()
 async def get_pid():
     """
     This endpoint is used to get the pid of the provider, for e2e tests.
-    Returns: The pid of the provider.
+    Returns: The instance name of the provider.
     """
-    return {'pid': os.getpid()}
+    from skywalking import config
+    # Instance name is dynamically modified by uwsgi hook/os.fork handler
+
+    return {'instance': config.agent_instance_name}
 
 
 @app.post('/artist-provider')

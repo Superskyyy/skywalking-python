@@ -71,9 +71,9 @@ def init_tracing():
     # append pid-suffix to instance name
     # This must be done to distinguish instances if you give your instance customized names 
     # (highly recommended to identify workers)
-    # Notice the -child-pid part is required.
-    agent_instance_name = f'<some_good_name>-child-{os.getpid()}'
-
+    # Notice the -child(pid) part is required to tell the difference of each worker.
+    agent_instance_name = f'<some_good_name>-child({os.getpid()})'
+    
     config.init(agent_collector_backend_services='127.0.0.1:11800', 
                 agent_name='your awesome service', agent_instance_name=agent_instance_name)
 

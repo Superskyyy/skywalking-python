@@ -133,9 +133,6 @@ else:
     from skywalking import agent, config
 
     _sw_loader_logger.info(f'Process-{os.getpid()}, running sitecustomize.py from {__file__}')
-    # config.init(agent_collector_backend_services='localhost:11800', agent_protocol='grpc',
-    #             agent_name='test-flak-service-gunicorn-grpc1',
-    #             agent_instance_name=f'test_instance-master({os.getpid()})', agent_experimental_fork_support=True)
     # also override debug for skywalking agent itself
     if os.environ.get('SW_AGENT_SW_PYTHON_CLI_DEBUG_ENABLED') == 'True':  # set from the original CLI runner
         config.agent_logging_level = 'DEBUG'
@@ -153,6 +150,7 @@ else:
         _sw_loader_logger.debug('SkyWalking Python Agent starting, loader finished.')
         prefork_server_detected = os.getenv('prefork')
         if prefork_server_detected:
+            config.agent_instance_name = f'{config.agent_instance_name}-master({os.getpid()})'
             _sw_loader_logger.info(f'Prefork server is detected ({prefork_server_detected}), '
                                    f'agent will be automatically started after fork. \n'
                                    f'Please monitor with care as this is an experimental feature, '
