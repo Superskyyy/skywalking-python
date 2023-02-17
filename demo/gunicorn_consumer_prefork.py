@@ -23,7 +23,7 @@ from fastapi import FastAPI
 
 """
 # Run this to see sw-python working with gunicorn
-sw-python -d -p run \
+sw-python -d run -p \
     gunicorn gunicorn_consumer_prefork:app \
     --workers 2 --worker-class uvicorn.workers.UvicornWorker \
     --bind 0.0.0.0:8088

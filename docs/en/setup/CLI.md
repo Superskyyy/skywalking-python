@@ -48,11 +48,11 @@ or
 
 Please change it to (**the `-p` option starts one agent in each process, which is the correct behavior**):
 
-`sw-python -p run gunicorn your_app:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8088`
+`sw-python run -p gunicorn your_app:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8088`
 
 or 
 
-`sw-python -p run uwsgi --die-on-term --http 0.0.0.0:5000 --http-manage-expect --master --workers 3 --enable-threads --threads 3 --manage-script-name --mount /=main:app`
+`sw-python run -p uwsgi --die-on-term --http 0.0.0.0:5000 --http-manage-expect --master --workers 3 --enable-threads --threads 3 --manage-script-name --mount /=main:app`
 
 
 The SkyWalking Python agent will start up along with all your application workers shortly.

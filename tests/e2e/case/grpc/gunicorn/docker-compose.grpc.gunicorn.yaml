@@ -31,7 +31,7 @@ services:
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
 
-    command: [ "gunicorn", "fastapi_provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
+    command: [ "run", "-p", "gunicorn", "fastapi_provider:app", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:9090" ]
     depends_on:
       oap:
         condition: service_healthy

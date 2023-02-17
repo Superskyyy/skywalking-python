@@ -8,7 +8,8 @@
   please check with the latest official documentation before upgrading. (#273, #282)
   https://skywalking.apache.org/docs/skywalking-python/v1.0.0/en/setup/configuration/
   - **BREAKING**: All agent core capabilities are now covered by test cases and enabled by default (Trace, Log, PVM runtime metrics, Profiler)
-
+  - **BREAKING**: DockerHub Python agent images since v1.0.0 will no longer include the `run` part in `ENTRYPOINT ["sw-python", "run"]`, 
+  user should prefix their command with `[-d/--debug] run [-p/--prefork] <Command>` for extra flexibility.
 
 - Feature:
   - Add support for Python 3.11 (#285)

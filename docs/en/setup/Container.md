@@ -23,7 +23,10 @@ FROM apache/skywalking-python:0.7.0-grpc-py3.9
 # ... build your Python application
 ```
 
-You could start your Python application with `CMD`. For example - `CMD ['gunicorn', 'app.wsgi']` 
+You could start your Python application with `CMD`. 
+
+For example - `CMD ['run', '-p', 'gunicorn', 'app.wsgi']` 
+**`-p` is always needed when using with Gunicorn/uWSGI**
 
 You don't need to care about enabling the SkyWalking Python agent manually, 
 it should be adopted and bootstrapped automatically through the `sw-python` CLI.

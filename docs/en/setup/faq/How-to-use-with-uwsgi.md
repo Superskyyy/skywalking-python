@@ -9,7 +9,7 @@ Some of the original discussion can be found here:
 * [[Bug] skywalking-python not work with uwsgi + flask in master workers mode and threads mode · Issue #8566 · apache/skywalking](https://github.com/apache/skywalking/issues/8566)
 
 > Tired of understanding these complicated multiprocessing behaviours? 
-> Try the new `sw-python --prefork/-p` support for uWSGI first!
+> Try the new `sw-python run --prefork/-p` support for uWSGI first!
 > You can always fall back to the manual approach. 
 > (although it's also possible to pass postfork hook without changing code, which is essentially how sw-python is implemented)
 
@@ -20,10 +20,10 @@ Some of the original discussion can be found here:
 In the `sw-python` CLI, these two options will be automatically injected for you in addition to the post_fork hook.
 
 ## Automatic Injection Approach (Non-intrusive)
-**TL;DR:** specify `-p` or `--prefork` in `sw-python -p` and all uWSGI workers will get their own working agent.
+**TL;DR:** specify `-p` or `--prefork` in `sw-python run -p` and all uWSGI workers will get their own working agent.
 
 ```shell
-sw-python -p run uwsgi --die-on-term \
+sw-python run -p uwsgi --die-on-term \
     --http 0.0.0.0:9090 \
     --http-manage-expect \
     --master --workers 2 \

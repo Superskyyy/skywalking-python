@@ -37,5 +37,4 @@ RUN apt-get update \
 # Entrypoint with agent attached
 WORKDIR /services
 
-# -p for prefork support
-Entrypoint ["sw-python", "-p", "-d", "run"]
+Entrypoint ["sw-python"]

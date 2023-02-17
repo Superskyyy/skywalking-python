@@ -16,7 +16,7 @@
 #
 
 """
-sw-python -d -p run uwsgi --die-on-term \
+sw-python -d run -p uwsgi --die-on-term \
     --http 0.0.0.0:9090 \
     --http-manage-expect \
     --workers 2 \
