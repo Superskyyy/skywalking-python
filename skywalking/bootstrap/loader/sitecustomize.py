@@ -133,9 +133,9 @@ else:
     from skywalking import agent, config
 
     _sw_loader_logger.info(f'Process-{os.getpid()}, running sitecustomize.py from {__file__}')
-    config.init(agent_collector_backend_services='localhost:11800', agent_protocol='grpc',
-                agent_name='test-flak-service-gunicorn-grpc1',
-                agent_instance_name=f'test_instance-master({os.getpid()})', agent_experimental_fork_support=True)
+    # config.init(agent_collector_backend_services='localhost:11800', agent_protocol='grpc',
+    #             agent_name='test-flak-service-gunicorn-grpc1',
+    #             agent_instance_name=f'test_instance-master({os.getpid()})', agent_experimental_fork_support=True)
     # also override debug for skywalking agent itself
     if os.environ.get('SW_AGENT_SW_PYTHON_CLI_DEBUG_ENABLED') == 'True':  # set from the original CLI runner
         config.agent_logging_level = 'DEBUG'
