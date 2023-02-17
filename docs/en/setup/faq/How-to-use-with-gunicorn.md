@@ -21,6 +21,9 @@ serves requests.
 
 **TL;DR:** specify `-p` or `--prefork` in `sw-python run -p` and all Gunicorn workers and master will get their own working agent.
 
+**Important:** if the call to gunicorn is prefixed with other commands, this approach will fail 
+since agent currently looks for the command line input at index 0 for safety as an experimental feature.
+
 ```shell
 sw-python run -p gunicorn gunicorn_consumer_prefork:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8088
 ```

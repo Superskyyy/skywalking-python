@@ -22,6 +22,9 @@ In the `sw-python` CLI, these two options will be automatically injected for you
 ## Automatic Injection Approach (Non-intrusive)
 **TL;DR:** specify `-p` or `--prefork` in `sw-python run -p` and all uWSGI workers will get their own working agent.
 
+**Important:** if the call to uwsgi is prefixed with other commands, this approach will fail 
+since agent currently looks for the command line input at index 0 for safety as an experimental feature.
+
 ```shell
 sw-python run -p uwsgi --die-on-term \
     --http 0.0.0.0:9090 \

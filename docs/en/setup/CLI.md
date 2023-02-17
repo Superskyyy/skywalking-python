@@ -1,8 +1,11 @@
 # SkyWalking Python Agent Command Line Interface (sw-python CLI)
 
-In releases before 0.7.0, you would at least need to add the following lines to your applications to get the agent attached and running.  
+**Now, SkyWalking Python Agent CLI is the recommended way of running your application with Python agent, 
+the CLI is well-tested and used by all agent E2E & Plugin tests.**
 
-This is the recommended way of running your application with Python agent.
+
+In releases before 0.7.0, you would at least need to add the following lines to your applications to get the agent attached and running, 
+this can be tedious in many cases due to large number of services, DevOps practices and can cause problem when used with prefork servers.
 
 ```python
 from skywalking import agent, config
@@ -10,9 +13,13 @@ config.init(SomeConfig)
 agent.start()
 ```
 
-Now the SkyWalking Python agent implements a command-line interface that can be utilized to attach the agent to your
+
+The SkyWalking Python agent implements a command-line interface that can be utilized to attach the agent to your
 awesome applications during deployment **without changing any application code**, 
 just like the [SkyWalking Java Agent](https://github.com/apache/skywalking-java).
+
+> The following feature is added in v1.0.0 as experimental flag, so you need to specify the -p flag to `sw-python run -p`. 
+> In the future, this flag will be removed and agent will automatically enable prefork/fork support in a more comprehensive manner.
 
 Especially with the new automatic postfork injection feature, you no longer have to worry about threading and forking incompatibility.
 
@@ -47,6 +54,9 @@ or
 `uwsgi --die-on-term --http 0.0.0.0:5000 --http-manage-expect --master --workers 3 --enable-threads --threads 3 --manage-script-name --mount /=main:app`
 
 Please change it to (**the `-p` option starts one agent in each process, which is the correct behavior**):
+
+**Important:** if the call to uwsgi/gunicorn is prefixed with other commands, this approach will fail 
+since agent currently looks for the command line input at index 0 for safety as an experimental feature.
 
 `sw-python run -p gunicorn your_app:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8088`
 
