@@ -15,29 +15,41 @@
 # limitations under the License.
 #
 
-"""
-Used by uWSGI which doesn't support FASTAPI (ASGI).
-"""
-import time
-import random
-from flask import Flask, request
-import requests
 
-app = Flask(__name__)
+services:
 
+  oap:
+    extends:
+      file: ../../../base/docker-compose.base.yml
+      service: oap
+    ports:
+      - "12800"
 
-@app.route('/artist-consumer', methods=['POST', 'GET'])
-def artist():
-    try:
-        time.sleep(random.random())
-        payload = request.get_json()
-        requests.post('http://provider:9090/artist-provider', data=payload)
+  provider:
+    extends:
+      file: ../../../base/docker-compose.base.yml
+      service: fastapi-provider
+    environment:
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
+      SW_AGENT_PROTOCOL: http
+    depends_on:
+      oap:
+        condition: service_healthy
+    ports:
+      - "9090"
 
-        return {'artist': 'song'}
-    except Exception as e:  # noqa
-        return {'message': str(e)}
+  consumer:
+    extends:
+      file: ../../../base/docker-compose.base.yml
+      service: flask-consumer
+    environment:
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:12800
+      SW_AGENT_PROTOCOL: http
+    depends_on:
+      provider:
+        condition: service_healthy
+    ports:
+      - "9090"
 
-
-if __name__ == '__main__':
-    # noinspection PyTypeChecker
-    app.run(host='0.0.0.0', port=9090)
+networks:
+  e2e:
