@@ -47,6 +47,7 @@ services:
       SW_AGENT_METER_REPORTER_ACTIVE: "True"
       SW_AGENT_PVM_METER_REPORTER_ACTIVE: "True"
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
+      SW_AGENT_INSTANCE_PROPERTIES_JSON: '{"custom_property":"The answer to all is 42"}'
     healthcheck:
       test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
       interval: 5s
@@ -70,6 +71,7 @@ services:
       SW_AGENT_METER_REPORTER_ACTIVE: "True"
       SW_AGENT_PVM_METER_REPORTER_ACTIVE: "True"
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
+      SW_AGENT_INSTANCE_PROPERTIES_JSON: '{"custom_property":"The answer to all is 42"}'
     healthcheck:
       test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090" ]
       interval: 5s
