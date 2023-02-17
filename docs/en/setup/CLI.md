@@ -2,6 +2,8 @@
 
 In releases before 0.7.0, you would at least need to add the following lines to your applications to get the agent attached and running.  
 
+This is the recommended way of running your application with Python agent.
+
 ```python
 from skywalking import agent, config
 config.init(SomeConfig)
