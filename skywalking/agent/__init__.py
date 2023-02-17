@@ -183,6 +183,14 @@ class SkyWalkingAgent(Singleton):
         """
         Simply restart the agent after we detect a fork() call
         """
+        # This will be used by os.fork() called by application and also Gunicorn, not uWSGI
+        # otherwise we assume a fork() happened, give it a new service instance name
+        logger.info('New process detected, re-initializing SkyWalking Python agent')
+        # Note: this is for experimental change, default config should never reach here
+        # Fork support is controlled by config.agent_fork_support :default: False
+        # Important: This does not impact pre-forking server support (uwsgi, gunicorn, etc...)
+        # This is only for explicit long-running fork() calls.
+        config.agent_instance_name = f'{config.agent_instance_name}-child-{os.getpid()}'
         self.start()
         logger.info('SkyWalking Python agent spawned in child after fork() call.')
 
@@ -227,17 +235,13 @@ class SkyWalkingAgent(Singleton):
             plugins.install()
         elif self.__started and os.getpid() == self.started_pid:
             # if already started, and this is the same process, raise an error
-            raise RuntimeError('SkyWalking Python agent has already been started in this process')
-        else:
-            # otherwise we assume a fork() happened, give it a new service instance name
-            logger.info('New process detected, re-initializing SkyWalking Python agent')
-            # Note: this is for experimental change, default config should never reach here
-            # Fork support is controlled by config.agent_fork_support :default: False
-            # Important: This does not impact pre-forking server support (uwsgi, gunicorn, etc...)
-            # This is only for explicit long-running fork() calls.
-            config.agent_instance_name = f'{config.agent_instance_name}-child-{os.getpid()}'
+            raise RuntimeError('SkyWalking Python agent has already been started in this process, '
+                               'did you call start more than once in your code + sw-python CLI? '
+                               'If you already use sw-python CLI, you should remove the manual start(), vice versa.')
+        # Else there's a new process (after fork()), we will restart the agent in the new process
 
         self.started_pid = os.getpid()
+        logger.info(f'SkyWalking agent instance: {config.agent_instance_name} starts in process {self.started_pid}')
 
         flag = False
         try:

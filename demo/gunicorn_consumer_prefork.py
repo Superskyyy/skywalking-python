@@ -14,30 +14,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+"""
+This one demos how to use gunicorn with a simple fastapi uvicorn app.
+"""
 import logging
 
-from skywalking import config
+from fastapi import FastAPI
 
-logger_debug_enabled = False
+'''
+# Run this to see sw-python working with gunicorn
+sw-python -d -p run \
+    gunicorn gunicorn_consumer_prefork:app \
+    --workers 2 --worker-class uvicorn.workers.UvicornWorker \
+    --bind 0.0.0.0:8088
+'''
 
-
-def getLogger(name=None):  # noqa
-    logger = logging.getLogger(name)
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s %(name)s [pid:%(process)d] [%(threadName)s] [%(levelname)s] %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.propagate = False
-
-    return logger
+app = FastAPI()
 
 
-logger = getLogger('skywalking')
+@app.get('/cat')
+async def application():
+    try:
+        logging.critical('fun cat got a request')
+        return {'Cat Fun Fact': 'Fact is cat, cat is fat'}
+    except Exception as e:  # noqa
+        return {'message': str(e)}
 
 
-def init():
-    global logger_debug_enabled
-    logging.addLevelName(logging.CRITICAL + 10, 'OFF')
-    logger.setLevel(logging.getLevelName(config.agent_logging_level))
-    logger_debug_enabled = logger.isEnabledFor(logging.DEBUG)
+if __name__ == '__main__':
+    # noinspection PyTypeChecker
+    # uvicorn.run(app, host='0.0.0.0', port=8088)
+    ...

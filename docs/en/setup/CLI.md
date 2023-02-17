@@ -2,7 +2,9 @@
 
 In releases before 0.7.0, you would at least need to add the following lines to your applications to get the agent attached and running.  
 
-This is the recommended way of running your application with Python agent.
+This is the recommended way of running your application with Python agent. 
+You should still read the [legacy way](Intrusive.md) to integrate agent in case the `sw-python` CLI is not working for you.
+
 
 ```python
 from skywalking import agent, config

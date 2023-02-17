@@ -14,30 +14,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-import logging
-
-from skywalking import config
-
-logger_debug_enabled = False
-
-
-def getLogger(name=None):  # noqa
-    logger = logging.getLogger(name)
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s %(name)s [pid:%(process)d] [%(threadName)s] [%(levelname)s] %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.propagate = False
-
-    return logger
-
-
-logger = getLogger('skywalking')
-
-
-def init():
-    global logger_debug_enabled
-    logging.addLevelName(logging.CRITICAL + 10, 'OFF')
-    logger.setLevel(logging.getLevelName(config.agent_logging_level))
-    logger_debug_enabled = logger.isEnabledFor(logging.DEBUG)
