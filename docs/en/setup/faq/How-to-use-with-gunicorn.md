@@ -7,7 +7,7 @@ Since Gunicorn is a prefork server, it will fork a new process for each worker, 
 serves requests.
 
 > Tired of understanding these complicated multiprocessing behaviors? 
-> Try the new `sw-python run --prefork/-p` support for Gunicorn first! (Only works for Python3.8+ if you use gRPC. HTTP and Kafka works for 3.7+)
+> Try the new `sw-python run --prefork/-p` support for Gunicorn first!
 > You can always fall back to the manual approach (although it's also non-intrusive for application).
 
 ## Automatic Injection Approach (Non-intrusive)

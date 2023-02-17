@@ -57,8 +57,10 @@ or
 
 The SkyWalking Python agent will start up along with all your application workers shortly.
 
-Note that `sw-python` also work with additionally spawned subprocess (os.exec*/subprocess) as long as the `PYTHONPATH` is inherited. 
-Additionally, `sw-python` works well with `os.fork` as long as the `agent_experimental_fork_support` is turned on (Python 3.8+ only).
+Note that `sw-python` also work with spawned subprocess (os.exec*/subprocess) as long as the `PYTHONPATH` is inherited. 
+
+Additionally, `sw-python` started agent works well with `os.fork` when your application forks workers, 
+as long as the `SW_AGENT_EXPERIMENTAL_FORK_SUPPORT` is turned on. (It will be automatically turned on when gunicorn is detected)
 
 ## Configuring the agent 
 
