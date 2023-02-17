@@ -59,7 +59,9 @@ def report_with_backoff(reporter_name, init_wait):
                                      f'retry in {wait} seconds')
                 self._finished.wait(wait)
             logger.info('finished reporter thread')
+
         return backoff_wrapper
+
     return backoff_decorator
 
 
@@ -217,10 +219,10 @@ class SkyWalkingAgent(Singleton):
         if config.agent_protocol == 'grpc' and config.agent_experimental_fork_support:
             python_major_version: tuple = sys.version_info[:2]
             if python_major_version == (3, 7):
-                raise RuntimeError('gRPC fork support is not safe on Python 3.7 and can cause subprocess hanging. '
-                                   'See: https://github.com/grpc/grpc/issues/18075.'
-                                   'Please either upgrade to Python 3.8+ (though hanging could still happen but rare), '
-                                   'or use HTTP/Kafka protocol, or disable experimental fork support.')
+                logger.warning('gRPC fork support may not be safe on Python 3.7 and can cause subprocess hanging. '
+                               'See: https://github.com/grpc/grpc/issues/18075.'
+                               'Please either upgrade to Python 3.8+, '
+                               'or use HTTP/Kafka protocol, or disable experimental fork support.')
 
             os.environ['GRPC_ENABLE_FORK_SUPPORT'] = 'true'
             os.environ['GRPC_POLL_STRATEGY'] = 'poll'
