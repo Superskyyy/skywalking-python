@@ -225,6 +225,7 @@ class SkyWalkingAgent(Singleton):
 
         if not self.__started:
             # if not already started, start the agent
+            config.finalize()  # Must be finalized exactly once
             self.__started = True
             # Install logging plugins
             # TODO - Add support for printing traceID/ context in logs
@@ -254,7 +255,6 @@ class SkyWalkingAgent(Singleton):
             grpc_gevent.init_gevent()
 
         loggings.init()
-        config.finalize()
         profile.init()
         meter.init(force=True)  # force re-init after fork()
 

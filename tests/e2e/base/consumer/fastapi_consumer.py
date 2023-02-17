@@ -40,6 +40,6 @@ async def application():
         return {'message': str(e)}
 
 
-if __name__ == '__main__':
-    # noinspection PyTypeChecker
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+# if __name__ == '__main__':
+#     # noinspection PyTypeChecker
+#     uvicorn.run(app, host='0.0.0.0', port=9090)

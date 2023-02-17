@@ -37,7 +37,6 @@ def artist():
     except Exception as e:  # noqa
         return {'message': str(e)}
 
-
-if __name__ == '__main__':
-    # noinspection PyTypeChecker
-    app.run(host='0.0.0.0', port=9090)
+# if __name__ == '__main__':
+#     # noinspection PyTypeChecker
+#     app.run(host='0.0.0.0', port=9090)
