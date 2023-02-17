@@ -12,10 +12,11 @@ serves requests.
 
 ## Automatic Injection Approach (Non-intrusive)
 
-> Caveat: There's a small chance that this approach won't work on Python 3.7 if you use gPRC protocol, 
+> Caveat: Although E2E test passes for Python3.7, there's a small chance that this approach won't work on Python 3.7 if you use gPRC protocol, 
 > (you will immediately see service is not starting normally, not breaks after)  
 > There's an unfixed bug in gRPC core that leads to deadlock if Python 3.7 application involves subprocess (like debug mode). 
-> You should upgrade to Python 3.8+ soon since the EOL is approaching on 2023 June 27th, or fallback to manual approach should this case happen, or simply use HTTP/Kafka protocol.
+> You should upgrade to Python 3.8+ soon since the EOL is approaching on 2023 June 27th, 
+> or fallback to manual approach should this case happen, or simply use HTTP/Kafka protocol.
 
 **TL;DR:** specify `-p` or `--prefork` in `sw-python run -p` and all Gunicorn workers and master will get their own working agent.
 

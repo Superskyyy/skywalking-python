@@ -93,7 +93,7 @@ services:
   provider:
     extends:
       file: ../../base/docker-compose.base.yml
-      service: provider
+      service: fastapi-provider
     ports:
       - "9090"
     environment:
@@ -108,7 +108,7 @@ services:
   consumer:
     extends:
       file: ../../base/docker-compose.base.yml
-      service: consumer
+      service: flask-consumer
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
       SW_AGENT_PROTOCOL: kafka
