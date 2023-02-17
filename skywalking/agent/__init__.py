@@ -192,7 +192,7 @@ class SkyWalkingAgent(Singleton):
         # This is only for explicit long-running fork() calls.
         config.agent_instance_name = f'{config.agent_instance_name}-child({os.getpid()})'
         self.start()
-        logger.info('SkyWalking Python agent spawned in child after fork() call.')
+        logger.info(f'Agent spawned as {config.agent_instance_name} for service {config.agent_name}.')
 
     def start(self) -> None:
         """
@@ -202,6 +202,8 @@ class SkyWalkingAgent(Singleton):
 
         When os.fork(), the service instance should be changed to a new one by appending pid.
         """
+        loggings.init()
+
         if sys.version_info < (3, 7):
             # agent may or may not work for Python 3.6 and below
             # since 3.6 is EOL, we will not officially support it
@@ -226,8 +228,11 @@ class SkyWalkingAgent(Singleton):
         if not self.__started:
             # if not already started, start the agent
             config.finalize()  # Must be finalized exactly once
+
             self.__started = True
-            # Install logging plugins
+            logger.info(f'SkyWalking agent instance {config.agent_instance_name} starting in pid-{os.getpid()}.')
+
+            # Install log reporter core
             # TODO - Add support for printing traceID/ context in logs
             if config.agent_log_reporter_active:
                 from skywalking import log
@@ -242,7 +247,6 @@ class SkyWalkingAgent(Singleton):
         # Else there's a new process (after fork()), we will restart the agent in the new process
 
         self.started_pid = os.getpid()
-        logger.info(f'SkyWalking agent instance: {config.agent_instance_name} starts in process {self.started_pid}')
 
         flag = False
         try:
@@ -254,7 +258,6 @@ class SkyWalkingAgent(Singleton):
             import grpc.experimental.gevent as grpc_gevent
             grpc_gevent.init_gevent()
 
-        loggings.init()
         profile.init()
         meter.init(force=True)  # force re-init after fork()
 
