@@ -19,22 +19,22 @@
 services:
   zookeeper:
     extends:
-      file: ../../base/docker-compose.base.yml
+      file: ../../../base/docker-compose.base.yml
       service: zookeeper
 
   broker-a:
     extends:
-      file: ../../base/docker-compose.base.yml
+      file: ../../../base/docker-compose.base.yml
       service: broker-a
 
   broker-b:
     extends:
-      file: ../../base/docker-compose.base.yml
+      file: ../../../base/docker-compose.base.yml
       service: broker-b
 
   oap:
     extends:
-      file: ../../base/docker-compose.base.yml
+      file: ../../../base/docker-compose.base.yml
       service: oap
     environment:
       SW_KAFKA_FETCHER: default
