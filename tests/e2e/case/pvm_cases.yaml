@@ -15,30 +15,10 @@
 # limitations under the License.
 #
 
-"""
-This module contains the Consumer part of the e2e tests.
-consumer (FastAPI) -> consumer (AIOHTTP) -> provider (FastAPI + logging_with_exception)
-"""
-import aiohttp
-import uvicorn
-from fastapi import FastAPI
-from fastapi import Request
-
-app = FastAPI()
-
-
-@app.get('/artist')
-@app.post('/artist')
-async def application(request: Request):
-    try:
-        payload = await request.json()
-        async with aiohttp.ClientSession() as session:
-            async with session.post('http://provider:9090/artist', data=payload) as response:
-                return await response.json()
-    except Exception:  # noqa
-        return {'message': 'Error'}
-
-
-if __name__ == '__main__':
-    # noinspection PyTypeChecker
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+  cases:
+    # service instance pvm metrics
+    - query: |
+        swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization \
+        --service-name=e2e-service-provider --instance-name=provider-$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.pid' ) \
+        |yq e 'to_entries' -
+      expected: expected/metrics-has-value.yml

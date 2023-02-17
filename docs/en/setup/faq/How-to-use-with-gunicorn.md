@@ -7,10 +7,13 @@ Since Gunicorn is a prefork server, it will fork a new process for each worker, 
 serves requests.
 
 > Tired of understanding these complicated multiprocessing behaviors? 
-> Try the new `sw-python --prefork/-p` support for Gunicorn first! 
+> Try the new `sw-python --prefork/-p` support for Gunicorn first! (Only works for Python3.8+ if you use gRPC. HTTP and Kafka works for 3.7+)
 > You can always fall back to the manual approach (although it's also non-intrusive for application).
 
 ## Automatic Injection Approach (Non-intrusive)
+
+> Note: This will not work on Python 3.7 if you use gPRC, since there's an unfixed bug in gRPC core that leads to hanging.
+> You should upgrade to Python 3.8+ soon since the EOL is approaching on 2023 June 27th.
 
 **TL;DR:** specify `-p` or `--prefork` in `sw-python -p` and all Gunicorn workers and master will get their own working agent.
 

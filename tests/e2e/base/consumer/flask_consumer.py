@@ -1,3 +1,4 @@
+#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -12,8 +13,31 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-  {{- contains . }}
-- id: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "/artist-provider" }}
-  name: /artist-provider
-  {{- end }}
+"""
+Used by uWSGI which doesn't support FASTAPI (ASGI).
+"""
+import time
+import random
+from flask import Flask, request
+import requests
+
+app = Flask(__name__)
+
+
+@app.route('/artist-consumer', methods=['POST', 'GET'])
+def artist():
+    try:
+        time.sleep(random.random())
+        payload = request.get_json()
+        requests.post('http://provider:9090/artist-provider', data=payload)
+
+        return {'artist': 'song'}
+    except Exception as e:  # noqa
+        return {'message': str(e)}
+
+
+if __name__ == '__main__':
+    # noinspection PyTypeChecker
+    app.run(host='0.0.0.0', port=9090)

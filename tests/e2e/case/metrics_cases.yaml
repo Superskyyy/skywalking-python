@@ -1,3 +1,4 @@
+#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -12,8 +13,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-  {{- contains . }}
-- id: {{ b64enc "e2e-service-provider" }}.1_{{ b64enc "/artist-provider" }}
-  name: /artist-provider
-  {{- end }}
+  cases:
+    # basic check: service metrics
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name service_sla --service-name=e2e-service-provider |yq e 'to_entries' -
+      expected: expected/metrics-has-value.yml
+
+    # basic check: service endpoint metrics
+    - query: swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name endpoint_cpm --endpoint-name=/artist-provider --service-name=e2e-service-provider |yq e 'to_entries' -
+      expected: expected/metrics-has-value.yml
