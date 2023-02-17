@@ -187,12 +187,12 @@ jobs:
   docker-e2e:
     # build docker image for E2E tests, single Python version for now.
     name: Build E2E Test Image
-    needs: [ changes, license-and-lint, plugin-doc-check]
+    needs: [ license-and-lint, changes, plugin-doc-check ]
     if: |
       ( always() && ! cancelled() ) && 
       ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     strategy:
       matrix:
         python-image-variant: [ "3.7-slim", "3.8-slim", "3.9-slim", "3.10-slim", "3.11-slim" ]
@@ -223,7 +223,7 @@ jobs:
       ( always() && ! cancelled() ) && 
       ((github.event_name == 'schedule' && github.repository == 'apache/skywalking-python') || needs.changes.outputs.agent == 'true')
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       matrix:
         python-image-variant: [ "3.7-slim", "3.8-slim", "3.9-slim", "3.10-slim", "3.11-slim" ]
