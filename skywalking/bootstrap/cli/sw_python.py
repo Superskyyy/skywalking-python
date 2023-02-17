@@ -51,7 +51,7 @@ def start() -> None:
     parser.add_argument('-p', '--prefork', help='[Experimental] This flag turns on auto detection of '
                                                 'uwsgi and gunicorn, '
                                                 'then automatically starts Python agent in each worker process. '
-                                                '(TL DR: You don\'t need to add manual '
+                                                "(TL DR: You don't need to add manual "
                                                 '@postfork hook to your app anymore)',
                         action='store_true')
     # To handle cases with flags and positional args in user commands

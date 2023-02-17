@@ -8,8 +8,8 @@ Some of the original discussion can be found here:
 * [[Python] Apache Skywalking, flask uwsgi, no metrics send to server · Issue #6324 · apache/skywalking](https://github.com/apache/skywalking/issues/6324)
 * [[Bug] skywalking-python not work with uwsgi + flask in master workers mode and threads mode · Issue #8566 · apache/skywalking](https://github.com/apache/skywalking/issues/8566)
 
-> Tired of handling these complicated multiprocessing behaviours? 
-> Try the `sw-python` CLI for uWSGI first!
+> Tired of understanding these complicated multiprocessing behaviours? 
+> Try the new `sw-python --prefork/-p` support for uWSGI first!
 > You can always fall back to the manual approach. 
 > (although it's also possible to pass postfork hook without changing code, which is essentially how sw-python is implemented)
 
@@ -46,6 +46,7 @@ sw-python -> uwsgi -> master process (agent doesn't start here) -> fork -> worke
 The master process (which doesn't accept requests) currently does not get its own agent 
 as it can not be safely started and handled by os.register_at_fork() handlers. 
 
+> A runnable example can be found in the demo folder of skywalking-python GitHub repository
 
 ## Manual Approach (only use when sw-python doesn't work)
 

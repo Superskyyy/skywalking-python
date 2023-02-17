@@ -6,8 +6,8 @@ The state-of-the-art practice is to use Gunicorn as the process manager for ASGI
 Since Gunicorn is a prefork server, it will fork a new process for each worker, and the forked process will be the one that actually
 serves requests.
 
-> Tired of handling these complicated multiprocessing behaviors? 
-> Try the `sw-python` CLI for Gunicorn first! 
+> Tired of understanding these complicated multiprocessing behaviors? 
+> Try the new `sw-python --prefork/-p` support for Gunicorn first! 
 > You can always fall back to the manual approach (although it's also non-intrusive for application).
 
 ## Automatic Injection Approach (Non-intrusive)
@@ -29,6 +29,7 @@ sw-python -> gunicorn -> master process (agent starts) -> fork -> worker process
 The master process will get its own agent, although it won't report any trace, since obviously it doesn't take requests, 
 it still reports metrics that is useful for debugging
 
+> A runnable example can be found in the demo folder of skywalking-python GitHub repository
 
 ## Manual Approach (only use when sw-python doesn't work)
 

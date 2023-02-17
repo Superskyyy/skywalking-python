@@ -100,12 +100,12 @@ def execute(command: List[str], experimental_check_prefork: bool) -> None:
     loader_path = os.path.dirname(loader_dir)
     hook_path = os.path.dirname(hook_dir)
 
-    new_path = ''
+    new_path: str = ''
     python_path = os.environ.get('PYTHONPATH')
     if python_path:  # If there is already a different PYTHONPATH, PREPEND to it as we must get loaded first.
         partitioned = python_path.split(os.path.pathsep)
         if loader_path not in partitioned:  # check if we are already there
-            new_path = os.path.pathsep.join([loader_path, hook_path, python_path])  # type: str
+            new_path = os.path.pathsep.join([loader_path, hook_path, python_path])
 
     # When constructing sys.path PYTHONPATH is always
     # before other paths and after interpreter invoker path, which is here or none
