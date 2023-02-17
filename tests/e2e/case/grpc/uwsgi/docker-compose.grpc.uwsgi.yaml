@@ -30,7 +30,7 @@ services:
       service: flask-provider
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
-    command: [ "uwsgi", "--http", ":9090", "--wsgi-file", "flask_provider.py", "--callable", "app", "--enable-threads", "--workers", "3", "--master", "--die-on-term"]
+    command: [ "run", "-p", "uwsgi", "--http", ":9090", "--wsgi-file", "flask_provider.py", "--callable", "app", "--enable-threads", "--workers", "3", "--master", "--die-on-term"]
     depends_on:
       oap:
         condition: service_healthy
@@ -43,7 +43,7 @@ services:
       service: flask-consumer
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
-    command: [ "uwsgi", "--http", ":9090", "--wsgi-file", "flask_consumer.py", "--callable", "app", "--enable-threads", "--workers", "3", "--master", "--die-on-term"]
+    command: [ "run", "-p", "uwsgi", "--http", ":9090", "--wsgi-file", "flask_consumer.py", "--callable", "app", "--enable-threads", "--workers", "3", "--master", "--die-on-term"]
     depends_on:
       provider:
         condition: service_healthy
