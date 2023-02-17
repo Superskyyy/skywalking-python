@@ -37,11 +37,11 @@ def start() -> None:
     parser.add_argument('-d', '--debug', help='Print CLI debug logs to stdout', action='store_true')
 
     base_subparser = argparse.ArgumentParser(add_help=False)
-    subparsers = parser.add_subparsers(dest="option", required=True, help='CLI options, now only supports `run`, for '
+    subparsers = parser.add_subparsers(dest='option', required=True, help='CLI options, now only supports `run`, for '
                                                                           'help please type `sw-python -h` or refer '
                                                                           'to the CLI documentation')
 
-    run_parser = subparsers.add_parser("run", parents=[base_subparser])
+    run_parser = subparsers.add_parser('run', parents=[base_subparser])
 
     # TODO support parsing optional sw_config.toml
     # config_parser = subparsers.add_parser("config", parents=[base_subparser])
