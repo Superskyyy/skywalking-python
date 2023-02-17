@@ -20,6 +20,6 @@
     # gets dynamic service instance name from provider/pid endpoint
     - query: |
         swctl --display yaml --base-url=http://${oap_host}:${oap_12800}/graphql metrics linear --name meter_instance_pvm_total_cpu_utilization \
-        --service-name=e2e-service-provider --instance-name=provider-$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.instance' ) \
+        --service-name=e2e-service-provider --instance-name=$( curl -s  -X GET http://${provider_host}:${provider_9090}/pid |  jq -r  '.instance' ) \
         |yq e 'to_entries' -
       expected: expected/metrics-has-value.yml
