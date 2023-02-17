@@ -104,7 +104,7 @@ services:
     networks:
       - e2e
     environment:
-      SW_AGENT_NAME: "e2e-service-consumer|namespace"
+      SW_AGENT_NAME: "e2e-service-consumer"
       SW_AGENT_INSTANCE_NAME: consumer
       SW_AGENT_LOGGING_LEVEL: DEBUG
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
