@@ -19,6 +19,7 @@
 
 import time
 
+
 def current_milli_time() -> int:
     """
     Returning current millisecond in int

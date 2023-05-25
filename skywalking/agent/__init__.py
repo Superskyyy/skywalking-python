@@ -35,7 +35,7 @@ from skywalking.profile.snapshot import TracingThreadSnapshot
 from skywalking.protocol.language_agent.Meter_pb2 import MeterData
 from skywalking.protocol.logging.Logging_pb2 import LogData
 
-from skywalking.trace.global_id import GlobalIdGenerator
+from skywalking.trace.global_id import global_id_generator
 from skywalking.utils.singleton import Singleton
 
 if TYPE_CHECKING:
@@ -198,7 +198,7 @@ class SkyWalkingAgent(Singleton):
         # any postfork fixups below are also done inside skywalking.bootstrap.hooks.uwsgi_hook.py
         config.agent_instance_name = f'{config.agent_instance_name}-child({os.getpid()})'
         # Regenerate PROCESS_ID, uwsgi is again undetected due to uncaught call to os.fork()
-        GlobalIdGenerator.refresh_process_id()
+        global_id_generator.refresh_process_id()
         self.start()
         logger.info(f'SkyWalking Python agent successfully respawned in forked process as {config.agent_instance_name} '
                     f'for service {config.agent_name}.')

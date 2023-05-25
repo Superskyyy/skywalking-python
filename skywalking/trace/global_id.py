@@ -20,6 +20,7 @@ import threading
 import time
 import contextvars
 
+
 class GlobalIdGenerator:
     """
     Simplified snowflake algorithm that only rely on local distribution, fast alternative to uuid
@@ -97,3 +98,7 @@ class ID(object):
 
     def __str__(self):
         return self.value
+
+
+# Import alias to avoid pylint error
+global_id_generator = GlobalIdGenerator
