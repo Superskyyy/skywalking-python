@@ -19,7 +19,7 @@ import uuid
 import threading
 import time
 import contextvars
-
+from typing import Optional
 
 class GlobalIdGenerator:
     """
@@ -90,7 +90,7 @@ class ID(object):
     """
     This class is kept to maintain backward compatibility
     """
-    def __init__(self, raw_id: str = None):
+    def __init__(self, raw_id: Optional[str] = None):
         if raw_id is None:
             self.value = GlobalIdGenerator.generate()
         else:
