@@ -15,8 +15,12 @@
 # limitations under the License.
 #
 
+""" TODO: call time.time_ns() // 1_000_000 directly"""
+
 import time
 
-
-def current_milli_time():
-    return round(time.time() * 1000)
+def current_milli_time() -> int:
+    """
+    Returning current millisecond in int
+    """
+    return time.time_ns() // 1_000_000

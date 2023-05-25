@@ -35,7 +35,7 @@ inject a gunicorn hook that will start the agent after the worker is forked. (wi
 """
 from uwsgidecorators import postfork
 from skywalking import agent, config
-from skywalking.trace import GlobalIDGenerator
+from skywalking.trace.global_id import GlobalIDGenerator
 import os
 
 from skywalking.loggings import logger

@@ -19,7 +19,7 @@ import time
 from typing import List, TYPE_CHECKING
 
 from skywalking import config
-from skywalking.trace import ID
+from skywalking.trace.global_id import ID
 from skywalking.utils.lang import tostring
 
 if TYPE_CHECKING:

@@ -21,7 +21,7 @@ from typing import List, Union, DefaultDict
 from typing import TYPE_CHECKING
 
 from skywalking import Kind, Layer, Log, Component, LogItem, config
-from skywalking.trace import ID
+from skywalking.trace.global_id import ID
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.segment import SegmentRef, Segment
 from skywalking.trace.tags import Tag

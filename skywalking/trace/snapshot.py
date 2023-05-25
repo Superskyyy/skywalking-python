@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from skywalking.trace.context import SpanContext
 
-from skywalking.trace import ID
+from skywalking.trace.global_id import ID
 
 
 class Snapshot:

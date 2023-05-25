@@ -35,7 +35,7 @@ from skywalking.profile.snapshot import TracingThreadSnapshot
 from skywalking.protocol.language_agent.Meter_pb2 import MeterData
 from skywalking.protocol.logging.Logging_pb2 import LogData
 
-from skywalking.trace import GlobalIdGenerator
+from skywalking.trace.global_id import GlobalIdGenerator
 from skywalking.utils.singleton import Singleton
 
 if TYPE_CHECKING:
