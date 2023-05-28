@@ -21,9 +21,10 @@ import time
 import contextvars
 from typing import Optional
 
+
 class GlobalIdGenerator:
     """
-    Simplified snowflake algorithm that only rely on local distribution, fast alternative to uuid
+    A fast alternative to uuid
     """
 
     # The PROCESS_ID must be regenerated upon fork to avoid collision
@@ -100,5 +101,5 @@ class ID(object):
         return self.value
 
 
-# Import alias to avoid pylint error
+# Import alias to bypass pylint error
 global_id_generator = GlobalIdGenerator
