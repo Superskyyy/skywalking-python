@@ -20,7 +20,7 @@ from skywalking import Component, config
 from skywalking import profile
 from skywalking.agent import agent
 from skywalking.profile.profile_status import ProfileStatusReference
-from skywalking.trace import ID
+from skywalking.trace.global_id import ID
 from skywalking.trace.carrier import Carrier
 from skywalking.trace.segment import Segment, SegmentRef
 from skywalking.trace.snapshot import Snapshot

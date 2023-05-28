@@ -34,6 +34,8 @@ from skywalking.profile.profile_task import ProfileTask
 from skywalking.profile.snapshot import TracingThreadSnapshot
 from skywalking.protocol.language_agent.Meter_pb2 import MeterData
 from skywalking.protocol.logging.Logging_pb2 import LogData
+
+from skywalking.trace.global_id import global_id_generator
 from skywalking.utils.singleton import Singleton
 
 if TYPE_CHECKING:
@@ -192,11 +194,14 @@ class SkyWalkingAgent(Singleton):
         logger.info('New process detected, re-initializing SkyWalking Python agent')
         # Note: this is for experimental change, default config should never reach here
         # Fork support is controlled by config.agent_fork_support :default: False
-        # Important: This does not impact pre-forking server support (uwsgi, gunicorn, etc...)
-        # This is only for explicit long-running fork() calls.
+        # Important: This only impacts generic Python os.forks and gunicorn, etc...) but not uwsgi
+        # any postfork fixups below are also done inside skywalking.bootstrap.hooks.uwsgi_hook.py
         config.agent_instance_name = f'{config.agent_instance_name}-child({os.getpid()})'
+        # Regenerate PROCESS_ID, uwsgi is again undetected due to uncaught call to os.fork()
+        global_id_generator.refresh_process_id()
         self.start()
-        logger.info(f'Agent spawned as {config.agent_instance_name} for service {config.agent_name}.')
+        logger.info(f'SkyWalking Python agent successfully respawned in forked process as {config.agent_instance_name} '
+                    f'for service {config.agent_name}.')
 
     def start(self) -> None:
         """
@@ -274,6 +279,9 @@ class SkyWalkingAgent(Singleton):
             if hasattr(os, 'register_at_fork'):
                 os.register_at_fork(before=self.__fork_before, after_in_parent=self.__fork_after_in_parent,
                                     after_in_child=self.__fork_after_in_child)
+
+        logger.info(f'SkyWalking Python agent successfully spawned in main process as {config.agent_instance_name} '
+                    f'for service {config.agent_name}.')
 
     def __fini(self):
         """
