@@ -14,29 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-try:
-    # new asyncio implementation, websockets >= 13 (the default since 14)
-    from websockets.asyncio.client import connect
-except ImportError:
-    from websockets.client import connect
-
-import asyncio
+import requests
 
 if __name__ == '__main__':
-    from fastapi import FastAPI
-    import uvicorn
+    from flask import Flask, jsonify
 
-    app = FastAPI()
+    app = Flask(__name__)
 
-    @app.get('/ws')
-    async def websocket_ping():
-        async with connect('ws://provider:9091/ws') as websocket:
-            await websocket.send('Ping')
+    @app.route('/users', methods=['GET'])
+    def application():
+        res = requests.get('http://provider:9091/users', timeout=5)
+        return jsonify(res.json())
 
-            response = await websocket.recv()
-            await asyncio.sleep(0.5)
-
-            await websocket.close()
-            return response
-
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+    PORT = 9090
+    app.run(host='0.0.0.0', port=PORT)

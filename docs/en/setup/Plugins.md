@@ -51,7 +51,7 @@ or a limitation of SkyWalking auto-instrumentation (welcome to contribute!)
 | [urllib3](https://urllib3.readthedocs.io/en/latest/) | Python >=3.12 - NOT SUPPORTED YET; Python >=3.10 - ['1.26', '1.25'];  | `sw_urllib3` |
 | [urllib3](https://urllib3.readthedocs.io/en/latest/) | Python >=3.12 - ['2.3', '2.0'];  | `sw_urllib3_v2` |
 | [urllib_request](https://docs.python.org/3/library/urllib.request.html) | Python >=3.7 - ['*'];  | `sw_urllib_request` |
-| [websockets](https://websockets.readthedocs.io) | Python >=3.7 - ['10.3', '10.4'];  | `sw_websockets` |
+| [websockets](https://websockets.readthedocs.io) | Python >=3.11 - ['10.3', '10.4', '13.1', '17.0.1']; Python >=3.7 - ['10.3', '10.4', '13.1'];  | `sw_websockets` |
 ### Notes
 - The celery server running with "celery -A ..." should be run with the HTTP protocol
 as it uses multiprocessing by default which is not compatible with the gRPC protocol implementation
@@ -60,6 +60,8 @@ in SkyWalking currently. Celery clients can use whatever protocol they want.
 Hug is believed to be abandoned project, use this plugin with a bit more caution.
 Instead of Hug, plugin test should move to test actual Falcon.
 - Falcon 3.x/4.x plugin. For legacy hug-based instrumentation, see sw_falcon.
+- The agent package itself depends on grpcio >= 1.83, which is therefore the
+effective minimum version of the instrumented library as well.
 - The Neo4j plugin integrates neo4j python driver 5.x.x versions which
 support both Neo4j 5 and 4.4 DBMS.
 - Sanic 21.9+ plugin using signal listeners.
@@ -68,7 +70,9 @@ Note: Sanic's touchup system recompiles handle_request at startup,
 so we use signal listeners instead of monkey-patching handle_request.
 - urllib3 1.x plugin. For urllib3 2.x, see sw_urllib3_v2.
 - urllib3 2.x plugin. For urllib3 1.x, see sw_urllib3.
-- The websocket instrumentation only traces client side connection handshake,
+- Both the legacy (websockets.legacy, websockets <= 13) and the new asyncio
+(websockets.asyncio, websockets >= 13) client implementations are instrumented.
+The websocket instrumentation only traces client side connection handshake,
 the actual message exchange (send/recv) is not traced since injecting headers to socket message
 body is the only way to propagate the trace context, which requires customization of message structure
 and extreme care. (Feel free to add this feature by instrumenting the send/recv methods commented out in the code

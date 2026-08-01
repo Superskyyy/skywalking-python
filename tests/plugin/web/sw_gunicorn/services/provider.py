@@ -14,29 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import requests
+from flask import Flask, jsonify
+
 try:
-    # new asyncio implementation, websockets >= 13 (the default since 14)
-    from websockets.asyncio.client import connect
-except ImportError:
-    from websockets.client import connect
+    # under gunicorn --preload this module imports in the PRE-FORK master, where the
+    # agent is instrumentation-only: this instrumented call must silently noop
+    # (NoopSpan via agent.started() guard) instead of crashing the master
+    requests.get('http://collector:12800/receiveData', timeout=5)
+except Exception:  # noqa
+    pass
 
-import asyncio
+app = Flask(__name__)
 
-if __name__ == '__main__':
-    from fastapi import FastAPI
-    import uvicorn
 
-    app = FastAPI()
-
-    @app.get('/ws')
-    async def websocket_ping():
-        async with connect('ws://provider:9091/ws') as websocket:
-            await websocket.send('Ping')
-
-            response = await websocket.recv()
-            await asyncio.sleep(0.5)
-
-            await websocket.close()
-            return response
-
-    uvicorn.run(app, host='0.0.0.0', port=9090)
+@app.route('/users', methods=['GET'])
+def users():
+    return jsonify({'song': 'Despacito'})

@@ -28,40 +28,26 @@ services:
       service: agent
       file: ../../docker-compose.base.yml
     ports:
-      - 9091:9091
+      - 9090:9090
     volumes:
       - .:/app
+    command: ['bash', '-c', 'pip install flask requests && pip install -r /app/requirements.txt && sw-python run python3 /app/services/app.py']
     depends_on:
       collector:
         condition: service_healthy
-    command: ['bash', '-c', 'pip install fastapi "uvicorn<0.50" && pip install -r /app/requirements.txt && sw-python run python3 /app/services/provider.py']
     healthcheck:
-      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9091"]
+      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/9090 && cat < /dev/null > /dev/tcp/127.0.0.1/9091"]
       interval: 5s
       timeout: 60s
       retries: 120
     environment:
       SW_AGENT_NAME: provider
-      SW_AGENT_LOGGING_LEVEL: DEBUG
-
-  consumer:
-    extends:
-      service: agent
-      file: ../../docker-compose.base.yml
-    ports:
-      - 9090:9090
-    volumes:
-      - .:/app
-    command: ['bash', '-c', 'pip install fastapi "uvicorn<0.50" && pip install -r /app/requirements.txt && sw-python run python3 /app/services/consumer.py']
-    depends_on:
-      collector:
-        condition: service_healthy
-      provider:
-        condition: service_healthy
-    environment:
-      SW_AGENT_NAME: consumer
-      SW_AGENT_LOGGING_LEVEL: DEBUG
-      SW_PLUGIN_FASTAPI_COLLECT_HTTP_PARAMS: 'True'
-
+      SW_AGENT_LOGGING_LEVEL: INFO
+      SW_AGENT_EXPERIMENTAL_FORK_SUPPORT: 'true'
+      # HTTP reporter keeps this test deterministic: forking with a live gRPC channel
+      # is subject to upstream at-fork races (grpc/grpc#43055) that can silently drop
+      # either side's segments; the gRPC transport is covered by sw_gunicorn
+      SW_AGENT_PROTOCOL: http
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: collector:12800
 networks:
   beyond:
