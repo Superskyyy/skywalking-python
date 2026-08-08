@@ -22,7 +22,7 @@ from skywalking.trace.tags import TagDbType, TagDbInstance, TagDbStatement, TagD
 link_vector = ['https://pymysql.readthedocs.io/en/latest/']
 support_matrix = {
     'pymysql': {
-        '>=3.7': ['1.0']
+        '>=3.7': ['1.0', '1.0.2']
     }
 }
 note = """"""
